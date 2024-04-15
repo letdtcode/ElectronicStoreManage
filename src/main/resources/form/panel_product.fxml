@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Danh mục sản phẩm">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="768.0" prefWidth="1146.0">
+                     <children>
+                        <Pane layoutX="14.0" layoutY="14.0" prefHeight="238.0" prefWidth="1123.0" style="-fx-background-color: #A5E897;">
+                           <children>
+                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin danh mục sản phẩm">
+                                 <font>
+                                    <Font name="Segoe UI" size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="39.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã danh mục:">
+                                 <font>
+                                    <Font name="Segoe UI" size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="39.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên danh mục sản phẩm:">
+                                 <font>
+                                    <Font name="Segoe UI" size="15.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="txtIdCategory" layoutX="227.0" layoutY="47.0" prefHeight="25.0" prefWidth="297.0" />
+                              <TextField fx:id="txtNameCategory" layoutX="227.0" layoutY="126.0" prefHeight="25.0" prefWidth="306.0" />
+                              <Pane layoutX="878.0" layoutY="14.0" prefHeight="210.0" prefWidth="200.0" style="-fx-background-color: #A8DFFA;">
+                                 <children>
+                                    <VBox layoutX="25.0" layoutY="8.0" spacing="8.0">
+                                       <children>
+                                          <Button fx:id="btnAddCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Thêm">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnUpdateCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Sửa">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnDeleteCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Xóa">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnReloadCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                        <TableView layoutX="13.0" layoutY="370.0" prefHeight="356.0" prefWidth="1113.0">
+                          <columns>
+                            <TableColumn prefWidth="416.79996967315674" text="Mã danh mục sản phẩm" />
+                            <TableColumn prefWidth="696.7999267578125" text="Tên danh mục sản phẩm" />
+                          </columns>
+                        </TableView>
+                        <Pane layoutX="632.0" layoutY="267.0" prefHeight="90.0" prefWidth="472.0">
+                           <children>
+                              <TextField fx:id="txtFind" layoutX="140.0" layoutY="33.0" prefHeight="25.0" prefWidth="320.0" />
+                              <Text layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm danh mục:">
+                                 <font>
+                                    <Font name="Segoe UI" size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Sản phẩm">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="438.0" prefWidth="1123.0" style="-fx-background-color: #A5E897;">
+                           <children>
+                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin sản phẩm">
+                                 <font>
+                                    <Font name="Segoe UI" size="15.0" />
+                                 </font>
+                              </Text>
+                              <VBox layoutX="15.0" layoutY="38.9716796875" spacing="30.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã sản phẩm:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên sản phẩm:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giá nhập:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giá bán:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Số lượng:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thương hiệu:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="116.0" layoutY="36.0" spacing="22.0">
+                                 <children>
+                                    <TextField fx:id="txtIdCategory1" prefHeight="25.0" prefWidth="80.0" />
+                                    <TextField fx:id="txtNameCategory1" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtNameCategory11" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtNameCategory111" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtNameCategory1111" prefHeight="25.0" prefWidth="143.0" />
+                                    <ComboBox prefWidth="150.0" />
+                                    <ComboBox prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <Pane layoutX="909.0" layoutY="22.0" prefHeight="210.0" prefWidth="200.0" style="-fx-background-color: #A8DFFA;">
+                                 <children>
+                                    <VBox layoutX="25.0" layoutY="8.0" spacing="8.0">
+                                       <children>
+                                          <Button fx:id="btnAddProduct" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Thêm">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnUpdateProduct" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Sửa">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnDeleteProduct" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Xóa">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="btnReloadProduct" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
+                                             <font>
+                                                <Font name="Segoe UI Bold" size="13.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </Pane>
+                              <Text layoutX="691.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mô tả:">
+                                 <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                 </font>
+                              </Text>
+                              <VBox layoutX="320.0" layoutY="35.0" spacing="35.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục sản phẩm:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Chất liệu:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kích thước">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trọng lượng">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nguồn gốc:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian bảo hành:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Màu sắc:">
+                                       <font>
+                                          <Font name="Segoe UI" size="13.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <Text layoutX="909.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tính năng">
+                                 <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                 </font>
+                              </Text>
+                              <Pane layoutX="691.0" layoutY="51.0" prefHeight="176.0" prefWidth="200.0" style="-fx-background-color: #ccc;" />
+                              <Text layoutX="754.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình ảnh">
+                                 <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                 </font>
+                              </Text>
+                              <TextArea layoutX="691.0" layoutY="298.0" prefHeight="122.0" prefWidth="200.0" />
+                              <VBox layoutX="450.0" layoutY="37.0" prefHeight="390.0" prefWidth="222.0" spacing="26.0">
+                                 <children>
+                                    <ComboBox prefWidth="150.0" />
+                                    <ComboBox prefWidth="150.0" />
+                                    <TextField fx:id="txtNameCategory111121" prefHeight="25.0" prefWidth="143.0" />
+                                    <HBox spacing="4.0">
+                                       <children>
+                                          <TextField fx:id="txtNameCategory11111" prefHeight="25.0" prefWidth="97.0" />
+                                          <ComboBox prefHeight="25.0" prefWidth="57.0" />
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="txtNameCategory11112" prefHeight="25.0" prefWidth="143.0" />
+                                    <HBox spacing="4.0">
+                                       <children>
+                                          <TextField fx:id="txtNameCategory111111" prefHeight="25.0" prefWidth="97.0" />
+                                          <ComboBox prefHeight="25.0" prefWidth="57.0" />
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="82.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;">
+                                       <VBox.margin>
+                                          <Insets top="-5.0" />
+                                       </VBox.margin>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                              <Pane layoutX="908.0" layoutY="298.0" prefHeight="119.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="1.0" layoutY="438.0" prefHeight="84.0" prefWidth="1146.0">
+                           <children>
+                              <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lọc sản phẩm">
+                                 <font>
+                                    <Font name="Segoe UI" size="13.0" />
+                                 </font>
+                              </Text>
+                              <Pane layoutX="730.0" layoutY="9.0" prefHeight="66.0" prefWidth="336.0" style="-fx-border-color: #ABABAB;">
+                                 <children>
+                                    <TextField fx:id="txtFind1" layoutX="14.0" layoutY="29.0" prefHeight="25.0" prefWidth="303.0" />
+                                    <Text layoutX="116.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm sản phẩm">
+                                       <font>
+                                          <Font name="Segoe UI" size="12.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="143.0" layoutY="9.0" prefHeight="66.0" prefWidth="206.0" style="-fx-border-color: #ABABAB;">
+                                 <children>
+                                    <Text layoutX="76.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục">
+                                       <font>
+                                          <Font name="Segoe UI" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <ComboBox layoutX="25.0" layoutY="27.0" prefWidth="150.0" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="426.0" layoutY="9.0" prefHeight="66.0" prefWidth="206.0" style="-fx-border-color: #ABABAB;">
+                                 <children>
+                                    <Text layoutX="45.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tình trạng sản phẩm">
+                                       <font>
+                                          <Font name="Segoe UI" size="12.0" />
+                                       </font>
+                                    </Text>
+                                    <ComboBox layoutX="22.0" layoutY="28.0" prefWidth="150.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                        <TableView layoutX="7.0" layoutY="532.0" prefHeight="206.0" prefWidth="1136.0">
+                          <columns>
+                            <TableColumn prefWidth="59.19998264312744" text="Mã SP" />
+                            <TableColumn prefWidth="88.0" text="Tên SP" />
+                              <TableColumn prefWidth="79.20001220703125" text="Mô tả" />
+                              <TableColumn prefWidth="75.0" text="Giá nhập" />
+                              <TableColumn prefWidth="66.4000244140625" text="Giá bán" />
+                              <TableColumn prefWidth="74.4000244140625" text="Màu sắc" />
+                              <TableColumn prefWidth="84.79998779296875" text="Thương hiệu" />
+                              <TableColumn prefWidth="67.99993896484375" text="Chất liệu" />
+                              <TableColumn prefWidth="66.4000244140625" text="Loại SP" />
+                              <TableColumn prefWidth="78.39996337890625" text="Trọng lượng" />
+                              <TableColumn prefWidth="74.39996337890625" text="Nguồn gốc" />
+                              <TableColumn prefWidth="92.0" text="Thời gian BH" />
+                              <TableColumn prefWidth="75.2000732421875" text="Kích thước" />
+                              <TableColumn prefWidth="75.0" text="Tính năng" />
+                              <TableColumn prefWidth="75.0" text="Trạng thái" />
+                              <TableColumn prefWidth="75.0" text="Tên SP" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</StackPane>

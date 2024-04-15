@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="panelMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.DashboardController">
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="768.0" prefWidth="202.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="125.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn Đức Thành">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Segoe UI Bold Italic" size="16.0" />
+               </font>
+            </Text>
+            <Pane fx:id="tabSale" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabSale" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <children>
+                  <Text layoutX="67.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BÁN HÀNG" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabProduct" layoutX="10.0" layoutY="208.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabProduct" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="67.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SẢN PHẨM" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabProperty" layoutX="10.0" layoutY="208.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabPropertiesProduct" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="60.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THUỘC TÍNH" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabOrder" layoutX="10.0" layoutY="268.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabOrder" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="67.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HÓA ĐƠN" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabPromotion" layoutX="10.0" layoutY="328.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabPromotion" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="59.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KHUYẾN MÃI" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabEmployee" layoutX="10.0" layoutY="388.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabEmployee" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="65.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NHÂN VIÊN" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabCustomer" layoutX="10.0" layoutY="448.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabCustomer" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="56.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KHÁCH HÀNG" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="tabStatistic" layoutX="10.0" layoutY="508.0" maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" onMouseClicked="#showTabStatistic" prefHeight="60.0" prefWidth="220.0" style="-fx-background-color: #FFF000;">
+               <children>
+                  <Text layoutX="69.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="THỐNG KÊ" textAlignment="CENTER">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

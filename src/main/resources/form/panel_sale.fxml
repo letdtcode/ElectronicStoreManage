@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane opacity="0.94" prefHeight="216.0" prefWidth="526.0" style="-fx-border-radius: 20;">
+         <children>
+            <Text layoutX="9.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hóa đơn chờ">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </Text>
+            <TableView layoutX="9.0" layoutY="31.0" prefHeight="173.0" prefWidth="509.0">
+              <columns>
+                <TableColumn prefWidth="99.19997882843018" text="Mã hóa đơn" />
+                <TableColumn prefWidth="77.60000610351562" text="Ngày tạo" />
+                  <TableColumn prefWidth="157.6000213623047" text="Nhân viên tạo" />
+                  <TableColumn prefWidth="176.0" text="Khách hàng" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="3.0" layoutY="459.0" prefHeight="310.0" prefWidth="786.0">
+         <children>
+            <Text layoutX="16.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách sản phẩm" wrappingWidth="150.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </Text>
+            <TextField layoutX="151.0" layoutY="29.0" prefHeight="25.0" prefWidth="276.0" />
+            <Text layoutX="17.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm sản phẩm:" />
+            <Button layoutX="666.0" layoutY="155.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="111.0" text="Thêm vào giỏ">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </Button>
+            <Text layoutX="516.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục:" />
+            <ComboBox layoutX="591.0" layoutY="29.0" prefWidth="150.0" />
+            <TableView layoutX="16.0" layoutY="68.0" prefHeight="228.0" prefWidth="630.0">
+              <columns>
+                <TableColumn prefWidth="89.59997177124023" text="Mã sản phẩm" />
+                <TableColumn prefWidth="84.79998779296875" text="Tên sản phẩm" />
+                  <TableColumn prefWidth="88.80000305175781" text="Đơn giá" />
+                  <TableColumn prefWidth="60.0" text="Giảm giá" />
+                  <TableColumn prefWidth="130.39996337890625" text="Màu sắc" />
+                  <TableColumn minWidth="0.0" prefWidth="88.00006103515625" text="Xuất xứ" />
+                  <TableColumn prefWidth="86.40008544921875" text="Số lượng tồn" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="554.0" layoutY="14.0" prefHeight="187.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="50.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quét mã sản phẩm">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Pane fx:id="panelCamera" layoutX="21.0" layoutY="33.0" prefHeight="134.0" prefWidth="159.0" style="-fx-background-color: #000;" />
+         </children>
+      </Pane>
+      <Pane layoutX="790.0" prefHeight="768.0" prefWidth="355.0" style="-fx-background-color: #BFEDEB;">
+         <children>
+            <Text layoutX="24.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Đơn hàng" />
+            <VBox layoutX="30.0" layoutY="161.0" spacing="25.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã hóa đơn:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giảm giá:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thanh toán:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền khách đưa:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền thừa trả khách:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức thanh toán:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức giao hàng:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ghi chú:" />
+               </children>
+            </VBox>
+            <VBox layoutX="168.0" layoutY="161.0" spacing="25.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12" />
+                  <Text lineSpacing="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7.700.700" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+               </children>
+            </VBox>
+            <Pane layoutX="14.0" layoutY="39.0" prefHeight="98.0" prefWidth="338.0" style="-fx-background-color: #5CC4ED;">
+               <children>
+                  <Text layoutX="18.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khách hàng:" />
+                  <Text layoutX="17.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khách hàng:" />
+                  <Text layoutX="184.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
+                  <Text layoutX="153.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khách bán lẻ" />
+                  <Button layoutX="260.0" layoutY="53.0" mnemonicParsing="false" text="Thay đổi" />
+               </children>
+            </Pane>
+            <VBox layoutX="289.0" layoutY="204.0" spacing="25.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VNĐ" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VNĐ" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VNĐ" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VNĐ" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="VNĐ" />
+               </children>
+            </VBox>
+            <Button layoutX="64.0" layoutY="656.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="239.0" text="THANH TOÁN" />
+            <TextArea layoutX="33.0" layoutY="518.0" prefHeight="86.0" prefWidth="300.0" />
+            <Button layoutX="272.0" layoutY="161.0" mnemonicParsing="false" text="Tạo mới" />
+            <ComboBox layoutX="168.0" layoutY="403.0" prefHeight="25.0" prefWidth="159.0" />
+            <ComboBox layoutX="168.0" layoutY="444.0" prefHeight="25.0" prefWidth="159.0" />
+            <Button layoutX="63.0" layoutY="619.0" mnemonicParsing="false" text="Hủy hóa đơn" />
+            <Button layoutX="231.0" layoutY="619.0" mnemonicParsing="false" text="Làm mới" />
+         </children>
+      </Pane>
+      <Pane layoutX="14.0" layoutY="222.0" prefHeight="240.0" prefWidth="779.0">
+         <children>
+            <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Giỏ hàng">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </Text>
+            <TableView layoutX="7.0" layoutY="26.0" prefHeight="200.0" prefWidth="630.0">
+              <columns>
+                <TableColumn prefWidth="103.19997787475586" text="Mã sản phẩm" />
+                <TableColumn prefWidth="232.00001525878906" text="Tên sản phẩm" />
+                  <TableColumn prefWidth="117.5999755859375" text="Đơn giá" />
+                  <TableColumn prefWidth="175.5999755859375" text="Số lượng" />
+              </columns>
+            </TableView>
+            <Button layoutX="660.0" layoutY="79.0" mnemonicParsing="false" text="Xóa sản phẩm" />
+            <Button layoutX="661.0" layoutY="148.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Xóa tất cả" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
