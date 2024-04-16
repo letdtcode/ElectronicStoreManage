@@ -75,7 +75,6 @@ public class BrandRepositoryImpl implements BrandRepository {
             if (!brandOptional.isPresent()) {
                 Brand brand = session.find(Brand.class, request.getId());
                 brand.setBrandName(request.getBrandName());
-                session.persist(brand);
                 return HibernateUtils.merge(brand);
             }
         } catch (Exception e) {
@@ -89,16 +88,14 @@ public class BrandRepositoryImpl implements BrandRepository {
     @Override
     public boolean delete(Long idEntity) {
         Session session = HibernateUtils.getSession();
+
         Brand brand = session.find(Brand.class, idEntity);
         Query query = session.createQuery("select id from Product where brandId =: s1 and deleted is false", Product.class);
         query.setParameter("s1", brand.getId());
-        List<Long> productIds = query.list();
+        List<Long> productIds = query.getResultList();
+        if (productIds.size() > 0)
+            return false;
 
-        for (Long id : productIds) {
-            Product subProduct = session.find(Product.class, id);
-            if (!subProduct.getStatus().equals(ProductStatusEnum.STOP_BUSINESS))
-                return false;
-        }
         brand.setDeleted(true);
         session.close();
         return HibernateUtils.merge(brand);
@@ -121,7 +118,7 @@ public class BrandRepositoryImpl implements BrandRepository {
         Query query = session.createQuery(cmd, Brand.class);
         query.setFirstResult(offset);
         query.setMaxResults(request.getPageSize());
-        List<Brand> brandList = query.list();
+        List<Brand> brandList = query.getResultList();
 
         for (Brand brand : brandList) {
             list.add(BrandMapper.getInstance.entityToViewModel(brand));

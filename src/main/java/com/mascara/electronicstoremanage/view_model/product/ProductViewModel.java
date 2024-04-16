@@ -1,9 +1,11 @@
 package com.mascara.electronicstoremanage.view_model.product;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mascara.electronicstoremanage.enums.product.ProductStatusEnum;
+import com.mascara.electronicstoremanage.enums.product.WarrantyPeriodUnitENum;
+import com.mascara.electronicstoremanage.enums.product.WeightUnitEnum;
+import lombok.*;
+
+import java.util.List;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +17,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProductViewModel {
+    private Long id;
+    private String productName;
+    private String description;
+    private String pathImage;
+    private Double salePrice;
+    private Double importPrice;
+    private Double quantity;
+    private String origin;
+    private Double weight;
+    private WeightUnitEnum weightUnit;
+    private Integer warrantyPeriod;
+    private WarrantyPeriodUnitENum warrantyPeriodUnit;
+    private String size;
+    private String brandName;
+    private String materialName;
+    private String categoryName;
+    private List<String> featureNameList;
+    private String featureNameListShow;
+    private List<String> colorNameList;
+    private String colorNameListShow;
+    private ProductStatusEnum status;
 }

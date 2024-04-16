@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="panelMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.DashboardController">
+<BorderPane fx:id="panelMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.dashboard.DashboardController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="768.0" prefWidth="202.0" BorderPane.alignment="CENTER">
          <children>

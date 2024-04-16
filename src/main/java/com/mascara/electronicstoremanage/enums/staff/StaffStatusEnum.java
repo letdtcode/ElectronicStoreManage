@@ -11,11 +11,19 @@ public enum StaffStatusEnum {
     ACTIVE("ACTIVE", "Đang làm việc"),
     INACTIVE("INACTIVE", "Đã nghỉ việc");
 
-    private String key;
-    private String display;
+    private final String key;
+    private final String display;
 
     StaffStatusEnum(String key, String display) {
         this.key = key;
         this.display = display;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDisplay() {
+        return display;
     }
 }

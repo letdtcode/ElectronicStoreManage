@@ -1,4 +1,4 @@
-package com.mascara.electronicstoremanage.controllers.staff;
+package com.mascara.electronicstoremanage.controllers.staff.manage_properties;
 
 import com.mascara.electronicstoremanage.utils.FXMLLoaderUtils;
 import com.mascara.electronicstoremanage.utils.StageRequestUtils;

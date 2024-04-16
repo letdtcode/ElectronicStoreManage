@@ -75,7 +75,6 @@ public class ColorRepositoryImpl implements ColorRepository {
             if (!colorOptional.isPresent()) {
                 Color color = session.find(Color.class, request.getId());
                 color.setColorName(request.getColorName());
-                session.persist(color);
                 return HibernateUtils.merge(color);
             }
         } catch (Exception e) {
@@ -90,15 +89,13 @@ public class ColorRepositoryImpl implements ColorRepository {
     public boolean delete(Long idEntity) {
         Session session = HibernateUtils.getSession();
         Color color = session.find(Color.class, idEntity);
-        Query query = session.createQuery("select p.id from Product p join p.colorSet cs where cs =: s1 and p.deleted is false", Product.class);
-        query.setParameter("s1", color.getId());
-        List<Long> productIds = query.list();
 
-        for (Long id : productIds) {
-            Product subProduct = session.find(Product.class, id);
-            if (!subProduct.getStatus().equals(ProductStatusEnum.STOP_BUSINESS))
-                return false;
-        }
+        Query query = session.createQuery("select p.id from Product p join p.colorSet cs where cs.id =: s1 and p.deleted is false", Product.class);
+        query.setParameter("s1", color.getId());
+        List<Long> productIds = query.getResultList();
+        if (productIds.size() > 0)
+            return false;
+
         color.setDeleted(true);
         session.close();
         return HibernateUtils.merge(color);
@@ -121,7 +118,7 @@ public class ColorRepositoryImpl implements ColorRepository {
         Query query = session.createQuery(cmd, Color.class);
         query.setFirstResult(offset);
         query.setMaxResults(request.getPageSize());
-        List<Color> colorList = query.list();
+        List<Color> colorList = query.getResultList();
 
         for (Color color : colorList) {
             list.add(ColorMapper.getInstance.entityToViewModel(color));

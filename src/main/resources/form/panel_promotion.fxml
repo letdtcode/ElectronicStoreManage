@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.ManagePromotionController">
+<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_promotion.ManagePromotionController">
    <children>
       <Pane layoutX="14.0" layoutY="31.0" prefHeight="480.0" prefWidth="628.0" style="-fx-border-color: #c5c5c5;">
          <children>

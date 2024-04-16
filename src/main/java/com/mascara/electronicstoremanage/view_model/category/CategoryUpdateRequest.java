@@ -15,6 +15,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
 public class CategoryUpdateRequest {
+    private Long id;
+    private String categoryName;
 }

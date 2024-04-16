@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.PropertiesProductController">
+<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_properties.PropertiesProductController">
    <children>
       <GridPane layoutY="-3.0" prefHeight="774.0" prefWidth="1146.0">
         <columnConstraints>

@@ -9,6 +9,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -17,8 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_product.ManageProductController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -49,22 +50,22 @@
                                  <children>
                                     <VBox layoutX="25.0" layoutY="8.0" spacing="8.0">
                                        <children>
-                                          <Button fx:id="btnAddCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Thêm">
+                                          <Button fx:id="btnAddCategory" mnemonicParsing="false" onAction="#setOnActionCreateCategory" prefHeight="42.0" prefWidth="149.0" text="Thêm">
                                              <font>
                                                 <Font name="Segoe UI Bold" size="13.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="btnUpdateCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Sửa">
+                                          <Button fx:id="btnUpdateCategory" mnemonicParsing="false" onAction="#setOnActionUpdateCategory" prefHeight="42.0" prefWidth="149.0" text="Sửa">
                                              <font>
                                                 <Font name="Segoe UI Bold" size="13.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="btnDeleteCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Xóa">
+                                          <Button fx:id="btnDeleteCategory" mnemonicParsing="false" onAction="#setOnActionDeleteCategory" prefHeight="42.0" prefWidth="149.0" text="Xóa">
                                              <font>
                                                 <Font name="Segoe UI Bold" size="13.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="btnReloadCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
+                                          <Button fx:id="btnReloadCategory" mnemonicParsing="false" onAction="#setOnActionReloadCategory" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
                                              <font>
                                                 <Font name="Segoe UI Bold" size="13.0" />
                                              </font>
@@ -75,15 +76,15 @@
                               </Pane>
                            </children>
                         </Pane>
-                        <TableView layoutX="13.0" layoutY="370.0" prefHeight="356.0" prefWidth="1113.0">
+                        <TableView fx:id="categoryTableView" layoutX="13.0" layoutY="370.0" prefHeight="356.0" prefWidth="1113.0">
                           <columns>
-                            <TableColumn prefWidth="416.79996967315674" text="Mã danh mục sản phẩm" />
-                            <TableColumn prefWidth="696.7999267578125" text="Tên danh mục sản phẩm" />
+                            <TableColumn fx:id="idCategoryColumn" maxWidth="4167.999696731567" minWidth="30.0" prefWidth="416.79996967315674" text="Mã danh mục sản phẩm" />
+                            <TableColumn fx:id="categoryNameColumn" maxWidth="6967.999267578125" minWidth="30.0" prefWidth="696.7999267578125" text="Tên danh mục sản phẩm" />
                           </columns>
                         </TableView>
                         <Pane layoutX="632.0" layoutY="267.0" prefHeight="90.0" prefWidth="472.0">
                            <children>
-                              <TextField fx:id="txtFind" layoutX="140.0" layoutY="33.0" prefHeight="25.0" prefWidth="320.0" />
+                              <TextField fx:id="txtSearchCategory" layoutX="140.0" layoutY="33.0" prefHeight="25.0" prefWidth="320.0" />
                               <Text layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm danh mục:">
                                  <font>
                                     <Font name="Segoe UI" size="15.0" />
@@ -99,7 +100,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane prefHeight="438.0" prefWidth="1123.0" style="-fx-background-color: #A5E897;">
+                        <Pane layoutX="10.0" layoutY="8.0" prefHeight="430.0" prefWidth="1123.0" style="-fx-background-color: #A5E897;">
                            <children>
                               <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin sản phẩm">
                                  <font>
@@ -147,13 +148,13 @@
                               </VBox>
                               <VBox layoutX="116.0" layoutY="36.0" spacing="22.0">
                                  <children>
-                                    <TextField fx:id="txtIdCategory1" prefHeight="25.0" prefWidth="80.0" />
-                                    <TextField fx:id="txtNameCategory1" prefHeight="25.0" prefWidth="143.0" />
-                                    <TextField fx:id="txtNameCategory11" prefHeight="25.0" prefWidth="143.0" />
-                                    <TextField fx:id="txtNameCategory111" prefHeight="25.0" prefWidth="143.0" />
-                                    <TextField fx:id="txtNameCategory1111" prefHeight="25.0" prefWidth="143.0" />
-                                    <ComboBox prefWidth="150.0" />
-                                    <ComboBox prefWidth="150.0" />
+                                    <TextField fx:id="txtIdProduct" prefHeight="25.0" prefWidth="80.0" />
+                                    <TextField fx:id="txtProductName" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtPriceImport" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtPriceSale" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtQuantity" prefHeight="25.0" prefWidth="143.0" />
+                                    <ComboBox fx:id="cbbProductStatus" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbbBrandName" prefWidth="150.0" />
                                  </children>
                               </VBox>
                               <Pane layoutX="909.0" layoutY="22.0" prefHeight="210.0" prefWidth="200.0" style="-fx-background-color: #A8DFFA;">
@@ -233,39 +234,43 @@
                                     <Font name="Segoe UI" size="13.0" />
                                  </font>
                               </Text>
-                              <Pane layoutX="691.0" layoutY="51.0" prefHeight="176.0" prefWidth="200.0" style="-fx-background-color: #ccc;" />
-                              <Text layoutX="754.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình ảnh">
-                                 <font>
-                                    <Font name="Segoe UI" size="13.0" />
-                                 </font>
-                              </Text>
-                              <TextArea layoutX="691.0" layoutY="298.0" prefHeight="122.0" prefWidth="200.0" />
+                              <TextArea fx:id="textareaDescription" layoutX="691.0" layoutY="298.0" prefHeight="122.0" prefWidth="200.0" />
                               <VBox layoutX="450.0" layoutY="37.0" prefHeight="390.0" prefWidth="222.0" spacing="26.0">
                                  <children>
-                                    <ComboBox prefWidth="150.0" />
-                                    <ComboBox prefWidth="150.0" />
-                                    <TextField fx:id="txtNameCategory111121" prefHeight="25.0" prefWidth="143.0" />
+                                    <ComboBox fx:id="cbbCategoryName" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbbMaterialName" prefWidth="150.0" />
+                                    <TextField fx:id="txtSize" prefHeight="25.0" prefWidth="143.0" />
                                     <HBox spacing="4.0">
                                        <children>
-                                          <TextField fx:id="txtNameCategory11111" prefHeight="25.0" prefWidth="97.0" />
-                                          <ComboBox prefHeight="25.0" prefWidth="57.0" />
+                                          <TextField fx:id="txtWeight" prefHeight="25.0" prefWidth="97.0" />
+                                          <ComboBox fx:id="cbbWeightUnit" prefHeight="25.0" prefWidth="57.0" />
                                        </children>
                                     </HBox>
-                                    <TextField fx:id="txtNameCategory11112" prefHeight="25.0" prefWidth="143.0" />
+                                    <TextField fx:id="txtOrigin" prefHeight="25.0" prefWidth="143.0" />
                                     <HBox spacing="4.0">
                                        <children>
-                                          <TextField fx:id="txtNameCategory111111" prefHeight="25.0" prefWidth="97.0" />
-                                          <ComboBox prefHeight="25.0" prefWidth="57.0" />
+                                          <TextField fx:id="txtWarrantyPeriod" prefHeight="25.0" prefWidth="97.0" />
+                                          <ComboBox fx:id="cbbWarrantyPeriodUnit" prefHeight="25.0" prefWidth="57.0" />
                                        </children>
                                     </HBox>
-                                    <Pane prefHeight="82.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;">
+                                    <Pane fx:id="panelLoadCkbColor" prefHeight="82.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;">
                                        <VBox.margin>
                                           <Insets top="-5.0" />
                                        </VBox.margin>
                                     </Pane>
                                  </children>
                               </VBox>
-                              <Pane layoutX="908.0" layoutY="298.0" prefHeight="119.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;" />
+                              <Pane fx:id="panelLoadCkbFeature" layoutX="908.0" layoutY="298.0" prefHeight="119.0" prefWidth="202.0" style="-fx-background-color: #A5CFFC;" />
+                              <Button fx:id="btnFileChooser" layoutX="736.0" layoutY="204.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="111.0" text="Chọn hình ảnh">
+                                 <font>
+                                    <Font name="Segoe UI Bold" size="13.0" />
+                                 </font>
+                              </Button>
+                              <ImageView fx:id="imgViewProduct" fitHeight="175.0" fitWidth="200.0" layoutX="692.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../demo.png" />
+                                 </image></ImageView>
+                              <Button fx:id="btnExportExcel" layoutX="974.0" layoutY="246.0" mnemonicParsing="false" text="Xuất Excel" />
                            </children>
                         </Pane>
                         <Pane layoutX="1.0" layoutY="438.0" prefHeight="84.0" prefWidth="1146.0">
@@ -277,7 +282,7 @@
                               </Text>
                               <Pane layoutX="730.0" layoutY="9.0" prefHeight="66.0" prefWidth="336.0" style="-fx-border-color: #ABABAB;">
                                  <children>
-                                    <TextField fx:id="txtFind1" layoutX="14.0" layoutY="29.0" prefHeight="25.0" prefWidth="303.0" />
+                                    <TextField fx:id="txtSearchProduct" layoutX="14.0" layoutY="29.0" prefHeight="25.0" prefWidth="303.0" />
                                     <Text layoutX="116.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm sản phẩm">
                                        <font>
                                           <Font name="Segoe UI" size="12.0" />
@@ -292,7 +297,7 @@
                                           <Font name="Segoe UI" size="12.0" />
                                        </font>
                                     </Text>
-                                    <ComboBox layoutX="25.0" layoutY="27.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbbCategoryFilter" layoutX="25.0" layoutY="27.0" prefWidth="150.0" />
                                  </children>
                               </Pane>
                               <Pane layoutX="426.0" layoutY="9.0" prefHeight="66.0" prefWidth="206.0" style="-fx-border-color: #ABABAB;">
@@ -302,29 +307,28 @@
                                           <Font name="Segoe UI" size="12.0" />
                                        </font>
                                     </Text>
-                                    <ComboBox layoutX="22.0" layoutY="28.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbbProductStatusFilter" layoutX="22.0" layoutY="28.0" prefWidth="150.0" />
                                  </children>
                               </Pane>
                            </children>
                         </Pane>
-                        <TableView layoutX="7.0" layoutY="532.0" prefHeight="206.0" prefWidth="1136.0">
+                        <TableView fx:id="productTableView" layoutX="7.0" layoutY="532.0" prefHeight="206.0" prefWidth="1136.0">
                           <columns>
-                            <TableColumn prefWidth="59.19998264312744" text="Mã SP" />
-                            <TableColumn prefWidth="88.0" text="Tên SP" />
-                              <TableColumn prefWidth="79.20001220703125" text="Mô tả" />
-                              <TableColumn prefWidth="75.0" text="Giá nhập" />
-                              <TableColumn prefWidth="66.4000244140625" text="Giá bán" />
-                              <TableColumn prefWidth="74.4000244140625" text="Màu sắc" />
-                              <TableColumn prefWidth="84.79998779296875" text="Thương hiệu" />
-                              <TableColumn prefWidth="67.99993896484375" text="Chất liệu" />
-                              <TableColumn prefWidth="66.4000244140625" text="Loại SP" />
-                              <TableColumn prefWidth="78.39996337890625" text="Trọng lượng" />
-                              <TableColumn prefWidth="74.39996337890625" text="Nguồn gốc" />
-                              <TableColumn prefWidth="92.0" text="Thời gian BH" />
-                              <TableColumn prefWidth="75.2000732421875" text="Kích thước" />
-                              <TableColumn prefWidth="75.0" text="Tính năng" />
-                              <TableColumn prefWidth="75.0" text="Trạng thái" />
-                              <TableColumn prefWidth="75.0" text="Tên SP" />
+                            <TableColumn fx:id="idProductColumn" maxWidth="591.9998264312744" minWidth="30.0" prefWidth="59.19998264312744" text="Mã SP" />
+                            <TableColumn fx:id="productNameColumn" maxWidth="880.0" minWidth="30.0" prefWidth="88.0" text="Tên SP" />
+                              <TableColumn fx:id="descriptionColumn" maxWidth="792.0001220703125" minWidth="30.0" prefWidth="79.20001220703125" text="Mô tả" />
+                              <TableColumn fx:id="priceImportColumn" maxWidth="750.0" minWidth="30.0" prefWidth="75.0" text="Giá nhập" />
+                              <TableColumn fx:id="priceSaleColumn" maxWidth="664.000244140625" minWidth="30.0" prefWidth="66.4000244140625" text="Giá bán" />
+                              <TableColumn fx:id="colorProductColumn" maxWidth="744.000244140625" minWidth="30.0" prefWidth="74.4000244140625" text="Màu sắc" />
+                              <TableColumn fx:id="brandColumn" maxWidth="847.9998779296875" minWidth="30.0" prefWidth="84.79998779296875" text="Thương hiệu" />
+                              <TableColumn fx:id="materialColumn" maxWidth="679.9993896484375" minWidth="30.0" prefWidth="67.99993896484375" text="Chất liệu" />
+                              <TableColumn fx:id="categoryColumn" maxWidth="664.000244140625" minWidth="30.0" prefWidth="66.4000244140625" text="Loại SP" />
+                              <TableColumn fx:id="weightColumn" maxWidth="783.9996337890625" minWidth="30.0" prefWidth="78.39996337890625" text="Trọng lượng" />
+                              <TableColumn fx:id="originColumn" maxWidth="743.9996337890625" minWidth="30.0" prefWidth="74.39996337890625" text="Nguồn gốc" />
+                              <TableColumn fx:id="warrantyPeriodColumn" maxWidth="920.0" minWidth="30.0" prefWidth="92.0" text="Thời gian BH" />
+                              <TableColumn fx:id="sizeColumn" maxWidth="752.000732421875" minWidth="30.0" prefWidth="75.2000732421875" text="Kích thước" />
+                              <TableColumn fx:id="featureColumn" maxWidth="704.0008544921875" minWidth="30.0" prefWidth="70.40008544921875" text="Tính năng" />
+                              <TableColumn fx:id="statusProductColumn" maxWidth="791.99951171875" minWidth="30.0" prefWidth="79.199951171875" text="Trạng thái" />
                           </columns>
                         </TableView>
                      </children>

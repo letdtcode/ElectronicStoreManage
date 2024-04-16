@@ -1,4 +1,4 @@
-package com.mascara.electronicstoremanage.controllers.staff;
+package com.mascara.electronicstoremanage.controllers.staff.manage_employee;
 
 /**
  * Created by: IntelliJ IDEA

@@ -1,6 +1,6 @@
 package com.mascara.electronicstoremanage.controllers.auth;
 
-import com.mascara.electronicstoremanage.controllers.staff.DashboardController;
+import com.mascara.electronicstoremanage.controllers.staff.dashboard.DashboardController;
 import com.mascara.electronicstoremanage.view_model.auth.LoginCreateRequest;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

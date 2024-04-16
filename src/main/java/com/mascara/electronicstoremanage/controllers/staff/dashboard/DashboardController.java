@@ -1,4 +1,4 @@
-package com.mascara.electronicstoremanage.controllers.staff;
+package com.mascara.electronicstoremanage.controllers.staff.dashboard;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

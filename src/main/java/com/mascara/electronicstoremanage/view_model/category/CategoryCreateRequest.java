@@ -1,9 +1,7 @@
 package com.mascara.electronicstoremanage.view_model.category;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CategoryCreateRequest {
+    private String categoryName;
 }

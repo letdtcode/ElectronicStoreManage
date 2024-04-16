@@ -1,8 +1,6 @@
 package com.mascara.electronicstoremanage.common.mapper;
 
-import com.mascara.electronicstoremanage.entities.Brand;
 import com.mascara.electronicstoremanage.entities.Material;
-import com.mascara.electronicstoremanage.view_model.brand.BrandViewModel;
 import com.mascara.electronicstoremanage.view_model.material.MaterialViewModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

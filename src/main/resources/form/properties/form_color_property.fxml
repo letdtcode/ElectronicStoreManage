@@ -10,17 +10,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="433.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.property_product.ColorPropertyController">
+<AnchorPane prefHeight="433.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_properties.ColorPropertyController">
     <children>
         <Text layoutX="163.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên màu sắc">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <TableView layoutX="14.0" layoutY="175.0" prefHeight="189.0" prefWidth="372.0">
+        <TableView fx:id="colorTableView" layoutX="14.0" layoutY="175.0" prefHeight="189.0" prefWidth="372.0">
             <columns>
-                <TableColumn prefWidth="174.39996337890625" text="Mã màu sắc" />
-                <TableColumn prefWidth="196.800048828125" text="Tên màu sắc" />
+                <TableColumn fx:id="idColorColumn" prefWidth="174.39996337890625" text="Mã màu sắc" />
+                <TableColumn fx:id="colorNameColumn" prefWidth="196.800048828125" text="Tên màu sắc" />
             </columns>
         </TableView>
         <HBox layoutX="24.0" layoutY="378.0" spacing="30.0">
@@ -30,12 +30,12 @@
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnUpdateColor" mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #93EDE9;" text="Sửa" textFill="#fcfcfc">
+                <Button fx:id="btnUpdateColor" mnemonicParsing="false" onAction="#setOnActionUpdateColor" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #93EDE9;" text="Sửa" textFill="#fcfcfc">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnDeleteColor" mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #F55572;" text="Xóa" textFill="#fcfcfc">
+                <Button fx:id="btnDeleteColor" mnemonicParsing="false" onAction="#setOnActionDeleteColor" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #F55572;" text="Xóa" textFill="#fcfcfc">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>

@@ -27,6 +27,6 @@ public class Feature extends BasePesistence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(name = "feature_name")
+    @Column(name = "feature_name", unique = true)
     private String featureName;
 }

@@ -10,39 +10,39 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="433.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.propery_product.FeaturePropertyController">
+<AnchorPane prefHeight="433.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_properties.FeaturePropertyController">
     <children>
         <Text layoutX="154.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên tính năng">
             <font>
                 <Font size="15.0" />
             </font>
         </Text>
-        <TableView layoutX="14.0" layoutY="175.0" prefHeight="189.0" prefWidth="372.0">
+        <TableView fx:id="featureTableView" layoutX="14.0" layoutY="175.0" prefHeight="189.0" prefWidth="372.0">
             <columns>
-                <TableColumn prefWidth="174.39996337890625" text="Mã tính năng" />
-                <TableColumn prefWidth="196.800048828125" text="Tên tính năng" />
+                <TableColumn fx:id="idFeatureColumn" prefWidth="174.39996337890625" text="Mã tính năng" />
+                <TableColumn fx:id="nameFeatureColumn" prefWidth="196.800048828125" text="Tên tính năng" />
             </columns>
         </TableView>
         <HBox layoutX="24.0" layoutY="378.0" spacing="30.0">
             <children>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #6EED50;" text="Thêm" textFill="WHITE">
+                <Button fx:id="btnAddFeature" mnemonicParsing="false" onAction="#setOnActionCreateFeature" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #6EED50;" text="Thêm" textFill="WHITE">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #93EDE9;" text="Sửa" textFill="#fcfcfc">
+                <Button fx:id="btnUpdateFeature" mnemonicParsing="false" onAction="#setOnActionUpdateFeature" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #93EDE9;" text="Sửa" textFill="#fcfcfc">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #F55572;" text="Xóa" textFill="#fcfcfc">
+                <Button fx:id="btnDeleteFeature" mnemonicParsing="false" onAction="#setOnActionDeleteFeature" prefHeight="35.0" prefWidth="98.0" style="-fx-background-color: #F55572;" text="Xóa" textFill="#fcfcfc">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Button>
             </children>
         </HBox>
-        <TextField layoutX="104.0" layoutY="123.0" prefHeight="26.0" prefWidth="200.0" />
+        <TextField fx:id="txtFeatureName" layoutX="104.0" layoutY="123.0" prefHeight="26.0" prefWidth="200.0" />
         <Pane prefHeight="82.0" prefWidth="407.0" style="-fx-background-color: #4FBADB;">
             <children>
                 <Text layoutX="146.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TÍNH NĂNG">

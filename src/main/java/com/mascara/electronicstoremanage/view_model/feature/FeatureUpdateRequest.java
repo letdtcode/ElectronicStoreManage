@@ -1,9 +1,6 @@
 package com.mascara.electronicstoremanage.view_model.feature;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -16,6 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class FeatureUpdateRequest {
     private Long id;
     private String featureName;
