@@ -27,4 +27,15 @@ public enum WeightUnitEnum {
     public String getDisplay() {
         return display;
     }
+
+    public static WeightUnitEnum getEnumByDisplay(String display) {
+        switch (display) {
+            case "gam":
+                return WeightUnitEnum.G;
+            case "kg":
+                return WeightUnitEnum.KG;
+            default:
+                return null;
+        }
+    }
 }

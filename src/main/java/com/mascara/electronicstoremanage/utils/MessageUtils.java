@@ -12,7 +12,7 @@ public class MessageUtils {
     public static String TITLE_FAILED = "Thông báo thất bại";
 
     public static String WARNING_DATA_NOT_VALID = "Vui lòng nhập đầy đủ dữ liệu";
-
+    public static String WARNING_SELECT_ROW = "Vui lòng chọn 1 hàng để cập nhật";
     //    Brand CRUD Message
     public static String INFO_CREATE_BRAND_SUCCESS = "Thêm mới thương hiệu thành công";
     public static String INFO_UPDATE_BRAND_SUCCESS = "Cập nhật thương hiệu thành công";
@@ -55,5 +55,6 @@ public class MessageUtils {
     public static String WARNING_PRODUCT_CAN_NOT_DELETE = "Sản phẩm nằm trong hóa đơn trạng thái chờ, không thể xóa";
     public static String WARNING_CREATE_PRODUCT_MUST_HAVE_COLOR = "Sản phẩm phải có ít nhất 1 màu sắc";
     public static String WARNING_CREATE_PRODUCT_MUST_HAVE_FEATURE = "Sản phẩm phải có ít nhất 1 tính năng";
+    public static String WARNING_PRODUCT_NAME_DUPLICATED = "Tên sản phẩm bị trùng";
     public static String WARNING_CREATE_PRODUCT_IMPORT_PRICE_MUST_LESS_THAN_EXPORT_PRICE = "Gía nhập phải nhỏ hơn giá bán";
 }

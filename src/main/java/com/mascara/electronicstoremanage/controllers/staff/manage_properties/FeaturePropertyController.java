@@ -83,7 +83,7 @@ public class FeaturePropertyController implements Initializable {
     @FXML
     public void setOnActionUpdateFeature(ActionEvent actionEvent) {
         boolean isValid = validateData(txtFeatureName.getText());
-        if (isValid) {
+        if (isValid && !featureTableView.getSelectionModel().isEmpty()) {
             FeatureViewModel featureViewModel = featureTableView.getSelectionModel().getSelectedItem();
             FeatureUpdateRequest request = FeatureUpdateRequest.builder()
                     .id(featureViewModel.getId())
@@ -95,6 +95,8 @@ public class FeaturePropertyController implements Initializable {
                 AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_FEATURE_NAME_DUPLICATED);
             }
             retrieveAllFeature();
+        } else if (featureTableView.getSelectionModel().isEmpty()) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }

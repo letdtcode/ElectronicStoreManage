@@ -26,4 +26,15 @@ public enum WarrantyPeriodUnitENum {
     public String getDisplay() {
         return display;
     }
+
+    public static WarrantyPeriodUnitENum getEnumByDisplay(String display) {
+        switch (display) {
+            case "Theo tháng":
+                return WarrantyPeriodUnitENum.BY_MONTH;
+            case "Theo năm":
+                return WarrantyPeriodUnitENum.BY_YEAR;
+            default:
+                return null;
+        }
+    }
 }

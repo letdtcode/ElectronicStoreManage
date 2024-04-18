@@ -1,12 +1,20 @@
 package com.mascara.electronicstoremanage.controllers.staff.manage_product;
 
 import com.mascara.electronicstoremanage.enums.product.ProductStatusEnum;
+import com.mascara.electronicstoremanage.enums.product.WarrantyPeriodUnitENum;
+import com.mascara.electronicstoremanage.enums.product.WeightUnitEnum;
+import com.mascara.electronicstoremanage.services.brand.BrandServiceImpl;
 import com.mascara.electronicstoremanage.services.category.CategoryServiceImpl;
 import com.mascara.electronicstoremanage.services.color.ColorServiceImpl;
 import com.mascara.electronicstoremanage.services.feature.FeatureServiceImpl;
+import com.mascara.electronicstoremanage.services.material.MaterialServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
+import com.mascara.electronicstoremanage.utils.FileHandleUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
+import com.mascara.electronicstoremanage.view_model.brand.BrandViewModel;
 import com.mascara.electronicstoremanage.view_model.category.CategoryCreateRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryUpdateRequest;
@@ -15,6 +23,9 @@ import com.mascara.electronicstoremanage.view_model.color.ColorPagingRequest;
 import com.mascara.electronicstoremanage.view_model.color.ColorViewModel;
 import com.mascara.electronicstoremanage.view_model.feature.FeaturePagingRequest;
 import com.mascara.electronicstoremanage.view_model.feature.FeatureViewModel;
+import com.mascara.electronicstoremanage.view_model.material.MaterialPagingRequest;
+import com.mascara.electronicstoremanage.view_model.material.MaterialViewModel;
+import com.mascara.electronicstoremanage.view_model.product.ProductCreateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductPagingRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
@@ -29,12 +40,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -117,35 +130,35 @@ public class ManageProductController implements Initializable {
     @FXML
     private ComboBox cbbProductStatusFilter;
     @FXML
-    private TableColumn idProductColumn;
+    private TableColumn<ProductViewModel, Long> idProductColumn;
     @FXML
-    private TableColumn productNameColumn;
+    private TableColumn<ProductViewModel, String> productNameColumn;
     @FXML
-    private TableColumn descriptionColumn;
+    private TableColumn<ProductViewModel, String> descriptionColumn;
     @FXML
-    private TableColumn priceImportColumn;
+    private TableColumn<ProductViewModel, Double> priceImportColumn;
     @FXML
-    private TableColumn priceSaleColumn;
+    private TableColumn<ProductViewModel, Double> priceSaleColumn;
     @FXML
-    private TableColumn colorProductColumn;
+    private TableColumn<ProductViewModel, String> colorProductColumn;
     @FXML
-    private TableColumn brandColumn;
+    private TableColumn<ProductViewModel, String> brandColumn;
     @FXML
-    private TableColumn materialColumn;
+    private TableColumn<ProductViewModel, String> materialColumn;
     @FXML
-    private TableColumn categoryColumn;
+    private TableColumn<ProductViewModel, String> categoryColumn;
     @FXML
-    private TableColumn weightColumn;
+    private TableColumn<ProductViewModel, Double> weightColumn;
     @FXML
-    private TableColumn originColumn;
+    private TableColumn<ProductViewModel, String> originColumn;
     @FXML
-    private TableColumn warrantyPeriodColumn;
+    private TableColumn<ProductViewModel, String> warrantyPeriodColumn;
     @FXML
-    private TableColumn sizeColumn;
+    private TableColumn<ProductViewModel, String> sizeColumn;
     @FXML
-    private TableColumn featureColumn;
+    private TableColumn<ProductViewModel, String> featureColumn;
     @FXML
-    private TableColumn statusProductColumn;
+    private TableColumn<ProductViewModel, String> statusProductColumn;
     @FXML
     private TableView<CategoryViewModel> categoryTableView;
     @FXML
@@ -163,7 +176,17 @@ public class ManageProductController implements Initializable {
             ProductStatusEnum.ON_BUSINESS.getShowView(),
             ProductStatusEnum.STOP_BUSINESS.getShowView());
 
-    private File fileImage;
+    private ObservableList<String> brandNameList = null;
+    private ObservableList<String> categoryNameList = null;
+    private ObservableList<String> materialNameList = null;
+    private ObservableList<String> weightUnitList = FXCollections.observableArrayList(
+            WeightUnitEnum.G.getDisplay(),
+            WeightUnitEnum.KG.getDisplay());
+    private ObservableList<String> warrantyPeriodUnitList = FXCollections.observableArrayList(
+            WarrantyPeriodUnitENum.BY_YEAR.getDisplay(),
+            WarrantyPeriodUnitENum.BY_MONTH.getDisplay());
+
+    private File fileImage = null;
     private FileChooser fileChooser;
     @FXML
     private GridPane gridPanelColor;
@@ -171,6 +194,12 @@ public class ManageProductController implements Initializable {
     private GridPane gridPanelFeature;
     @FXML
     private StackPane nodeRoot;
+    @FXML
+    private TabPane tabPanel;
+    @FXML
+    private Pane categoryPanel;
+    @FXML
+    private Pane productPanel;
 
     public ManageProductController() {
         fileChooser = new FileChooser();
@@ -212,15 +241,18 @@ public class ManageProductController implements Initializable {
         addListener();
         retrieveAllCategory();
         retrieveAllProduct();
-        setUpDataColor();
-        setUpDataFeature();
+
+        setUpDataShow();
 
         cbbProductStatus.setItems(productStatusList);
 
         txtIdCategory.setEditable(false);
         txtIdProduct.setEditable(false);
 
+        addListenerForEachRow();
+    }
 
+    private void addListenerForEachRow() {
         categoryTableView.setRowFactory(param -> {
             TableRow<CategoryViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -242,26 +274,173 @@ public class ManageProductController implements Initializable {
                     ProductViewModel productViewModel = productTableView.getItems().get(rowIndex);
                     txtIdProduct.setText(productViewModel.getId().toString());
                     txtProductName.setText(productViewModel.getProductName());
-                    txtPriceImport.setText(productViewModel.getImportPrice().toString());
-                    txtPriceSale.setText(productViewModel.getSalePrice().toString());
-                    txtQuantity.setText(productViewModel.getQuantity().toString());
+                    txtPriceImport.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
+                    txtPriceSale.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
+                    txtQuantity.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
                     cbbProductStatus.setValue(productViewModel.getStatus().getShowView());
-                    cbbBrandName.setValue(productViewModel.getCategoryName());
+                    cbbBrandName.setValue(productViewModel.getBrandName());
                     cbbCategoryName.setValue(productViewModel.getCategoryName());
                     cbbMaterialName.setValue(productViewModel.getMaterialName());
                     txtSize.setText(productViewModel.getSize());
-                    txtWeight.setText(productViewModel.getWeight().toString());
-                    cbbWarrantyPeriodUnit.setValue(productViewModel.getWeightUnit().getDisplay());
+                    txtWeight.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getWeight()));
+                    cbbWeightUnit.setValue(productViewModel.getWeightUnit().getDisplay());
                     txtOrigin.setText(productViewModel.getOrigin());
                     txtWarrantyPeriod.setText(productViewModel.getWarrantyPeriod().toString());
                     cbbWarrantyPeriodUnit.setValue(productViewModel.getWarrantyPeriodUnit().getDisplay());
+                    textareaDescription.setText(productViewModel.getDescription());
+
+//                    Get Image show
+                    fileImage = new File(productViewModel.getPathImage());
+                    imgViewProduct.setImage(new Image(fileImage.toURI().toString(), 200, 175, true, true));
+
+                    //                    Cheked for color list
+                    List<CheckBox> colorCheckBoxs = gridPanelColor.getChildren().stream().map(node -> (CheckBox) node)
+                            .collect(Collectors.toList());
+                    List<String> colorNameList = productViewModel.getColorNameList();
+                    List<CheckBox> filteredColorCheckBox = colorCheckBoxs.stream()
+                            .filter(checkBox -> colorNameList.contains(checkBox.getText()))
+                            .collect(Collectors.toList());
+                    colorCheckBoxs.stream().map(checkBox -> {
+                        if (filteredColorCheckBox.contains(checkBox)) {
+                            checkBox.setSelected(true);
+                        } else {
+                            checkBox.setSelected(false);
+                        }
+                        return checkBox;
+                    }).forEach(checkBox -> {
+                    });
+
+                    //                    Cheked for feature list
+                    List<CheckBox> featureCheckBoxs = gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node)
+                            .collect(Collectors.toList());
+                    List<String> featureNameList = productViewModel.getFeatureNameList();
+                    List<CheckBox> filteredFeatureCheckBox = featureCheckBoxs.stream()
+                            .filter(checkBox -> featureNameList.contains(checkBox.getText()))
+                            .collect(Collectors.toList());
+                    featureCheckBoxs.stream().map(checkBox -> {
+                        if (filteredFeatureCheckBox.contains(checkBox)) {
+                            checkBox.setSelected(true);
+                        } else {
+                            checkBox.setSelected(false);
+                        }
+                        return checkBox;
+                    }).forEach(checkBox -> {
+                    });
                 }
             });
             return row;
         });
     }
 
+    private void setUpDataShow() {
+
+//        Set up Color panel
+        ColorPagingRequest requestColor = new ColorPagingRequest();
+        List<ColorViewModel> colorViewModelList = ColorServiceImpl.getInstance().retrieveAllColor(requestColor);
+        colorNameList = colorViewModelList.stream()
+                .map(colorViewModel -> colorViewModel.getColorName()).collect(Collectors.toList());
+
+        if (colorNameList.size() > 9) {
+            int numRowOfGrid = (int) Math.ceil(colorNameList.size() / 3);
+            for (int i = 3; i < numRowOfGrid; i++) {
+                gridPanelColor.addRow(i);
+            }
+        }
+
+        int columnColor = 0;
+        int rowColor = 0;
+        for (int i = 0; i < colorNameList.size(); i++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setText(colorNameList.get(i));
+            checkBox.setFont(Font.font("Segoe UI", 10));
+            checkBox.setAlignment(Pos.CENTER);
+            gridPanelColor.add(checkBox, columnColor, rowColor);
+            columnColor = ++columnColor % 3;
+            rowColor = columnColor == 0 ? ++rowColor : rowColor;
+        }
+
+//        Set up Feature panel
+
+        FeaturePagingRequest requestFeature = new FeaturePagingRequest();
+        List<FeatureViewModel> featureViewModelList = FeatureServiceImpl.getInstance().retrieveAllFeature(requestFeature);
+        featureNameList = featureViewModelList.stream()
+                .map(featureViewModel -> featureViewModel.getFeatureName()).collect(Collectors.toList());
+
+        if (featureNameList.size() > 6) {
+            int numRowOfGrid = (int) Math.ceil(featureNameList.size() / 2);
+            for (int i = 3; i < numRowOfGrid; i++) {
+                gridPanelFeature.addRow(i);
+            }
+        }
+
+        int columnFeature = 0;
+        int rowFeature = 0;
+        for (int i = 0; i < featureNameList.size(); i++) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setText(featureNameList.get(i));
+            checkBox.setFont(Font.font("Segoe UI", 10));
+            checkBox.setAlignment(Pos.CENTER);
+            gridPanelFeature.add(checkBox, columnFeature, rowFeature);
+            columnFeature = ++columnFeature % 2;
+            rowFeature = columnFeature == 0 ? ++rowFeature : rowFeature;
+        }
+
+        //        Set up combobox product status
+        cbbProductStatus.setItems(productStatusList);
+        cbbProductStatus.getSelectionModel().selectFirst();
+
+        //        Set up combobox brand name
+        BrandPagingRequest brandPagingRequest = new BrandPagingRequest();
+        List<BrandViewModel> brandViewModels = BrandServiceImpl.getInstance().retrieveAllBrand(brandPagingRequest);
+        brandNameList = FXCollections.observableArrayList(brandViewModels.stream()
+                .map(BrandViewModel::getBrandName).collect(Collectors.toList()));
+        cbbBrandName.setItems(brandNameList);
+        cbbBrandName.getSelectionModel().selectFirst();
+
+        //        Set up combobox category name
+        CategoryPagingRequest categoryPagingRequest = new CategoryPagingRequest();
+        List<CategoryViewModel> categoryViewModels = CategoryServiceImpl.getInstance().retrieveAllCategory(categoryPagingRequest);
+        categoryNameList = FXCollections.observableArrayList(categoryViewModels.stream()
+                .map(CategoryViewModel::getCategoryName).collect(Collectors.toList()));
+        cbbCategoryName.setItems(categoryNameList);
+        cbbCategoryName.getSelectionModel().selectFirst();
+
+        //        Set up combobox material name
+        MaterialPagingRequest materialPagingRequest = new MaterialPagingRequest();
+        List<MaterialViewModel> materialViewModels = MaterialServiceImpl.getInstance().retrieveAllMaterial(materialPagingRequest);
+        materialNameList = FXCollections.observableArrayList(materialViewModels.stream()
+                .map(MaterialViewModel::getMaterialName).collect(Collectors.toList()));
+        cbbMaterialName.setItems(materialNameList);
+        cbbMaterialName.getSelectionModel().selectFirst();
+
+        //        Set up cbb weight unit
+        cbbWeightUnit.setItems(weightUnitList);
+        cbbWeightUnit.getSelectionModel().selectFirst();
+
+        //        Set up cbb warranty period unit
+        cbbWarrantyPeriodUnit.setItems(warrantyPeriodUnitList);
+        cbbWarrantyPeriodUnit.getSelectionModel().selectFirst();
+
+        //        Set up category name filter
+        cbbCategoryFilter.setItems(categoryNameList);
+        cbbCategoryFilter.getSelectionModel().selectFirst();
+        //        Set up product status filter
+        cbbProductStatusFilter.setItems(productStatusList);
+        cbbProductStatusFilter.getSelectionModel().selectFirst();
+    }
+
     private void addListener() {
+        tabPanel.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            int selectedIndex = newValue.intValue();
+            if (selectedIndex == 1) {
+                CategoryPagingRequest categoryPagingRequest = new CategoryPagingRequest();
+                List<CategoryViewModel> categoryViewModels = CategoryServiceImpl.getInstance().retrieveAllCategory(categoryPagingRequest);
+                categoryNameList = FXCollections.observableArrayList(categoryViewModels.stream()
+                        .map(CategoryViewModel::getCategoryName).collect(Collectors.toList()));
+                cbbCategoryName.setItems(categoryNameList);
+                cbbCategoryFilter.setItems(categoryNameList);
+            }
+        });
         txtPriceImport.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 txtPriceImport.setText(newValue.replaceAll("[^\\d]", ""));
@@ -293,58 +472,6 @@ public class ManageProductController implements Initializable {
         });
     }
 
-    private void setUpDataColor() {
-        ColorPagingRequest request = new ColorPagingRequest();
-        List<ColorViewModel> colorViewModelList = ColorServiceImpl.getInstance().retrieveAllColor(request);
-        colorNameList = colorViewModelList.stream()
-                .map(colorViewModel -> colorViewModel.getColorName()).collect(Collectors.toList());
-
-        if (colorNameList.size() > 9) {
-            int numRowOfGrid = (int) Math.ceil(colorNameList.size() / 3);
-            for (int i = 3; i < numRowOfGrid; i++) {
-                gridPanelColor.addRow(i);
-            }
-        }
-
-        int column = 0;
-        int row = 0;
-        for (int i = 0; i < colorNameList.size(); i++) {
-            CheckBox checkBox = new CheckBox();
-            checkBox.setText(colorNameList.get(i));
-            checkBox.setFont(Font.font("Segoe UI", 10));
-            checkBox.setAlignment(Pos.CENTER);
-            gridPanelColor.add(checkBox, column, row);
-            column = ++column % 3;
-            row = column == 0 ? ++row : row;
-        }
-    }
-
-    private void setUpDataFeature() {
-        FeaturePagingRequest request = new FeaturePagingRequest();
-        List<FeatureViewModel> featureViewModelList = FeatureServiceImpl.getInstance().retrieveAllFeature(request);
-        featureNameList = featureViewModelList.stream()
-                .map(featureViewModel -> featureViewModel.getFeatureName()).collect(Collectors.toList());
-
-        if (featureNameList.size() > 6) {
-            int numRowOfGrid = (int) Math.ceil(featureNameList.size() / 2);
-            for (int i = 3; i < numRowOfGrid; i++) {
-                gridPanelFeature.addRow(i);
-            }
-        }
-
-        int column = 0;
-        int row = 0;
-        for (int i = 0; i < featureNameList.size(); i++) {
-            CheckBox checkBox = new CheckBox();
-            checkBox.setText(featureNameList.get(i));
-            checkBox.setFont(Font.font("Segoe UI", 10));
-            checkBox.setAlignment(Pos.CENTER);
-            gridPanelFeature.add(checkBox, column, row);
-            column = ++column % 2;
-            row = column == 0 ? ++row : row;
-        }
-    }
-
     @FXML
     public void setOnActionCreateCategory(ActionEvent actionEvent) {
         boolean isValid = validateDataCategory(txtNameCategory.getText());
@@ -368,17 +495,21 @@ public class ManageProductController implements Initializable {
     public void setOnActionUpdateCategory(ActionEvent actionEvent) {
         boolean isValid = validateDataCategory(txtNameCategory.getText());
         if (isValid) {
-            CategoryViewModel categoryViewModel = categoryTableView.getSelectionModel().getSelectedItem();
-            CategoryUpdateRequest request = CategoryUpdateRequest.builder()
-                    .id(categoryViewModel.getId())
-                    .categoryName(txtNameCategory.getText().trim()).build();
-            boolean success = CategoryServiceImpl.getInstance().updateCategory(request);
-            if (success) {
-                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_UPDATE_CATEGORY_SUCCESS);
+            if (!categoryTableView.getSelectionModel().isEmpty()) {
+                CategoryViewModel categoryViewModel = categoryTableView.getSelectionModel().getSelectedItem();
+                CategoryUpdateRequest request = CategoryUpdateRequest.builder()
+                        .id(categoryViewModel.getId())
+                        .categoryName(txtNameCategory.getText().trim()).build();
+                boolean success = CategoryServiceImpl.getInstance().updateCategory(request);
+                if (success) {
+                    AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_UPDATE_CATEGORY_SUCCESS);
+                } else {
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+                }
+                retrieveAllCategory();
             } else {
-                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
             }
-            retrieveAllCategory();
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }
@@ -393,11 +524,13 @@ public class ManageProductController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_CAN_NOT_DELETE);
         }
+        Utillities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
     @FXML
     public void setOnActionReloadCategory(ActionEvent actionEvent) {
+        Utillities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
@@ -419,7 +552,8 @@ public class ManageProductController implements Initializable {
                                         Integer timePeriod,
                                         String description,
                                         List<CheckBox> colorList,
-                                        List<CheckBox> featureList) {
+                                        List<CheckBox> featureList,
+                                        File fileImage) {
         boolean isValid = true;
         AtomicBoolean colorIsSelected = new AtomicBoolean(false);
         AtomicBoolean featureIsSelected = new AtomicBoolean(false);
@@ -438,10 +572,12 @@ public class ManageProductController implements Initializable {
         colorList.stream().peek(colorCkb -> {
             if (colorCkb.isSelected())
                 colorIsSelected.set(true);
+        }).forEach(checkBox -> {
         });
         featureList.stream().peek(featureCkb -> {
             if (featureCkb.isSelected())
                 featureIsSelected.set(true);
+        }).forEach(checkBox -> {
         });
 
         if (colorIsSelected.get() == false) {
@@ -451,6 +587,10 @@ public class ManageProductController implements Initializable {
 
         if (featureIsSelected.get() == false) {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CREATE_PRODUCT_MUST_HAVE_FEATURE);
+            isValid = false;
+        }
+        if (fileImage == null) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, "Hình ảnh không hợp lệ");
             isValid = false;
         }
         return isValid;
@@ -467,19 +607,59 @@ public class ManageProductController implements Initializable {
                 Integer.parseInt(txtWarrantyPeriod.getText()),
                 textareaDescription.getText(),
                 gridPanelColor.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
-                gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList())
-        );
+                gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
+                fileImage);
         if (isValid) {
-            CategoryCreateRequest request = CategoryCreateRequest.builder()
-                    .categoryName(txtNameCategory.getText())
+            String pathImage = FileHandleUtils.getInstance().copyFile(
+                    Utillities.getInstance().toSlug(txtProductName.getText()),
+                    fileImage.getAbsolutePath());
+            ProductCreateRequest request = ProductCreateRequest.builder()
+                    .productName(txtProductName.getText())
+                    .description(textareaDescription.getText())
+                    .pathImage(pathImage)
+                    .salePrice(Double.valueOf(txtPriceSale.getText()))
+                    .importPrice(Double.valueOf(txtPriceImport.getText()))
+                    .quantity(Double.valueOf(txtQuantity.getText()))
+                    .origin(txtOrigin.getText())
+                    .weight(Double.valueOf(txtWeight.getText()))
+                    .weightUnit(WeightUnitEnum.getEnumByDisplay(cbbWeightUnit.getValue().toString()))
+                    .warrantyPeriod(Integer.valueOf(txtWarrantyPeriod.getText()))
+                    .warrantyPeriodUnit(WarrantyPeriodUnitENum.getEnumByDisplay(cbbWarrantyPeriodUnit.getValue().toString()))
+                    .size(txtSize.getText())
+                    .brandName(cbbBrandName.getValue().toString())
+                    .materialName(cbbMaterialName.getValue().toString())
+                    .categoryName(cbbCategoryName.getValue().toString())
+                    .status(ProductStatusEnum.getEnumByDisplay(cbbProductStatus.getValue().toString()))
                     .build();
-            Long categoryId = CategoryServiceImpl.getInstance().insertCategory(request);
-            if (categoryId == -1) {
-                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+
+//            Get list color name checked
+            List<CheckBox> colorCheckBoxs = gridPanelColor.getChildren().stream().map(node -> (CheckBox) node)
+                    .collect(Collectors.toList());
+            List<CheckBox> filteredColorCheckBox = colorCheckBoxs.stream()
+                    .filter(checkBox -> checkBox.isSelected())
+                    .collect(Collectors.toList());
+            List<String> colorNames = filteredColorCheckBox.stream().map(checkBox -> checkBox.getText())
+                    .collect(Collectors.toList());
+
+//            Get list feature name checked
+            List<CheckBox> featureCheckBoxs = gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node)
+                    .collect(Collectors.toList());
+            List<CheckBox> filteredFeatureCheckBox = featureCheckBoxs.stream()
+                    .filter(checkBox -> checkBox.isSelected())
+                    .collect(Collectors.toList());
+            List<String> featureNames = filteredFeatureCheckBox.stream().map(checkBox -> checkBox.getText())
+                    .collect(Collectors.toList());
+
+            request.setColorNameList(colorNames);
+            request.setFeatureNameList(featureNames);
+
+            Long productId = ProductServiceImpl.getInstance().insertProduct(request);
+            if (productId == -1) {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_NAME_DUPLICATED);
             } else {
-                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CREATE_CATEGORY_SUCCESS);
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CREATE_PRODUCT_SUCCESS);
             }
-            retrieveAllCategory();
+            retrieveAllProduct();
         }
     }
 
@@ -494,33 +674,93 @@ public class ManageProductController implements Initializable {
                 Integer.parseInt(txtWarrantyPeriod.getText()),
                 textareaDescription.getText(),
                 gridPanelColor.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
-                gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList())
+                gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
+                fileImage
         );
-        if (isValid) {
+        if (isValid && !productTableView.getSelectionModel().isEmpty()) {
             ProductViewModel productViewModel = productTableView.getSelectionModel().getSelectedItem();
+            String pathImage = FileHandleUtils.getInstance().copyFile(
+                    Utillities.getInstance().toSlug(txtProductName.getText()),
+                    fileImage.getAbsolutePath());
+
             ProductUpdateRequest request = ProductUpdateRequest.builder()
                     .id(productViewModel.getId())
                     .productName(txtProductName.getText())
                     .description(textareaDescription.getText())
-                    .categoryName(txtNameCategory.getText().trim()).build();
-            boolean success = CategoryServiceImpl.getInstance().updateCategory(request);
+                    .pathImage(pathImage)
+                    .salePrice(Double.valueOf(txtPriceSale.getText()))
+                    .importPrice(Double.valueOf(txtPriceImport.getText()))
+                    .quantity(Double.valueOf(txtQuantity.getText()))
+                    .origin(txtOrigin.getText())
+                    .weight(Double.valueOf(txtWeight.getText()))
+                    .weightUnit(WeightUnitEnum.getEnumByDisplay(cbbWeightUnit.getValue().toString()))
+                    .warrantyPeriod(Integer.valueOf(txtWarrantyPeriod.getText()))
+                    .warrantyPeriodUnit(WarrantyPeriodUnitENum.getEnumByDisplay(cbbWarrantyPeriodUnit.getValue().toString()))
+                    .size(txtSize.getText())
+                    .brandName(cbbBrandName.getValue().toString())
+                    .materialName(cbbMaterialName.getValue().toString())
+                    .categoryName(cbbCategoryName.getValue().toString())
+                    .status(ProductStatusEnum.getEnumByDisplay(cbbProductStatus.getValue().toString()))
+                    .build();
+
+//            Get list color name checked
+            List<CheckBox> colorCheckBoxs = gridPanelColor.getChildren().stream().map(node -> (CheckBox) node)
+                    .collect(Collectors.toList());
+            List<CheckBox> filteredColorCheckBox = colorCheckBoxs.stream()
+                    .filter(checkBox -> checkBox.isSelected())
+                    .collect(Collectors.toList());
+            List<String> colorNames = filteredColorCheckBox.stream().map(checkBox -> checkBox.getText())
+                    .collect(Collectors.toList());
+
+//            Get list feature name checked
+            List<CheckBox> featureCheckBoxs = gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node)
+                    .collect(Collectors.toList());
+            List<CheckBox> filteredFeatureCheckBox = featureCheckBoxs.stream()
+                    .filter(checkBox -> checkBox.isSelected())
+                    .collect(Collectors.toList());
+            List<String> featureNames = filteredFeatureCheckBox.stream().map(checkBox -> checkBox.getText())
+                    .collect(Collectors.toList());
+
+            request.setColorNameList(colorNames);
+            request.setFeatureNameList(featureNames);
+
+            boolean success = ProductServiceImpl.getInstance().updateProduct(request);
             if (success) {
-                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_UPDATE_CATEGORY_SUCCESS);
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_UPDATE_PRODUCT_SUCCESS);
             } else {
-                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_NAME_DUPLICATED);
             }
-            retrieveAllCategory();
+            retrieveAllProduct();
+        } else if (productTableView.getSelectionModel().isEmpty()) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }
+
     }
 
     @FXML
     public void setOnActionDeleteProduct(ActionEvent actionEvent) {
+        ProductViewModel productViewModel = productTableView.getSelectionModel().getSelectedItem();
+        boolean deleteSuccess = ProductServiceImpl.getInstance().deleteProduct(productViewModel.getId());
+        if (deleteSuccess) {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_DELETE_PRODUCT_SUCCESS);
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_CAN_NOT_DELETE);
+        }
+        Utillities.getInstance().clearAllTextField(productPanel);
+        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        retrieveAllProduct();
     }
 
     @FXML
     public void setOnActionReloadProduct(ActionEvent actionEvent) {
+        Utillities.getInstance().clearAllTextField(productPanel);
+        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        imgViewProduct.setImage(new Image("file:upload\\images\\default_image_product.png", 200, 175, true, true));
+        retrieveAllProduct();
     }
 
     @FXML

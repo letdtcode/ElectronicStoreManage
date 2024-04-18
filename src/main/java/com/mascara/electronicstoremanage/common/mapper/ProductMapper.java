@@ -4,6 +4,7 @@ import com.mascara.electronicstoremanage.entities.Color;
 import com.mascara.electronicstoremanage.entities.Feature;
 import com.mascara.electronicstoremanage.entities.Product;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -32,6 +33,13 @@ public interface ProductMapper {
     @Mapping(source = "colorSet", target = "colorNameList", qualifiedByName = "mapColorSetToList")
     @Mapping(source = "colorSet", target = "colorNameListShow", qualifiedByName = "mapColorSetToStringShow")
     ProductViewModel entityToViewModel(Product product);
+
+    @Mapping(source = "brand.brandName", target = "brandName")
+    @Mapping(source = "material.materialName", target = "materialName")
+    @Mapping(source = "category.categoryName", target = "categoryName")
+    @Mapping(source = "colorSet", target = "colorNameList", qualifiedByName = "mapColorSetToList")
+    @Mapping(source = "colorSet", target = "colorNameListShow", qualifiedByName = "mapColorSetToStringShow")
+    ProductSaleViewModel entityToViewModelSale(Product product);
 
     @Named("mapFeatureSetToList")
     default List<String> mapFeatureSetToList(Set<Feature> featureSet) {

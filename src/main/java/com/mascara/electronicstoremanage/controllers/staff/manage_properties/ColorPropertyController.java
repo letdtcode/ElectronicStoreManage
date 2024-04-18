@@ -74,7 +74,7 @@ public class ColorPropertyController implements Initializable {
     @FXML
     public void setOnActionUpdateColor(ActionEvent actionEvent) {
         boolean isValid = validateData(txtColorName.getText());
-        if (isValid) {
+        if (isValid && !colorTableView.getSelectionModel().isEmpty()) {
             ColorViewModel colorViewModel = colorTableView.getSelectionModel().getSelectedItem();
             ColorUpdateRequest request = ColorUpdateRequest.builder()
                     .id(colorViewModel.getId())
@@ -86,6 +86,8 @@ public class ColorPropertyController implements Initializable {
                 AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_COLOR_NAME_DUPLICATED);
             }
             retrieveAllColor();
+        } else if (colorTableView.getSelectionModel().isEmpty()) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }

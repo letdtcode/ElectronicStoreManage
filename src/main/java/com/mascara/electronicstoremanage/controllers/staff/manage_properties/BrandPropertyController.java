@@ -91,7 +91,7 @@ public class BrandPropertyController implements Initializable {
     @FXML
     public void setOnActionUpdateBrand(ActionEvent actionEvent) {
         boolean isValid = validateData(txtBrandName.getText());
-        if (isValid) {
+        if (isValid && !brandTableView.getSelectionModel().isEmpty()) {
             BrandViewModel brandViewModel = brandTableView.getSelectionModel().getSelectedItem();
             BrandUpdateRequest request = BrandUpdateRequest.builder()
                     .id(brandViewModel.getId())
@@ -103,6 +103,8 @@ public class BrandPropertyController implements Initializable {
                 AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_BRAND_NAME_DUPLICATED);
             }
             retrieveAllBrand();
+        } else if (brandTableView.getSelectionModel().isEmpty()) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }

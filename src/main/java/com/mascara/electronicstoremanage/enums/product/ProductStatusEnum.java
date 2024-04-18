@@ -27,4 +27,15 @@ public enum ProductStatusEnum {
     public String getShowView() {
         return showView;
     }
+
+    public static ProductStatusEnum getEnumByDisplay(String display) {
+        switch (display) {
+            case "Đang kinh doanh":
+                return ProductStatusEnum.ON_BUSINESS;
+            case "Ngừng kinh doanh":
+                return ProductStatusEnum.STOP_BUSINESS;
+            default:
+                return null;
+        }
+    }
 }

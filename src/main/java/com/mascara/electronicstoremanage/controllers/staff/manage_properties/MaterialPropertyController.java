@@ -66,7 +66,7 @@ public class MaterialPropertyController implements Initializable {
     @FXML
     public void setOnActionUpdateMaterial(ActionEvent actionEvent) {
         boolean isValid = validateData(txtMaterialName.getText());
-        if (isValid) {
+        if (isValid && !materialTableView.getSelectionModel().isEmpty()) {
             MaterialViewModel materialViewModel = materialTableView.getSelectionModel().getSelectedItem();
             MaterialUpdateRequest request = MaterialUpdateRequest.builder()
                     .id(materialViewModel.getId())
@@ -78,6 +78,8 @@ public class MaterialPropertyController implements Initializable {
                 AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_MATERIAL_NAME_DUPLICATED);
             }
             retrieveAllMaterial();
+        } else if (materialTableView.getSelectionModel().isEmpty()) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }

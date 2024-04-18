@@ -7,6 +7,7 @@ import com.mascara.electronicstoremanage.view_model.product.ProductCreateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductPagingRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -157,7 +158,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public boolean delete(Long idEntity) {
         Session session = HibernateUtils.getSession();
         Product product = session.find(Product.class, idEntity);
-        Optional<Order> orderOptional = session.createQuery("select o from Order o join OrderItem oi where oi.productId =: productId and o.status = 'PENDING'", Order.class)
+        Optional<Order> orderOptional = session.createQuery("select o from Order o join OrderItem oi on o.id = oi.orderId where oi.productId =: productId and o.status = 'PENDING'", Order.class)
                 .setParameter("productId", idEntity).uniqueResultOptional();
         if(orderOptional.isPresent())
             return false;
@@ -178,6 +179,24 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<ProductViewModel> retrieveAll(ProductPagingRequest request) {
         List<ProductViewModel> list = new ArrayList<>();
+        Session session = HibernateUtils.getSession();
+        int offset = (request.getPageIndex() - 1) * request.getPageSize();
+        String cmd = HibernateUtils.getRetrieveAllQuery("Product", request);
+        Query query = session.createQuery(cmd, Product.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(request.getPageSize());
+        List<Product> productList = query.getResultList();
+
+        for (Product product : productList) {
+            list.add(ProductMapper.getInstance.entityToViewModel(product));
+        }
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<ProductSaleViewModel> retrieveAllProductSale(ProductPagingRequest request) {
+        List<ProductSaleViewModel> list = new ArrayList<>();
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();
         String cmd = HibernateUtils.getRetrieveAllQuery("Product", request);

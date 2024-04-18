@@ -48,6 +48,9 @@ public class Discount extends BasePesistence {
     @Column(name = "date_end")
     private LocalDate dateEnd;
 
+    @Column(name = "discount_value")
+    private Double discountValue;
+
     @Column(name = "status")
     private DiscountStatus status;
 
