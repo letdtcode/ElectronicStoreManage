@@ -1,6 +1,6 @@
 package com.mascara.electronicstoremanage.services.category;
 
-import com.mascara.electronicstoremanage.services.auth.AuthServiceImpl;
+import com.mascara.electronicstoremanage.repositories.category.CategoryRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.category.CategoryCreateRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryUpdateRequest;
@@ -31,26 +31,26 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Long insertCategory(CategoryCreateRequest request) {
-        return null;
+        return CategoryRepositoryImpl.getInstance().insert(request);
     }
 
     @Override
     public boolean updateCategory(CategoryUpdateRequest request) {
-        return false;
+        return CategoryRepositoryImpl.getInstance().update(request);
     }
 
     @Override
     public boolean deleteCategory(Long id) {
-        return false;
+        return CategoryRepositoryImpl.getInstance().delete(id);
     }
 
     @Override
     public CategoryViewModel retrieveCategoryById(Long id) {
-        return null;
+        return CategoryRepositoryImpl.getInstance().retrieveById(id);
     }
 
     @Override
     public List<CategoryViewModel> retrieveAllCategory(CategoryPagingRequest request) {
-        return null;
+        return CategoryRepositoryImpl.getInstance().retrieveAll(request);
     }
 }

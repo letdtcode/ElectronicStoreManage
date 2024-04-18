@@ -1,7 +1,6 @@
 package com.mascara.electronicstoremanage.repositories.category;
 
 import com.mascara.electronicstoremanage.common.mapper.CategoryMapper;
-import com.mascara.electronicstoremanage.entities.Brand;
 import com.mascara.electronicstoremanage.entities.Category;
 import com.mascara.electronicstoremanage.entities.Product;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
@@ -114,7 +113,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();
         String cmd = HibernateUtils.getRetrieveAllQuery("Category", request);
-        Query query = session.createQuery(cmd, Brand.class);
+        Query query = session.createQuery(cmd, Category.class);
         query.setFirstResult(offset);
         query.setMaxResults(request.getPageSize());
         List<Category> categoryList = query.getResultList();

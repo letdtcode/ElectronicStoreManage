@@ -18,4 +18,12 @@ public enum WarrantyPeriodUnitENum {
         this.key = key;
         this.display = display;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
 }

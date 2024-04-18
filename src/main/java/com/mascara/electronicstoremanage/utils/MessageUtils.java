@@ -53,5 +53,7 @@ public class MessageUtils {
     public static String INFO_UPDATE_PRODUCT_SUCCESS = "Cập nhật sản phẩm thành công";
     public static String INFO_DELETE_PRODUCT_SUCCESS = "Xóa sản phẩm thành công";
     public static String WARNING_PRODUCT_CAN_NOT_DELETE = "Sản phẩm nằm trong hóa đơn trạng thái chờ, không thể xóa";
-
+    public static String WARNING_CREATE_PRODUCT_MUST_HAVE_COLOR = "Sản phẩm phải có ít nhất 1 màu sắc";
+    public static String WARNING_CREATE_PRODUCT_MUST_HAVE_FEATURE = "Sản phẩm phải có ít nhất 1 tính năng";
+    public static String WARNING_CREATE_PRODUCT_IMPORT_PRICE_MUST_LESS_THAN_EXPORT_PRICE = "Gía nhập phải nhỏ hơn giá bán";
 }

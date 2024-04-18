@@ -116,6 +116,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             product.setWarrantyPeriod(request.getWarrantyPeriod());
             product.setWarrantyPeriodUnit(request.getWarrantyPeriodUnit());
             product.setSize(request.getSize());
+            product.setStatus(request.getStatus());
 
             Optional<Brand> brandOptional = session.createQuery("select b from Brand b where b.brandName =: brandName", Brand.class)
                     .setParameter("brandName", request.getBrandName()).uniqueResultOptional();
