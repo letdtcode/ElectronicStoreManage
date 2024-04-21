@@ -2,10 +2,15 @@ package com.mascara.electronicstoremanage.repositories.order;
 
 import com.mascara.electronicstoremanage.common.interfaces.ModifyEntityRequest;
 import com.mascara.electronicstoremanage.common.interfaces.RetrieveEntityRequest;
+import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
+import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
+
+import java.util.List;
 
 /**
  * Created by: IntelliJ IDEA
@@ -16,4 +21,6 @@ import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
  */
 public interface OrderRepository extends ModifyEntityRequest<OrderCreateRequest, OrderUpdateRequest, Long>,
         RetrieveEntityRequest<OrderViewModel, OrderPagingRequest, Long> {
+    List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderPagingRequest request);
+    List<HistoryOrderViewModel> retrieveHistoryOrderCustomer(HistoryOrderPagingRequest request);
 }

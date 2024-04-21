@@ -26,7 +26,7 @@ public class ProductUpdateRequest {
     private String pathImage;
     private Double salePrice;
     private Double importPrice;
-    private Double quantity;
+    private Integer quantity;
     private String origin;
     private Double weight;
     private WeightUnitEnum weightUnit;

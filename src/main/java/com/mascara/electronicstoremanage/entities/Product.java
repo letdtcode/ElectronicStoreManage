@@ -48,7 +48,7 @@ public class Product extends BasePesistence {
     private Double importPrice;
 
     @Column(name = "quantity")
-    private Double quantity;
+    private Integer quantity;
 
     @Column(name = "origin")
     private String origin;

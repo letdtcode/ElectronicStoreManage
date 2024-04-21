@@ -57,4 +57,9 @@ public class MessageUtils {
     public static String WARNING_CREATE_PRODUCT_MUST_HAVE_FEATURE = "Sản phẩm phải có ít nhất 1 tính năng";
     public static String WARNING_PRODUCT_NAME_DUPLICATED = "Tên sản phẩm bị trùng";
     public static String WARNING_CREATE_PRODUCT_IMPORT_PRICE_MUST_LESS_THAN_EXPORT_PRICE = "Gía nhập phải nhỏ hơn giá bán";
+
+    //    Customer CRUD Message
+    public static String INFO_CREATE_CUSTOMER_SUCCESS = "Thêm mới khách hàng thành công";
+    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
+    public static String WARNING_PHONE_NUMBER_DUPLICATED = "Số điện thoại đã tồn tại";
 }

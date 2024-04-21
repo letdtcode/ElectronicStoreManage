@@ -9,23 +9,23 @@ package com.mascara.electronicstoremanage.enums.product;
  */
 public enum ProductStatusEnum {
 
-    ON_BUSINESS("ON_BUSINESS","Đang kinh doanh"),
+    ON_BUSINESS("ON_BUSINESS", "Đang kinh doanh"),
 
-    STOP_BUSINESS("STOP_BUSINESS","Ngừng kinh doanh");
+    STOP_BUSINESS("STOP_BUSINESS", "Ngừng kinh doanh");
     private final String key;
-    private final String showView;
+    private final String display;
 
-     ProductStatusEnum(String key, String showView) {
+    ProductStatusEnum(String key, String display) {
         this.key = key;
-        this.showView = showView;
+        this.display = display;
     }
 
     public String getKey() {
         return key;
     }
 
-    public String getShowView() {
-        return showView;
+    public String getDisplay() {
+        return display;
     }
 
     public static ProductStatusEnum getEnumByDisplay(String display) {

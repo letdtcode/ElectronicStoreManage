@@ -206,7 +206,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         List<Product> productList = query.getResultList();
 
         for (Product product : productList) {
-            list.add(ProductMapper.getInstance.entityToViewModel(product));
+            list.add(ProductMapper.getInstance.entityToSaleViewModel(product));
         }
         session.close();
         return list;

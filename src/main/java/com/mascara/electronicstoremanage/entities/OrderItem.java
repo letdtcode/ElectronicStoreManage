@@ -28,7 +28,7 @@ public class OrderItem extends BasePesistence {
     private Long Id;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private Integer quantity;
 
     @Column(name = "unit_price")
     private Double unitPrice;

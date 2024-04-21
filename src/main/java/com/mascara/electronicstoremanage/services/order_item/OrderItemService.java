@@ -4,6 +4,8 @@ import com.mascara.electronicstoremanage.view_model.order_item.OrderItemCreateRe
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.CardItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CardItemViewModel;
 
 import java.util.List;
 
@@ -24,4 +26,5 @@ public interface OrderItemService {
     OrderItemViewModel retrieveOrderItemById(Long id);
 
     List<OrderItemViewModel> retrieveAllOrderItem(OrderItemPagingRequest request);
+    List<CardItemViewModel> retrieveAllCartItem(Long orderId, CardItemPagingRequest request);
 }

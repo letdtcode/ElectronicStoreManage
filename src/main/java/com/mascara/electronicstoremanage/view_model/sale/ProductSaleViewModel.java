@@ -34,5 +34,5 @@ public class ProductSaleViewModel {
     private String categoryName;
     private List<String> colorNameList;
     private String colorNameListShow;
-    private Double discountValue;
+    private String discountValueShow;
 }

@@ -24,10 +24,10 @@
             </Text>
             <TableView fx:id="orderWaitingTableView" layoutX="9.0" layoutY="31.0" prefHeight="173.0" prefWidth="509.0">
               <columns>
-                <TableColumn prefWidth="99.19997882843018" text="Mã hóa đơn" />
-                <TableColumn prefWidth="77.60000610351562" text="Ngày tạo" />
-                  <TableColumn prefWidth="157.6000213623047" text="Nhân viên tạo" />
-                  <TableColumn prefWidth="176.0" text="Khách hàng" />
+                <TableColumn fx:id="orderIdColumn" prefWidth="99.19997882843018" text="Mã hóa đơn" />
+                <TableColumn fx:id="dateCreateOrderColumn" prefWidth="77.60000610351562" text="Ngày tạo" />
+                  <TableColumn fx:id="nameStaffOrderColumn" prefWidth="157.6000213623047" text="Nhân viên tạo" />
+                  <TableColumn fx:id="nameCustomerOrderColumn" prefWidth="176.0" text="Khách hàng" />
               </columns>
             </TableView>
          </children>
@@ -50,13 +50,13 @@
             <ComboBox fx:id="cbbCategoryName" layoutX="591.0" layoutY="29.0" prefWidth="150.0" />
             <TableView fx:id="productTableView" layoutX="16.0" layoutY="68.0" prefHeight="228.0" prefWidth="630.0">
               <columns>
-                <TableColumn prefWidth="89.59997177124023" text="Mã sản phẩm" />
-                <TableColumn prefWidth="84.79998779296875" text="Tên sản phẩm" />
-                  <TableColumn prefWidth="88.80000305175781" text="Đơn giá" />
-                  <TableColumn prefWidth="60.0" text="Giảm giá" />
-                  <TableColumn prefWidth="130.39996337890625" text="Màu sắc" />
-                  <TableColumn minWidth="0.0" prefWidth="88.00006103515625" text="Xuất xứ" />
-                  <TableColumn prefWidth="86.40008544921875" text="Số lượng tồn" />
+                <TableColumn fx:id="idProductColumn" prefWidth="89.59997177124023" text="Mã sản phẩm" />
+                <TableColumn fx:id="nameProductColumn" prefWidth="84.79998779296875" text="Tên sản phẩm" />
+                  <TableColumn fx:id="priceSaleColumn" prefWidth="88.80000305175781" text="Đơn giá" />
+                  <TableColumn fx:id="discountValueColumn" prefWidth="60.0" text="Giảm giá" />
+                  <TableColumn fx:id="colorColumn" prefWidth="130.39996337890625" text="Màu sắc" />
+                  <TableColumn fx:id="originColumn" minWidth="0.0" prefWidth="88.00006103515625" text="Xuất xứ" />
+                  <TableColumn fx:id="quantityColumn" prefWidth="86.40008544921875" text="Số lượng tồn" />
               </columns>
             </TableView>
          </children>
@@ -139,10 +139,10 @@
             </Text>
             <TableView fx:id="cardItemsTableView" layoutX="7.0" layoutY="26.0" prefHeight="200.0" prefWidth="630.0">
               <columns>
-                <TableColumn prefWidth="103.19997787475586" text="Mã sản phẩm" />
-                <TableColumn prefWidth="232.00001525878906" text="Tên sản phẩm" />
-                  <TableColumn prefWidth="117.5999755859375" text="Đơn giá" />
-                  <TableColumn prefWidth="175.5999755859375" text="Số lượng" />
+                <TableColumn fx:id="idProductInCartColumn" prefWidth="103.19997787475586" text="Mã sản phẩm" />
+                <TableColumn fx:id="nameProductInCartColumn" prefWidth="232.00001525878906" text="Tên sản phẩm" />
+                  <TableColumn fx:id="priceSaleInCartColumn" prefWidth="117.5999755859375" text="Đơn giá" />
+                  <TableColumn fx:id="quantityProductInCartColumn" prefWidth="175.5999755859375" text="Số lượng" />
               </columns>
             </TableView>
             <Button fx:id="btnDeleteCardItem" layoutX="660.0" layoutY="79.0" mnemonicParsing="false" text="Xóa sản phẩm" />

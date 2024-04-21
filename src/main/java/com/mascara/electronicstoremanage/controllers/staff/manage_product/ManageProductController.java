@@ -47,7 +47,6 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -173,8 +172,8 @@ public class ManageProductController implements Initializable {
     private List<String> featureNameList;
 
     private ObservableList<String> productStatusList = FXCollections.observableArrayList(
-            ProductStatusEnum.ON_BUSINESS.getShowView(),
-            ProductStatusEnum.STOP_BUSINESS.getShowView());
+            ProductStatusEnum.ON_BUSINESS.getDisplay(),
+            ProductStatusEnum.STOP_BUSINESS.getDisplay());
 
     private ObservableList<String> brandNameList = null;
     private ObservableList<String> categoryNameList = null;
@@ -241,14 +240,7 @@ public class ManageProductController implements Initializable {
         addListener();
         retrieveAllCategory();
         retrieveAllProduct();
-
-        setUpDataShow();
-
-        cbbProductStatus.setItems(productStatusList);
-
-        txtIdCategory.setEditable(false);
-        txtIdProduct.setEditable(false);
-
+        setUpUI();
         addListenerForEachRow();
     }
 
@@ -277,7 +269,7 @@ public class ManageProductController implements Initializable {
                     txtPriceImport.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
                     txtPriceSale.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
                     txtQuantity.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
-                    cbbProductStatus.setValue(productViewModel.getStatus().getShowView());
+                    cbbProductStatus.setValue(productViewModel.getStatus().getDisplay());
                     cbbBrandName.setValue(productViewModel.getBrandName());
                     cbbCategoryName.setValue(productViewModel.getCategoryName());
                     cbbMaterialName.setValue(productViewModel.getMaterialName());
@@ -332,7 +324,10 @@ public class ManageProductController implements Initializable {
         });
     }
 
-    private void setUpDataShow() {
+    private void setUpUI() {
+        cbbProductStatus.setItems(productStatusList);
+        txtIdCategory.setEditable(false);
+        txtIdProduct.setEditable(false);
 
 //        Set up Color panel
         ColorPagingRequest requestColor = new ColorPagingRequest();
@@ -619,7 +614,7 @@ public class ManageProductController implements Initializable {
                     .pathImage(pathImage)
                     .salePrice(Double.valueOf(txtPriceSale.getText()))
                     .importPrice(Double.valueOf(txtPriceImport.getText()))
-                    .quantity(Double.valueOf(txtQuantity.getText()))
+                    .quantity(Integer.valueOf(txtQuantity.getText()))
                     .origin(txtOrigin.getText())
                     .weight(Double.valueOf(txtWeight.getText()))
                     .weightUnit(WeightUnitEnum.getEnumByDisplay(cbbWeightUnit.getValue().toString()))
@@ -690,7 +685,7 @@ public class ManageProductController implements Initializable {
                     .pathImage(pathImage)
                     .salePrice(Double.valueOf(txtPriceSale.getText()))
                     .importPrice(Double.valueOf(txtPriceImport.getText()))
-                    .quantity(Double.valueOf(txtQuantity.getText()))
+                    .quantity(Integer.valueOf(txtQuantity.getText()))
                     .origin(txtOrigin.getText())
                     .weight(Double.valueOf(txtWeight.getText()))
                     .weightUnit(WeightUnitEnum.getEnumByDisplay(cbbWeightUnit.getValue().toString()))

@@ -1,6 +1,6 @@
 package com.mascara.electronicstoremanage.services.customer;
 
-import com.mascara.electronicstoremanage.services.category.CategoryService;
+import com.mascara.electronicstoremanage.repositories.customer.CustomerRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerUpdateRequest;
@@ -30,26 +30,26 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Long insertCustomer(CustomerCreateRequest request) {
-        return null;
+        return CustomerRepositoryImpl.getInstance().insert(request);
     }
 
     @Override
     public boolean updateCustomer(CustomerUpdateRequest request) {
-        return false;
+        return CustomerRepositoryImpl.getInstance().update(request);
     }
 
     @Override
     public boolean deleteCustomer(Long id) {
-        return false;
+        return CustomerRepositoryImpl.getInstance().delete(id);
     }
 
     @Override
     public CustomerViewModel retrieveCustomerById(Long id) {
-        return null;
+        return CustomerRepositoryImpl.getInstance().retrieveById(id);
     }
 
     @Override
     public List<CustomerViewModel> retrieveAllCustomer(CustomerPagingRequest request) {
-        return null;
+        return CustomerRepositoryImpl.getInstance().retrieveAll(request);
     }
 }

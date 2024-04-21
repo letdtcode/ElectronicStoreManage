@@ -3,7 +3,6 @@ package com.mascara.electronicstoremanage.repositories.brand;
 import com.mascara.electronicstoremanage.common.mapper.BrandMapper;
 import com.mascara.electronicstoremanage.entities.Brand;
 import com.mascara.electronicstoremanage.entities.Product;
-import com.mascara.electronicstoremanage.enums.product.ProductStatusEnum;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.brand.BrandCreateRequest;
 import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
@@ -67,6 +66,7 @@ public class BrandRepositoryImpl implements BrandRepository {
     @Override
     public boolean update(BrandUpdateRequest request) {
         Session session = HibernateUtils.getSession();
+        Transaction transaction = session.beginTransaction();
         try {
             Optional<Brand> brandOptional = session.createQuery("select b from Brand b where b.brandName =: name and id != :id", Brand.class)
                     .setParameter("name", request.getBrandName())
@@ -75,9 +75,12 @@ public class BrandRepositoryImpl implements BrandRepository {
             if (!brandOptional.isPresent()) {
                 Brand brand = session.find(Brand.class, request.getId());
                 brand.setBrandName(request.getBrandName());
+                transaction.commit();
                 return HibernateUtils.merge(brand);
             }
         } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
             e.printStackTrace();
         } finally {
             session.close();

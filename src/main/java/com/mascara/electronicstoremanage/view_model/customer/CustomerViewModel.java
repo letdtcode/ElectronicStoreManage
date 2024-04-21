@@ -1,9 +1,8 @@
 package com.mascara.electronicstoremanage.view_model.customer;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
+import com.mascara.electronicstoremanage.enums.general.SexEnum;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +14,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CustomerViewModel {
+    private Long id;
+    private String fullName;
+    private String phoneNumber;
+    private String email;
+    private String address;
+    private SexEnum sex;
+    private CustomerStatusEnum status;
 }

@@ -117,6 +117,10 @@ public class MaterialPropertyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllMaterial();
+        addListener();
+    }
+
+    private void addListener() {
         materialTableView.setRowFactory(param -> {
             TableRow<MaterialViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

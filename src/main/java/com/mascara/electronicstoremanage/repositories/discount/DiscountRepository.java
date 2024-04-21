@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.repositories.discount;
 
 import com.mascara.electronicstoremanage.common.interfaces.ModifyEntityRequest;
 import com.mascara.electronicstoremanage.common.interfaces.RetrieveEntityRequest;
+import com.mascara.electronicstoremanage.entities.Discount;
 import com.mascara.electronicstoremanage.view_model.brand.BrandCreateRequest;
 import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
 import com.mascara.electronicstoremanage.view_model.brand.BrandUpdateRequest;
@@ -10,6 +11,8 @@ import com.mascara.electronicstoremanage.view_model.discount.DiscountCreateReque
 import com.mascara.electronicstoremanage.view_model.discount.DiscountPagingRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountViewModel;
+
+import java.util.Optional;
 
 /**
  * Created by: IntelliJ IDEA
@@ -20,4 +23,5 @@ import com.mascara.electronicstoremanage.view_model.discount.DiscountViewModel;
  */
 public interface DiscountRepository extends ModifyEntityRequest<DiscountCreateRequest, DiscountUpdateRequest, Long>,
         RetrieveEntityRequest<DiscountViewModel, DiscountPagingRequest, Long> {
+    Optional<Discount> getDiscountCurrentByProductId(Long productId);
 }

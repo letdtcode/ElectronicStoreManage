@@ -117,6 +117,10 @@ public class FeaturePropertyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllFeature();
+        addListener();
+    }
+
+    private void addListener() {
         featureTableView.setRowFactory(param -> {
             TableRow<FeatureViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

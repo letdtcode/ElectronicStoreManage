@@ -48,6 +48,10 @@ public class BrandPropertyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllBrand();
+        addListener();
+    }
+
+    private void addListener() {
         brandTableView.setRowFactory(param -> {
             TableRow<BrandViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

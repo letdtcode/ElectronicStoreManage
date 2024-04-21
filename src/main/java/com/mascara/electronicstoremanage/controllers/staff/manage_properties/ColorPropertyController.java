@@ -117,6 +117,10 @@ public class ColorPropertyController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllColor();
+        addListener();
+    }
+
+    private void addListener() {
         colorTableView.setRowFactory(param -> {
             TableRow<ColorViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {

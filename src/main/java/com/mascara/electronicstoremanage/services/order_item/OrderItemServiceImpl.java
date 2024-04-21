@@ -5,6 +5,8 @@ import com.mascara.electronicstoremanage.view_model.order_item.OrderItemCreateRe
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.CardItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CardItemViewModel;
 
 import java.util.List;
 
@@ -51,5 +53,10 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public List<OrderItemViewModel> retrieveAllOrderItem(OrderItemPagingRequest request) {
         return OrderItemRepositoryImpl.getInstance().retrieveAll(request);
+    }
+
+    @Override
+    public List<CardItemViewModel> retrieveAllCartItem(Long orderId, CardItemPagingRequest request) {
+        return OrderItemRepositoryImpl.getInstance().retrieveAllCartItem(orderId, request);
     }
 }

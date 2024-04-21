@@ -1,8 +1,10 @@
 package com.mascara.electronicstoremanage.common.mapper;
 
 import com.mascara.electronicstoremanage.entities.Color;
+import com.mascara.electronicstoremanage.entities.Discount;
 import com.mascara.electronicstoremanage.entities.Feature;
 import com.mascara.electronicstoremanage.entities.Product;
+import com.mascara.electronicstoremanage.repositories.discount.DiscountRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
 import org.mapstruct.Mapper;
@@ -11,6 +13,7 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,13 +42,28 @@ public interface ProductMapper {
     @Mapping(source = "category.categoryName", target = "categoryName")
     @Mapping(source = "colorSet", target = "colorNameList", qualifiedByName = "mapColorSetToList")
     @Mapping(source = "colorSet", target = "colorNameListShow", qualifiedByName = "mapColorSetToStringShow")
-    ProductSaleViewModel entityToViewModelSale(Product product);
+    @Mapping(source = "id", target = "discountValueShow", qualifiedByName = "mapProductIdToDiscountValueShow")
+    ProductSaleViewModel entityToSaleViewModel(Product product);
 
     @Named("mapFeatureSetToList")
     default List<String> mapFeatureSetToList(Set<Feature> featureSet) {
         return featureSet.stream()
                 .map(Feature::getFeatureName)
                 .collect(Collectors.toList());
+    }
+
+    @Named("mapProductIdToDiscountValueShow")
+    default String mapProductIdToDiscountValueShow(Long productId) {
+        String result = "Không áp dụng";
+        Optional<Discount> discountOptional = DiscountRepositoryImpl.getInstance().getDiscountCurrentByProductId(productId);
+        if (discountOptional.isPresent()) {
+            Discount discount = discountOptional.get();
+            switch (discount.getTypeDiscount()) {
+                case CASH -> result = discount.getDiscountValue().toString() + " VND";
+                case PERCENT -> result = discount.getDiscountValue().toString() + " %";
+            }
+        }
+        return result;
     }
 
     @Named("mapFeatureSetToStringShow")
