@@ -226,7 +226,6 @@ public class ManageCustomerController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }
-
     }
 
     private boolean validateDataCustomer(String fullName, String phoneNumber, String email, String address) {

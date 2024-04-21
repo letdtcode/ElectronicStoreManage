@@ -35,7 +35,7 @@ public class FXMLLoaderUtils {
             Stage stage = new Stage();
             stage.initOwner(request.getNodeOwner().getScene().getWindow());
             stage.initModality(Modality.WINDOW_MODAL);
-            stage.setScene(new Scene(root, 405, 433));
+            stage.setScene(new Scene(root, request.getWidth(), request.getHeight()));
             stage.setTitle(request.getTitle());
             stage.show();
         } catch (IOException e) {

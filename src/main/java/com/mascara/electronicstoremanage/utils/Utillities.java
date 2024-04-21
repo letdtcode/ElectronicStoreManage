@@ -10,6 +10,7 @@ import java.text.Normalizer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -22,6 +23,8 @@ import java.util.regex.Pattern;
 public class Utillities {
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+    private static final Pattern STRONG_PASSWORD = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\\\d)(?=.*[@#$%^&+=]).{8,}$", Pattern.CASE_INSENSITIVE);
+
 
     private static Utillities instance = null;
 
@@ -33,6 +36,11 @@ public class Utillities {
 
     private Utillities() {
 
+    }
+
+    public boolean checkStrongPassword(String password) {
+        Matcher matcher = STRONG_PASSWORD.matcher(password);
+        return matcher.matches();
     }
 
     public String toSlug(String input) {

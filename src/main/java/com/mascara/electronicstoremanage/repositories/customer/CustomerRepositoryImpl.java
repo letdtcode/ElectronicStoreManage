@@ -45,6 +45,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 .email(request.getEmail())
                 .address(request.getAddress())
                 .sex(request.getSex())
+                .status(request.getStatus())
                 .build();
         Long customerId = -1L;
         try {
@@ -81,6 +82,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.setEmail(request.getEmail());
                 customer.setAddress(request.getAddress());
                 customer.setSex(request.getSex());
+                customer.setStatus(request.getStatus());
                 return HibernateUtils.merge(customer);
             }
         } catch (Exception e) {

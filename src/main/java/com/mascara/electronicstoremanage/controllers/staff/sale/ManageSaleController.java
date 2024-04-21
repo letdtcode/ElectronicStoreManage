@@ -1,25 +1,33 @@
 package com.mascara.electronicstoremanage.controllers.staff.sale;
 
+import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfDeliveryEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;
+import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.services.category.CategoryServiceImpl;
+import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.services.order_item.OrderItemServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
+import com.mascara.electronicstoremanage.utils.AlertUtils;
+import com.mascara.electronicstoremanage.utils.FXMLLoaderUtils;
+import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.StageRequestUtils;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryViewModel;
+import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductPagingRequest;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemViewModel;
-import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
-import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -130,6 +138,10 @@ public class ManageSaleController implements Initializable {
     private ObservableList<String> deliveryNameList = FXCollections.observableArrayList(
             ModeOfDeliveryEnum.DIRECT_SALE.getDisplay(),
             ModeOfDeliveryEnum.OTHER.getDisplay());
+    @FXML
+    private AnchorPane anchorPanelSale;
+    @FXML
+    private Button btnReloadCustomerData;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -207,5 +219,39 @@ public class ManageSaleController implements Initializable {
         originColumn.setCellValueFactory(new PropertyValueFactory<>("origin"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         productTableView.setItems(productSaleViewModels);
+    }
+
+    @FXML
+    public void setOnActionShowDialogChangeCustomer(ActionEvent actionEvent) {
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/form_change_customer_sale.fxml")
+                .title("Thay đổi khách hàng")
+                .nodeOwner((Node) actionEvent.getSource())
+                .width(612d)
+                .height(422d)
+                .build();
+        FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
+    }
+
+    @FXML
+    public void setOnActionReloadChangeCustomer(ActionEvent actionEvent) {
+        lblIdCustomer.setText(String.valueOf(SharedCustomer.getInstance().getCustomerId()));
+        lblNameCustomer.setText(SharedCustomer.getInstance().getNameCustomer());
+    }
+
+    @FXML
+    public void setOnActionCreateOrder(ActionEvent actionEvent) {
+        OrderCreateRequest request = OrderCreateRequest.builder()
+                .customerId(Long.valueOf(lblIdCustomer.getText()))
+                .staffId(1L)
+                .status(OrderStatusEnum.PENDING)
+                .build();
+        Long orderId = OrderServiceImpl.getInstance().insertOrder(request);
+        if (orderId == -1) {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+        } else {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CREATE_ORDER_SUCCESS);
+        }
+        retrieveAllOrderWaiting();
     }
 }

@@ -3,10 +3,10 @@ package com.mascara.electronicstoremanage.services.order;
 import com.mascara.electronicstoremanage.repositories.order.OrderRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
-import com.mascara.electronicstoremanage.view_model.order.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 
 import java.util.List;
@@ -44,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean deleteOrder(Long id) {
         return OrderRepositoryImpl.getInstance().delete(id);
+    }
+
+    @Override
+    public boolean cancelOrder(Long id) {
+        return OrderRepositoryImpl.getInstance().cancelOrder(id);
     }
 
     @Override

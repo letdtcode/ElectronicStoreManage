@@ -1,9 +1,6 @@
 package com.mascara.electronicstoremanage.view_model.role;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +12,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RoleUpdateRequest {
+    private Long id;
+    private String roleName;
 }

@@ -2,10 +2,7 @@ package com.mascara.electronicstoremanage.view_model.staff;
 
 import com.mascara.electronicstoremanage.enums.general.SexEnum;
 import com.mascara.electronicstoremanage.enums.staff.StaffStatusEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -20,6 +17,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class StaffViewModel {
     private Long id;
     private String fullName;

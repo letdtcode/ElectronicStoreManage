@@ -13,6 +13,8 @@ public class MessageUtils {
 
     public static String WARNING_DATA_NOT_VALID = "Vui lòng nhập đầy đủ dữ liệu";
     public static String WARNING_SELECT_ROW = "Vui lòng chọn 1 hàng để cập nhật";
+    public static String WARNING_HAS_ERROR_OCCURRED = "Đã có lỗi xảy ra";
+
     //    Brand CRUD Message
     public static String INFO_CREATE_BRAND_SUCCESS = "Thêm mới thương hiệu thành công";
     public static String INFO_UPDATE_BRAND_SUCCESS = "Cập nhật thương hiệu thành công";
@@ -62,4 +64,8 @@ public class MessageUtils {
     public static String INFO_CREATE_CUSTOMER_SUCCESS = "Thêm mới khách hàng thành công";
     public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
     public static String WARNING_PHONE_NUMBER_DUPLICATED = "Số điện thoại đã tồn tại";
+
+    //    Sale Message
+    public static String INFO_CREATE_ORDER_SUCCESS = "Tạo hóa đơn mới thành công";
+//    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
 }

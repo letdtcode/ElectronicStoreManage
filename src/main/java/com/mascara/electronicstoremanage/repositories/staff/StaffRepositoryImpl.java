@@ -1,5 +1,8 @@
 package com.mascara.electronicstoremanage.repositories.staff;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.mascara.electronicstoremanage.common.mapper.StaffMapper;
+import com.mascara.electronicstoremanage.entities.Role;
 import com.mascara.electronicstoremanage.entities.Staff;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
@@ -10,6 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,26 +50,118 @@ public class StaffRepositoryImpl implements StaffRepository {
 
     @Override
     public Long insert(StaffCreateRequest request) {
-        return null;
+        Session session = HibernateUtils.getSession();
+        Transaction tx = null;
+        Long staffId = -1L;
+        try {
+            tx = session.beginTransaction();
+            Optional<Role> roleOptional = session.createQuery("select r from Role r where r.roleName =: roleName", Role.class)
+                    .setParameter("roleName", request.getRoleName())
+                    .uniqueResultOptional();
+            Optional<Staff> staffOptional = session.createQuery("select s from Staff s where s.phoneNumber =: phoneNumber or s.userName =: userName and s.deleted is false", Staff.class)
+                    .setParameter("phoneNumber", request.getPhoneNumber())
+                    .setParameter("userName", request.getUserName())
+                    .uniqueResultOptional();
+
+            if (!staffOptional.isPresent() && roleOptional.isPresent()) {
+                Staff staff = Staff.builder()
+                        .fullName(request.getFullName())
+                        .phoneNumber(request.getPhoneNumber())
+                        .email(request.getEmail())
+                        .dateOfBirth(request.getDateOfBirth())
+                        .sex(request.getSex())
+                        .userName(request.getUserName())
+                        .password(request.getPassword())
+                        .role(roleOptional.get())
+                        .roleId(roleOptional.get().getId())
+                        .status(request.getStatus())
+                        .build();
+                session.persist(staff);
+                staffId = staff.getId();
+                tx.commit();
+            }
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return staffId;
     }
 
     @Override
     public boolean update(StaffUpdateRequest request) {
+        Session session = HibernateUtils.getSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Optional<Role> roleOptional = session.createQuery("select r from Role r where r.roleName =: roleName", Role.class)
+                    .setParameter("roleName", request.getRoleName())
+                    .uniqueResultOptional();
+            Optional<Staff> staffOptional = session.createQuery("select s from Staff s where s.phoneNumber =: phoneNumber or s.userName =: userName and s.id !=: id and s.deleted is false", Staff.class)
+                    .setParameter("phoneNumber", request.getPhoneNumber())
+                    .setParameter("userName", request.getUserName())
+                    .uniqueResultOptional();
+            transaction.commit();
+            if (!staffOptional.isPresent() && roleOptional.isPresent()) {
+                String hashedPassword = BCrypt.withDefaults().hashToString(12, request.getPassword().toCharArray());
+
+                Staff staff = session.find(Staff.class, request.getId());
+                staff.setFullName(request.getFullName());
+                staff.setPhoneNumber(request.getPhoneNumber());
+                staff.setEmail(request.getEmail());
+                staff.setDateOfBirth(request.getDateOfBirth());
+                staff.setSex(request.getSex());
+                staff.setUserName(request.getUserName());
+                staff.setPassword(hashedPassword);
+                staff.setRole(roleOptional.get());
+                staff.setRoleId(roleOptional.get().getId());
+                staff.setStatus(request.getStatus());
+                return HibernateUtils.merge(staff);
+            }
+        } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return false;
     }
 
     @Override
     public boolean delete(Long idEntity) {
-        return false;
+        Session session = HibernateUtils.getSession();
+        Staff staff = session.find(Staff.class, idEntity);
+        staff.setDeleted(true);
+        session.close();
+        return HibernateUtils.merge(staff);
     }
 
     @Override
     public StaffViewModel retrieveById(Long entityId) {
-        return null;
+        Session session = HibernateUtils.getSession();
+        Staff staff = session.find(Staff.class, entityId);
+        StaffViewModel staffViewModel = StaffMapper.getInstance.entityToViewModel(staff);
+        return staffViewModel;
     }
 
     @Override
     public List<StaffViewModel> retrieveAll(StaffPagingRequest request) {
-        return null;
+        List<StaffViewModel> list = new ArrayList<>();
+        Session session = HibernateUtils.getSession();
+        int offset = (request.getPageIndex() - 1) * request.getPageSize();
+        String cmd = HibernateUtils.getRetrieveAllQuery("Staff", request);
+        Query query = session.createQuery(cmd, Staff.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(request.getPageSize());
+        List<Staff> staffList = query.getResultList();
+
+        for (Staff staff : staffList) {
+            list.add(StaffMapper.getInstance.entityToViewModel(staff));
+        }
+        session.close();
+        return list;
     }
 }

@@ -1,6 +1,7 @@
 package com.mascara.electronicstoremanage.entities;
 
 import com.mascara.electronicstoremanage.entities.base.BasePesistence;
+import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
 import com.mascara.electronicstoremanage.enums.general.SexEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,10 @@ public class Customer extends BasePesistence {
     @Column(name = "sex")
     @Enumerated(EnumType.STRING)
     private SexEnum sex;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CustomerStatusEnum status;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     @Fetch(FetchMode.SUBSELECT)

@@ -48,7 +48,7 @@
                               <TableColumn fx:id="statusColumn" maxWidth="855.9994506835938" minWidth="30.0" prefWidth="85.59994506835938" text="Trạng thái" />
                           </columns>
                         </TableView>
-                        <Button fx:id="btnChooseCustomer" layoutX="285.0" layoutY="354.0" mnemonicParsing="false" text="Chọn">
+                        <Button fx:id="btnChooseCustomer" layoutX="285.0" layoutY="354.0" mnemonicParsing="false" onAction="#setOnActionSubmitChangeCustomer" text="Chọn">
                            <font>
                               <Font name="Segoe UI" size="13.0" />
                            </font>
@@ -125,7 +125,7 @@
                               <TextField fx:id="txtNameCustomer" prefHeight="26.0" prefWidth="280.0" />
                               <HBox spacing="20.0">
                                  <children>
-                                    <RadioButton fx:id="rdbMale" mnemonicParsing="false" text="Nam">
+                                    <RadioButton fx:id="rdbMale" mnemonicParsing="false" onAction="#setOnChangeSex" selected="true" text="Nam">
                                        <font>
                                           <Font name="Segoe UI" size="14.0" />
                                        </font>
@@ -133,7 +133,7 @@
                                           <ToggleGroup fx:id="sexGroup" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="rdbFemale" mnemonicParsing="false" text="Nữ">
+                                    <RadioButton fx:id="rdbFemale" mnemonicParsing="false" onAction="#setOnChangeSex" text="Nữ" toggleGroup="$sexGroup">
                                        <font>
                                           <Font name="Segoe UI" size="14.0" />
                                        </font>
@@ -144,7 +144,7 @@
                               <TextField fx:id="txtEmail" maxWidth="280.0" prefHeight="26.0" prefWidth="280.0" />
                               <HBox spacing="10.0">
                                  <children>
-                                    <RadioButton fx:id="rdbActive" mnemonicParsing="false" text="Đang hoạt động">
+                                    <RadioButton fx:id="rdbActive" mnemonicParsing="false" onAction="#setOnChangeStatus" selected="true" text="Đang hoạt động">
                                        <font>
                                           <Font name="Segoe UI" size="14.0" />
                                        </font>
@@ -152,7 +152,7 @@
                                           <ToggleGroup fx:id="statusGroup" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="rdbInActive" mnemonicParsing="false" text="Ngừng hoạt động" toggleGroup="$statusGroup">
+                                    <RadioButton fx:id="rdbInActive" mnemonicParsing="false" onAction="#setOnChangeStatus" text="Ngừng hoạt động" toggleGroup="$statusGroup">
                                        <font>
                                           <Font name="Segoe UI" size="14.0" />
                                        </font>

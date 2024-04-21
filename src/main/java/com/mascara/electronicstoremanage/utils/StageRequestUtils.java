@@ -1,10 +1,7 @@
 package com.mascara.electronicstoremanage.utils;
 
 import javafx.scene.Node;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -17,8 +14,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class StageRequestUtils {
     private String url;
     private String title;
     private Node nodeOwner;
+    private Double width;
+    private Double height;
 }

@@ -46,7 +46,7 @@
                            <toggleGroup>
                               <ToggleGroup fx:id="sexGroup" />
                            </toggleGroup></RadioButton>
-                        <RadioButton fx:id="rdbFemale" mnemonicParsing="false" text="Nữ" toggleGroup="$sexGroup" />
+                        <RadioButton fx:id="rdbFemale" mnemonicParsing="false" onAction="#setOnActionChangeSex" text="Nữ" toggleGroup="$sexGroup" />
                      </children>
                   </HBox>
                   <ComboBox fx:id="cbbStatusCustomer" prefHeight="26.0" prefWidth="268.0" />

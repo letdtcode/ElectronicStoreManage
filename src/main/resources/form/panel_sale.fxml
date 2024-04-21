@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.sale.ManageSaleController">
+<AnchorPane fx:id="anchorPanelSale" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.sale.ManageSaleController">
    <children>
       <Pane opacity="0.94" prefHeight="216.0" prefWidth="526.0" style="-fx-border-radius: 20;">
          <children>
@@ -89,8 +89,8 @@
             </VBox>
             <VBox layoutX="168.0" layoutY="161.0" spacing="25.0">
                <children>
-                  <Text fx:id="lblIdOrder" strokeType="OUTSIDE" strokeWidth="0.0" text="12" />
-                  <Text fx:id="lblTotalBill" lineSpacing="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7.700.700" />
+                  <Text fx:id="lblIdOrder" strokeType="OUTSIDE" strokeWidth="0.0" text="Vui lòng tạo !" />
+                  <Text fx:id="lblTotalBill" lineSpacing="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                   <Text fx:id="lblDiscountMoney" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                   <Text fx:id="lblTotalPay" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
                   <TextField fx:id="txtCustomerGive" prefHeight="26.0" prefWidth="100.0" />
@@ -100,13 +100,14 @@
                      </VBox.margin></Text>
                </children>
             </VBox>
-            <Pane layoutX="14.0" layoutY="39.0" prefHeight="98.0" prefWidth="338.0" style="-fx-background-color: #5CC4ED;">
+            <Pane layoutX="14.0" layoutY="39.0" prefHeight="98.0" prefWidth="338.0" style="-fx-background-color: #BFEDEB; -fx-border-color: #c5c5c5; -fx-border-width: 2;">
                <children>
                   <Text layoutX="18.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khách hàng:" />
                   <Text layoutX="17.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khách hàng:" />
                   <Text fx:id="lblIdCustomer" layoutX="184.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
                   <Text fx:id="lblNameCustomer" layoutX="153.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Khách bán lẻ" />
-                  <Button fx:id="btnChangeCustomer" layoutX="260.0" layoutY="53.0" mnemonicParsing="false" text="Thay đổi" />
+                  <Button fx:id="btnChangeCustomer" layoutX="260.0" layoutY="53.0" mnemonicParsing="false" onAction="#setOnActionShowDialogChangeCustomer" text="Thay đổi" />
+                  <Button fx:id="btnReloadCustomerData" layoutX="267.0" layoutY="8.0" mnemonicParsing="false" onAction="#setOnActionReloadChangeCustomer" prefHeight="39.0" prefWidth="43.0" styleClass="btnReloadCustomerData" stylesheets="@../style.css" />
                </children>
             </Pane>
             <VBox layoutX="289.0" layoutY="204.0" spacing="25.0">
@@ -123,7 +124,7 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font></Button>
             <TextArea fx:id="textareaNote" layoutX="33.0" layoutY="518.0" prefHeight="86.0" prefWidth="300.0" />
-            <Button fx:id="btnCreateOrder" layoutX="272.0" layoutY="161.0" mnemonicParsing="false" text="Tạo mới" />
+            <Button fx:id="btnCreateOrder" layoutX="272.0" layoutY="161.0" mnemonicParsing="false" onAction="#setOnActionCreateOrder" text="Tạo mới" />
             <ComboBox fx:id="cbbPayment" layoutX="168.0" layoutY="403.0" prefHeight="25.0" prefWidth="159.0" />
             <ComboBox fx:id="cbbDelivery" layoutX="168.0" layoutY="444.0" prefHeight="25.0" prefWidth="159.0" />
             <Button fx:id="btnCancelOrder" layoutX="63.0" layoutY="619.0" mnemonicParsing="false" text="Hủy hóa đơn" />

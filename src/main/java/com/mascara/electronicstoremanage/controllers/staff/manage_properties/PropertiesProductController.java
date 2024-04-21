@@ -26,33 +26,49 @@ public class PropertiesProductController {
 
     @FXML
     public void showFormColor(Event event) {
-        StageRequestUtils requestUtils = new StageRequestUtils("/form/properties/form_color_property.fxml",
-                "Quản lý màu sắc",
-                (Node) event.getSource());
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/properties/form_color_property.fxml")
+                .title("Quản lý màu sắc")
+                .nodeOwner((Node) event.getSource())
+                .width(405d)
+                .height(433d)
+                .build();
         FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
     }
 
     @FXML
     public void showFormBrand(Event event) {
-        StageRequestUtils requestUtils = new StageRequestUtils("/form/properties/form_brand_property.fxml",
-                "Quản lý thương hiệu",
-                (Node) event.getSource());
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/properties/form_brand_property.fxml")
+                .title("Quản lý thương hiệu")
+                .nodeOwner((Node) event.getSource())
+                .width(405d)
+                .height(433d)
+                .build();
         FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
     }
 
     @FXML
     public void showFormFeature(Event event) {
-        StageRequestUtils requestUtils = new StageRequestUtils("/form/properties/form_feature_property.fxml",
-                "Quản lý tính năng",
-                (Node) event.getSource());
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/properties/form_feature_property.fxml")
+                .title("Quản lý tính năng")
+                .nodeOwner((Node) event.getSource())
+                .width(405d)
+                .height(433d)
+                .build();
         FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
     }
 
     @FXML
     public void showFormMaterial(Event event) {
-        StageRequestUtils requestUtils = new StageRequestUtils("/form/properties/form_material_property.fxml",
-                "Quản lý chất liệu",
-                (Node) event.getSource());
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/properties/form_material_property.fxml")
+                .title("Quản lý chất liệu")
+                .nodeOwner((Node) event.getSource())
+                .width(405d)
+                .height(433d)
+                .build();
         FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
     }
 }

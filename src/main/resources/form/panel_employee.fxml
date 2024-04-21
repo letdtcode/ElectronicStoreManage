@@ -14,7 +14,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_employee.ManageEmployeeController">
    <children>
       <Pane layoutX="14.0" layoutY="30.0" prefHeight="231.0" prefWidth="1122.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
@@ -81,22 +80,22 @@
                <children>
                   <VBox layoutX="25.0" layoutY="8.0" spacing="8.0">
                      <children>
-                        <Button fx:id="btnAddCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Thêm">
+                        <Button fx:id="btnAddStaff" mnemonicParsing="false" onAction="#setOnActionCreateStaff" prefHeight="42.0" prefWidth="149.0" text="Thêm">
                            <font>
                               <Font name="Segoe UI Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnUpdateCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Sửa">
+                        <Button fx:id="btnUpdateStaff" mnemonicParsing="false" onAction="#setOnActionUpdateStaff" prefHeight="42.0" prefWidth="149.0" text="Sửa">
                            <font>
                               <Font name="Segoe UI Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnDeleteCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Xóa">
+                        <Button fx:id="btnDeleteStaff" mnemonicParsing="false" onAction="#setOnActionDeleteStaff" prefHeight="42.0" prefWidth="149.0" text="Xóa">
                            <font>
                               <Font name="Segoe UI Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="btnReloadCategory" mnemonicParsing="false" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
+                        <Button fx:id="btnReloadStaff" mnemonicParsing="false" onAction="#setOnActionReloadStaff" prefHeight="42.0" prefWidth="149.0" text="Làm mới">
                            <font>
                               <Font name="Segoe UI Bold" size="13.0" />
                            </font>
@@ -107,20 +106,20 @@
             </Pane>
             <VBox layoutX="153.0" layoutY="25.0" spacing="15.0">
                <children>
-                  <TextField />
-                  <TextField />
-                  <TextField />
-                  <TextField />
-                  <ComboBox prefWidth="150.0" />
+                  <TextField fx:id="txtIdStaff" />
+                  <TextField fx:id="txtFullNameStaff" />
+                  <TextField fx:id="txtPhoneNumber" />
+                  <TextField fx:id="txtEmail" />
+                  <ComboBox fx:id="cbbRole" prefWidth="150.0" />
                </children>
             </VBox>
             <VBox layoutX="610.0" layoutY="13.0" spacing="15.0">
                <children>
-                  <DatePicker />
-                  <TextField />
-                  <TextField />
-                  <ComboBox prefHeight="26.0" prefWidth="177.0" />
-                  <ComboBox prefHeight="26.0" prefWidth="178.0" />
+                  <DatePicker fx:id="dtpDateOfBirth" />
+                  <TextField fx:id="txtUserName" />
+                  <TextField fx:id="txtPassword" />
+                  <ComboBox fx:id="cbbSex" prefHeight="26.0" prefWidth="177.0" />
+                  <ComboBox fx:id="cbbStatus" prefHeight="26.0" prefWidth="178.0" />
                </children>
             </VBox>
          </children>
@@ -137,7 +136,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Text>
-                  <ComboBox prefHeight="25.0" prefWidth="159.0" />
+                  <ComboBox fx:id="cbbSexFilter" prefHeight="25.0" prefWidth="159.0" />
                </children>
             </HBox>
             <HBox layoutX="423.0" layoutY="17.0" spacing="30.0">
@@ -150,7 +149,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Text>
-                  <ComboBox prefHeight="25.0" prefWidth="159.0" />
+                  <ComboBox fx:id="cbbRoleFilter" prefHeight="25.0" prefWidth="159.0" />
                </children>
             </HBox>
          </children>
@@ -168,7 +167,7 @@
       </Text>
       <Pane layoutX="851.0" layoutY="298.0" prefHeight="54.0" prefWidth="270.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
          <children>
-            <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="245.0" />
+            <TextField fx:id="txtSearchStaff" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="245.0" />
          </children>
       </Pane>
       <Text layoutX="859.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm">
@@ -176,18 +175,18 @@
             <Font name="Segoe UI Bold" size="13.0" />
          </font>
       </Text>
-      <TableView layoutX="17.0" layoutY="390.0" prefHeight="358.0" prefWidth="1112.0">
+      <TableView fx:id="staffTableView" layoutX="17.0" layoutY="390.0" prefHeight="358.0" prefWidth="1112.0">
         <columns>
-          <TableColumn prefWidth="97.60000228881836" text="Mã nhân viên" />
-          <TableColumn prefWidth="88.0" text="Họ và tên" />
-            <TableColumn prefWidth="108.00001525878906" text="Số điện thoại" />
-            <TableColumn prefWidth="93.5999755859375" text="Email" />
-            <TableColumn prefWidth="87.20001220703125" text="Vai trò" />
-            <TableColumn prefWidth="133.5999755859375" text="Ngày sinh" />
-            <TableColumn prefWidth="173.60003662109375" text="Username" />
-            <TableColumn prefWidth="165.5999755859375" text="Password" />
-            <TableColumn prefWidth="73.5999755859375" text="Giới tính" />
-            <TableColumn prefWidth="96.00006103515625" text="Trạng thái" />
+          <TableColumn fx:id="idStaffColumn" prefWidth="97.60000228881836" text="Mã nhân viên" />
+          <TableColumn fx:id="fullNameColumn" prefWidth="88.0" text="Họ và tên" />
+            <TableColumn fx:id="phoneNumberColumn" prefWidth="108.00001525878906" text="Số điện thoại" />
+            <TableColumn fx:id="emailColumn" prefWidth="93.5999755859375" text="Email" />
+            <TableColumn fx:id="roleColumn" prefWidth="87.20001220703125" text="Vai trò" />
+            <TableColumn fx:id="dateOfBirthColumn" prefWidth="133.5999755859375" text="Ngày sinh" />
+            <TableColumn fx:id="userNameColumn" prefWidth="173.60003662109375" text="Username" />
+            <TableColumn fx:id="passwordColumn" prefWidth="165.5999755859375" text="Password" />
+            <TableColumn fx:id="sexColumn" prefWidth="73.5999755859375" text="Giới tính" />
+            <TableColumn fx:id="statusColumn" prefWidth="96.00006103515625" text="Trạng thái" />
         </columns>
       </TableView>
    </children>
