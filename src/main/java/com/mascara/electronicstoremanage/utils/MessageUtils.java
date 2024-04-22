@@ -67,6 +67,11 @@ public class MessageUtils {
 
     //    Sale Message
     public static String INFO_CREATE_ORDER_SUCCESS = "Tạo hóa đơn mới thành công";
+    public static String INFO_ADD_CART_ITEM_SUCCESS = "Đã thêm sản phẩm vào giỏ hàng";
+    public static String INFO_DELETE_CART_ITEM_SUCCESS = "Đã xóa sản phẩm khỏi giỏ hàng";
+    public static String INFO_DELETE_ALL_CART_ITEM_SUCCESS = "Đã xóa tất cả sản phẩm trong hóa đơn đang chờ";
+    public static String WARNING_MUST_CHOOSE_PRODUCT_AND_ORDER = "Vui lòng chọn sản phẩm muốn thêm vào giỏ";
+
 //    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
 
     //    Staff CRUD Message

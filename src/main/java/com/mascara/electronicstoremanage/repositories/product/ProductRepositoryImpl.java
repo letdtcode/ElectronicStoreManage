@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +42,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Long insert(ProductCreateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
+        UUID uuidCode= UUID.randomUUID();
         Product product = Product.builder()
                 .productName(request.getProductName())
                 .description(request.getDescription())
@@ -54,6 +56,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .warrantyPeriod(request.getWarrantyPeriod())
                 .warrantyPeriodUnit(request.getWarrantyPeriodUnit())
                 .size(request.getSize())
+                .code(uuidCode.toString())
                 .status(request.getStatus())
                 .build();
         Long productId = -1L;
@@ -159,7 +162,9 @@ public class ProductRepositoryImpl implements ProductRepository {
         Session session = HibernateUtils.getSession();
         Product product = session.find(Product.class, idEntity);
         Optional<Order> orderOptional = session.createQuery("select o from Order o join OrderItem oi on o.id = oi.orderId where oi.productId =: productId and o.status = 'PENDING'", Order.class)
-                .setParameter("productId", idEntity).uniqueResultOptional();
+                .setParameter("productId", idEntity)
+                .setMaxResults(1)
+                .uniqueResultOptional();
         if(orderOptional.isPresent())
             return false;
 

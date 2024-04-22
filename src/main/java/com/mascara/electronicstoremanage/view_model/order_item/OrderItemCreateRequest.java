@@ -1,9 +1,6 @@
 package com.mascara.electronicstoremanage.view_model.order_item;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OrderItemCreateRequest {
+    private Integer quantity;
+    private Long orderId;
+    private Long productId;
 }

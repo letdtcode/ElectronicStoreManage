@@ -46,6 +46,11 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    public boolean deleteAllCardItem(Long orderId) {
+        return OrderItemRepositoryImpl.getInstance().deleteAllCardItem(orderId);
+    }
+
+    @Override
     public OrderItemViewModel retrieveOrderItemById(Long id) {
         return OrderItemRepositoryImpl.getInstance().retrieveById(id);
     }

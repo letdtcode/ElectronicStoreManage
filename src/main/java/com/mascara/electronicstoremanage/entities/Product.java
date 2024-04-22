@@ -131,4 +131,7 @@ public class Product extends BasePesistence {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ProductStatusEnum status;
+
+    @Column(name = "code")
+    private String code;
 }

@@ -39,15 +39,15 @@
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="btnSearchProduct" layoutX="151.0" layoutY="29.0" prefHeight="25.0" prefWidth="276.0" />
+            <TextField fx:id="txtSearchProduct" layoutX="151.0" layoutY="29.0" prefHeight="25.0" prefWidth="276.0" />
             <Text layoutX="17.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm sản phẩm:" />
-            <Button fx:id="btnAddToCard" layoutX="666.0" layoutY="155.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="111.0" text="Thêm vào giỏ">
+            <Button fx:id="btnAddToCard" layoutX="666.0" layoutY="155.0" mnemonicParsing="false" onAction="#setOnActionAddToCart" prefHeight="70.0" prefWidth="111.0" text="Thêm vào giỏ">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </Button>
             <Text layoutX="516.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục:" />
-            <ComboBox fx:id="cbbCategoryName" layoutX="591.0" layoutY="29.0" prefWidth="150.0" />
+            <ComboBox fx:id="cbbCategoryNameFilter" layoutX="591.0" layoutY="29.0" prefWidth="150.0" />
             <TableView fx:id="productTableView" layoutX="16.0" layoutY="68.0" prefHeight="228.0" prefWidth="630.0">
               <columns>
                 <TableColumn fx:id="idProductColumn" prefWidth="89.59997177124023" text="Mã sản phẩm" />
@@ -87,7 +87,7 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ghi chú:" />
                </children>
             </VBox>
-            <VBox layoutX="168.0" layoutY="161.0" spacing="25.0">
+            <VBox layoutX="168.0" layoutY="155.0" spacing="25.0">
                <children>
                   <Text fx:id="lblIdOrder" strokeType="OUTSIDE" strokeWidth="0.0" text="Vui lòng tạo !" />
                   <Text fx:id="lblTotalBill" lineSpacing="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
@@ -124,11 +124,11 @@
                   <Font name="Segoe UI Bold" size="24.0" />
                </font></Button>
             <TextArea fx:id="textareaNote" layoutX="33.0" layoutY="518.0" prefHeight="86.0" prefWidth="300.0" />
-            <Button fx:id="btnCreateOrder" layoutX="272.0" layoutY="161.0" mnemonicParsing="false" onAction="#setOnActionCreateOrder" text="Tạo mới" />
+            <Button fx:id="btnCreateOrder" layoutX="273.0" layoutY="155.0" mnemonicParsing="false" onAction="#setOnActionCreateOrder" text="Tạo mới" />
             <ComboBox fx:id="cbbPayment" layoutX="168.0" layoutY="403.0" prefHeight="25.0" prefWidth="159.0" />
             <ComboBox fx:id="cbbDelivery" layoutX="168.0" layoutY="444.0" prefHeight="25.0" prefWidth="159.0" />
             <Button fx:id="btnCancelOrder" layoutX="63.0" layoutY="619.0" mnemonicParsing="false" text="Hủy hóa đơn" />
-            <Button fx:id="btnReloadOrder" layoutX="231.0" layoutY="619.0" mnemonicParsing="false" text="Làm mới" />
+            <Button fx:id="btnReloadOrder" layoutX="231.0" layoutY="619.0" mnemonicParsing="false" onAction="#setOnActionReloadOrder" text="Làm mới" />
          </children>
       </Pane>
       <Pane layoutX="14.0" layoutY="222.0" prefHeight="240.0" prefWidth="779.0">
@@ -146,8 +146,13 @@
                   <TableColumn fx:id="quantityProductInCartColumn" prefWidth="175.5999755859375" text="Số lượng" />
               </columns>
             </TableView>
-            <Button fx:id="btnDeleteCardItem" layoutX="660.0" layoutY="79.0" mnemonicParsing="false" text="Xóa sản phẩm" />
-            <Button fx:id="btnDelteAllCardItem" layoutX="661.0" layoutY="148.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Xóa tất cả" />
+            <VBox layoutX="652.0" layoutY="61.0" spacing="20.0">
+               <children>
+                  <Button fx:id="btnDeleteCardItem1" mnemonicParsing="false" text="Thay đổi số lượng" />
+                  <Button fx:id="btnDeleteCardItem" mnemonicParsing="false" onAction="#setOnActionDeleteSingleCartItem" prefHeight="26.0" prefWidth="112.2" text="Xóa sản phẩm" />
+                  <Button fx:id="btnDelteAllCardItem" mnemonicParsing="false" onAction="#setOnActionDeleteAllCartItem" prefHeight="25.0" prefWidth="112.2" text="Xóa tất cả" />
+               </children>
+            </VBox>
          </children>
       </Pane>
    </children>

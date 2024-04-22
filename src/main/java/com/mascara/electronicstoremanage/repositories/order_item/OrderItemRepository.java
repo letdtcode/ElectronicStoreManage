@@ -21,4 +21,5 @@ import java.util.List;
 public interface OrderItemRepository extends ModifyEntityRequest<OrderItemCreateRequest, OrderItemUpdateRequest, Long>,
         RetrieveEntityRequest<OrderItemViewModel, OrderItemPagingRequest, Long> {
     List<CardItemViewModel> retrieveAllCartItem(Long orderId, CardItemPagingRequest request);
+    boolean deleteAllCardItem(Long orderId);
 }

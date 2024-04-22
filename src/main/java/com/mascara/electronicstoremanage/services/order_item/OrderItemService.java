@@ -22,6 +22,7 @@ public interface OrderItemService {
     boolean updateOrderItem(OrderItemUpdateRequest request);
 
     boolean deleteOrderItem(Long id);
+    boolean deleteAllCardItem(Long orderId);
 
     OrderItemViewModel retrieveOrderItemById(Long id);
 

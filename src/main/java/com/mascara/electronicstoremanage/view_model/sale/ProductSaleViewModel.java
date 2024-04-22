@@ -22,7 +22,7 @@ public class ProductSaleViewModel {
     private Long id;
     private String productName;
     private Double salePrice;
-    private Double quantity;
+    private Integer quantity;
     private String origin;
     private Double weight;
     private WeightUnitEnum weightUnit;

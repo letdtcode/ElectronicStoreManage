@@ -1,11 +1,9 @@
 package com.mascara.electronicstoremanage.controllers.staff.sale;
 
-import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfDeliveryEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;
 import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.services.category.CategoryServiceImpl;
-import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.services.order_item.OrderItemServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
@@ -15,12 +13,14 @@ import com.mascara.electronicstoremanage.utils.MessageUtils;
 import com.mascara.electronicstoremanage.utils.StageRequestUtils;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryViewModel;
-import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
+import com.mascara.electronicstoremanage.view_model.order_item.OrderItemCreateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,6 +33,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -47,11 +48,7 @@ public class ManageSaleController implements Initializable {
     @FXML
     private TableView<OrderWaitingViewModel> orderWaitingTableView;
     @FXML
-    private TextField btnSearchProduct;
-    @FXML
     private Button btnAddToCard;
-    @FXML
-    private ComboBox cbbCategoryName;
     @FXML
     private TableView<ProductSaleViewModel> productTableView;
     @FXML
@@ -142,24 +139,38 @@ public class ManageSaleController implements Initializable {
     private AnchorPane anchorPanelSale;
     @FXML
     private Button btnReloadCustomerData;
+    @FXML
+    private Button btnDeleteCardItem1;
+    @FXML
+    private TextField txtSearchProduct;
+    @FXML
+    private ComboBox cbbCategoryNameFilter;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllProduct();
         retrieveAllOrderWaiting();
         retrieveAllCardItem();
-        addListenerForEachRowOrder();
         setUpUI();
+        addListener();
     }
 
     private void setUpUI() {
+        btnCreateOrder.setDisable(false);
+        btnReloadCustomerData.setDisable(true);
+        btnChangeCustomer.setDisable(true);
+        btnAddToCard.setDisable(true);
+        btnCancelOrder.setDisable(true);
+
         CategoryPagingRequest request = new CategoryPagingRequest();
         List<CategoryViewModel> categoryViewModels = CategoryServiceImpl.getInstance().retrieveAllCategory(request);
-        categoryNameList = FXCollections.observableArrayList(categoryViewModels.stream()
-                .map(CategoryViewModel::getCategoryName).collect(Collectors.toList()));
+        List<String> categoryNames = categoryViewModels.stream()
+                .map(CategoryViewModel::getCategoryName).collect(Collectors.toList());
+        categoryNames.add(0, "Tất cả");
+        categoryNameList = FXCollections.observableArrayList(categoryNames);
 
-        cbbCategoryName.setItems(categoryNameList);
-        cbbCategoryName.getSelectionModel().selectFirst();
+        cbbCategoryNameFilter.setItems(categoryNameList);
+        cbbCategoryNameFilter.getSelectionModel().selectFirst();
 
         cbbPayment.setItems(paymentNameList);
         cbbDelivery.setItems(deliveryNameList);
@@ -170,28 +181,86 @@ public class ManageSaleController implements Initializable {
 
     private void retrieveAllCardItem() {
         cardItemViewModels = FXCollections.observableArrayList();
-        idProductInCartColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idProductInCartColumn.setCellValueFactory(new PropertyValueFactory<>("productId"));
         nameProductInCartColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         priceSaleInCartColumn.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         quantityProductInCartColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         cardItemsTableView.setItems(cardItemViewModels);
     }
 
-    private void addListenerForEachRowOrder() {
+    private void reloadDataCartItem(Long orderId) {
+        CardItemPagingRequest request = new CardItemPagingRequest();
+        request.setCondition(" orderId = " + orderId);
+        List<CardItemViewModel> cardItemList =
+                OrderItemServiceImpl.getInstance().retrieveAllCartItem(orderId, request);
+        cardItemViewModels = FXCollections.observableArrayList(cardItemList);
+        cardItemsTableView.setItems(cardItemViewModels);
+    }
+
+    private void addListener() {
         orderWaitingTableView.setRowFactory(param -> {
             TableRow<OrderWaitingViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 1 && (!row.isEmpty())) {
+                    btnCreateOrder.setDisable(true);
+                    btnReloadCustomerData.setDisable(false);
+                    btnChangeCustomer.setDisable(false);
+                    btnAddToCard.setDisable(false);
+                    btnCancelOrder.setDisable(false);
                     int rowIndex = orderWaitingTableView.getSelectionModel().getSelectedIndex();
                     OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getItems().get(rowIndex);
-                    CardItemPagingRequest request = new CardItemPagingRequest();
-                    List<CardItemViewModel> cardItemList =
-                            OrderItemServiceImpl.getInstance().retrieveAllCartItem(orderWaitingViewModel.getId(), request);
-                    cardItemViewModels = FXCollections.observableArrayList(cardItemList);
+                    reloadDataCartItem(orderWaitingViewModel.getId());
                 }
             });
             return row;
         });
+
+        //        search filter event
+        FilteredList<ProductSaleViewModel> filteredList = new FilteredList<>(productSaleViewModels, b -> true);
+        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterProductSale(newValue, cbbCategoryNameFilter.getValue().toString(),filteredList);
+        });
+
+        //        filter sex and status
+        cbbCategoryNameFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String categoryNameSelected = (String) cbbCategoryNameFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterProductSale(txtSearchProduct.getText().trim(), categoryNameSelected, filteredList);
+                }
+        );
+
+        SortedList<ProductSaleViewModel> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(productTableView.comparatorProperty());
+        productTableView.setItems(sortedList);
+    }
+
+    private void searchAndFilterProductSale(String newValueTextField, String categoryNameFilter,
+                                            FilteredList<ProductSaleViewModel> filteredList) {
+        filteredList.setPredicate(productSaleViewModel -> {
+            boolean resultSearch = searchByIdAndProductName(newValueTextField, productSaleViewModel);
+            boolean resultFilterCategoryName = filterByCategoryName(categoryNameFilter, productSaleViewModel);
+            return resultSearch && resultFilterCategoryName;
+        });
+    }
+
+    private boolean searchByIdAndProductName(String newValueTextField, ProductSaleViewModel productSaleViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (productSaleViewModel.getId().toString().equals(searchKeyword))
+            return true;
+        else if (productSaleViewModel.getProductName().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean filterByCategoryName(String categoryNameFilter, ProductSaleViewModel productSaleViewModel) {
+        if (categoryNameFilter.equals("Tất cả"))
+            return true;
+        if (categoryNameFilter.equals(productSaleViewModel.getCategoryName()))
+            return true;
+        return false;
     }
 
 
@@ -241,17 +310,83 @@ public class ManageSaleController implements Initializable {
 
     @FXML
     public void setOnActionCreateOrder(ActionEvent actionEvent) {
-        OrderCreateRequest request = OrderCreateRequest.builder()
-                .customerId(Long.valueOf(lblIdCustomer.getText()))
-                .staffId(1L)
-                .status(OrderStatusEnum.PENDING)
-                .build();
-        Long orderId = OrderServiceImpl.getInstance().insertOrder(request);
-        if (orderId == -1) {
-            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
-        } else {
-            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CREATE_ORDER_SUCCESS);
+        boolean confirm = AlertUtils.confirmationDialog("Yêu cầu xác nhận", "Xác nhận tạo mới hóa đơn ?");
+        if (confirm) {
+            OrderCreateRequest request = OrderCreateRequest.builder()
+                    .customerId(Long.valueOf(lblIdCustomer.getText()))
+                    .staffId(1L)
+                    .status(OrderStatusEnum.PENDING)
+                    .build();
+            Long orderId = OrderServiceImpl.getInstance().insertOrder(request);
+            if (orderId == -1) {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+            } else {
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CREATE_ORDER_SUCCESS);
+            }
+            retrieveAllOrderWaiting();
         }
+    }
+
+    @FXML
+    public void setOnActionReloadOrder(ActionEvent actionEvent) {
         retrieveAllOrderWaiting();
+        retrieveAllProduct();
+        setUpUI();
+        addListener();
+    }
+
+    @FXML
+    public void setOnActionAddToCart(ActionEvent actionEvent) {
+        if (orderWaitingTableView.getSelectionModel().getSelectedIndex() > -1 && productTableView.getSelectionModel().getSelectedIndex() > -1) {
+            OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+            ProductSaleViewModel productSaleViewModel = productTableView.getSelectionModel().getSelectedItem();
+
+            Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", "Vui lòng nhập số lượng sản phẩm: ");
+            if (quantityStr.isPresent()) {
+                int quantity = Integer.parseInt(quantityStr.get());
+                OrderItemCreateRequest request = OrderItemCreateRequest.builder()
+                        .quantity(quantity)
+                        .orderId(orderWaitingViewModel.getId())
+                        .productId(productSaleViewModel.getId())
+                        .build();
+                Long orderItemId = OrderItemServiceImpl.getInstance().insertOrderItem(request);
+                if (orderItemId != -1) {
+                    AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_ADD_CART_ITEM_SUCCESS);
+                    reloadDataCartItem(orderWaitingViewModel.getId());
+                    retrieveAllProduct();
+                } else {
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+                }
+            }
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_MUST_CHOOSE_PRODUCT_AND_ORDER);
+        }
+    }
+
+    @FXML
+    public void setOnActionDeleteSingleCartItem(ActionEvent actionEvent) {
+        CardItemViewModel cardItemViewModel = cardItemsTableView.getSelectionModel().getSelectedItem();
+        OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+        boolean deleteSuccess = OrderItemServiceImpl.getInstance().deleteOrderItem(cardItemViewModel.getId());
+        if (deleteSuccess) {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_DELETE_CART_ITEM_SUCCESS);
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+        }
+        retrieveAllProduct();
+        reloadDataCartItem(orderWaitingViewModel.getId());
+    }
+
+    @FXML
+    public void setOnActionDeleteAllCartItem(ActionEvent actionEvent) {
+        OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+        boolean deleteSuccess = OrderItemServiceImpl.getInstance().deleteAllCardItem(orderWaitingViewModel.getId());
+        if (deleteSuccess) {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_DELETE_ALL_CART_ITEM_SUCCESS);
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+        }
+        retrieveAllProduct();
+        reloadDataCartItem(orderWaitingViewModel.getId());
     }
 }
