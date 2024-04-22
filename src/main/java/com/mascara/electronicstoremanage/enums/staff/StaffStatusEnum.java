@@ -1,5 +1,7 @@
 package com.mascara.electronicstoremanage.enums.staff;
 
+import com.mascara.electronicstoremanage.enums.general.SexEnum;
+
 /**
  * Created by: IntelliJ IDEA
  * User      : boyng
@@ -25,5 +27,16 @@ public enum StaffStatusEnum {
 
     public String getDisplay() {
         return display;
+    }
+
+    public static StaffStatusEnum getEnumByDisplay(String display) {
+        switch (display) {
+            case "Đang làm việc":
+                return StaffStatusEnum.ACTIVE;
+            case "Đã nghỉ việc":
+                return StaffStatusEnum.INACTIVE;
+            default:
+                return null;
+        }
     }
 }

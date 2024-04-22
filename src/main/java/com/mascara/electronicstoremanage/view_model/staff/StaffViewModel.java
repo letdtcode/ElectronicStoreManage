@@ -26,7 +26,6 @@ public class StaffViewModel {
     private LocalDate dateOfBirth;
     private SexEnum sex;
     private String userName;
-    private String password;
     private StaffStatusEnum status;
     private String roleName;
 }

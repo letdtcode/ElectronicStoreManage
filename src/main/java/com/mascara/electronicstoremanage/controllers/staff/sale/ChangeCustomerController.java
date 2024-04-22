@@ -5,6 +5,7 @@ import com.mascara.electronicstoremanage.enums.general.SexEnum;
 import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerUpdateRequest;
@@ -100,6 +101,7 @@ public class ChangeCustomerController implements Initializable {
 //        search filter event
         FilteredList<CustomerViewModel> filteredList = new FilteredList<>(customerViewModels, b -> true);
         txtSearchCustomer.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Hello");
             filteredList.setPredicate(customerViewModel -> {
                 if (newValue.isEmpty() || newValue.isBlank() || newValue == null)
                     return true;
@@ -159,11 +161,7 @@ public class ChangeCustomerController implements Initializable {
         });
 
 //        phonerNumber must be number input
-        txtPhoneNumber.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtPhoneNumber.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumber);
     }
 
     private void retrieveAllCustomer() {

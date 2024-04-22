@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_employee.ManageEmployeeController">
    <children>
-      <Pane layoutX="14.0" layoutY="30.0" prefHeight="231.0" prefWidth="1122.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
+      <Pane fx:id="staffPanel" layoutX="14.0" layoutY="30.0" prefHeight="231.0" prefWidth="1122.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
          <children>
             <VBox layoutX="31.0" layoutY="28.0" spacing="25.0">
                <children>
@@ -141,7 +141,7 @@
             </HBox>
             <HBox layoutX="423.0" layoutY="17.0" spacing="30.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lọc theo vai trò">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lọc theo trạng thái">
                      <font>
                         <Font name="Segoe UI Bold" size="12.0" />
                      </font>
@@ -149,7 +149,7 @@
                         <Insets top="5.0" />
                      </HBox.margin>
                   </Text>
-                  <ComboBox fx:id="cbbRoleFilter" prefHeight="25.0" prefWidth="159.0" />
+                  <ComboBox fx:id="cbbStatusFilter" prefHeight="25.0" prefWidth="159.0" />
                </children>
             </HBox>
          </children>
@@ -179,14 +179,13 @@
         <columns>
           <TableColumn fx:id="idStaffColumn" prefWidth="97.60000228881836" text="Mã nhân viên" />
           <TableColumn fx:id="fullNameColumn" prefWidth="88.0" text="Họ và tên" />
-            <TableColumn fx:id="phoneNumberColumn" prefWidth="108.00001525878906" text="Số điện thoại" />
-            <TableColumn fx:id="emailColumn" prefWidth="93.5999755859375" text="Email" />
+            <TableColumn fx:id="phoneNumberColumn" prefWidth="148.8000030517578" text="Số điện thoại" />
+            <TableColumn fx:id="emailColumn" prefWidth="116.0" text="Email" />
             <TableColumn fx:id="roleColumn" prefWidth="87.20001220703125" text="Vai trò" />
-            <TableColumn fx:id="dateOfBirthColumn" prefWidth="133.5999755859375" text="Ngày sinh" />
-            <TableColumn fx:id="userNameColumn" prefWidth="173.60003662109375" text="Username" />
-            <TableColumn fx:id="passwordColumn" prefWidth="165.5999755859375" text="Password" />
-            <TableColumn fx:id="sexColumn" prefWidth="73.5999755859375" text="Giới tính" />
-            <TableColumn fx:id="statusColumn" prefWidth="96.00006103515625" text="Trạng thái" />
+            <TableColumn fx:id="dateOfBirthColumn" prefWidth="172.79998779296875" text="Ngày sinh" />
+            <TableColumn fx:id="userNameColumn" prefWidth="152.79998779296875" text="Username" />
+            <TableColumn fx:id="sexColumn" prefWidth="109.5999755859375" text="Giới tính" />
+            <TableColumn fx:id="statusColumn" prefWidth="140.7999267578125" text="Trạng thái" />
         </columns>
       </TableView>
    </children>

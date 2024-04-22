@@ -1,10 +1,10 @@
 package com.mascara.electronicstoremanage.repositories.staff;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.mascara.electronicstoremanage.common.mapper.StaffMapper;
 import com.mascara.electronicstoremanage.entities.Role;
 import com.mascara.electronicstoremanage.entities.Staff;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
+import com.mascara.electronicstoremanage.utils.PasswordHashingUtils;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffPagingRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffUpdateRequest;
@@ -64,6 +64,7 @@ public class StaffRepositoryImpl implements StaffRepository {
                     .uniqueResultOptional();
 
             if (!staffOptional.isPresent() && roleOptional.isPresent()) {
+                String hashedPassword = PasswordHashingUtils.getInstance().getHash(request.getPassword());
                 Staff staff = Staff.builder()
                         .fullName(request.getFullName())
                         .phoneNumber(request.getPhoneNumber())
@@ -71,7 +72,7 @@ public class StaffRepositoryImpl implements StaffRepository {
                         .dateOfBirth(request.getDateOfBirth())
                         .sex(request.getSex())
                         .userName(request.getUserName())
-                        .password(request.getPassword())
+                        .password(hashedPassword)
                         .role(roleOptional.get())
                         .roleId(roleOptional.get().getId())
                         .status(request.getStatus())
@@ -99,13 +100,14 @@ public class StaffRepositoryImpl implements StaffRepository {
             Optional<Role> roleOptional = session.createQuery("select r from Role r where r.roleName =: roleName", Role.class)
                     .setParameter("roleName", request.getRoleName())
                     .uniqueResultOptional();
-            Optional<Staff> staffOptional = session.createQuery("select s from Staff s where s.phoneNumber =: phoneNumber or s.userName =: userName and s.id !=: id and s.deleted is false", Staff.class)
+            Optional<Staff> staffOptional = session.createQuery("select s from Staff s where (s.phoneNumber =: phoneNumber or s.userName =: userName) and s.id !=: id and s.deleted is false", Staff.class)
                     .setParameter("phoneNumber", request.getPhoneNumber())
                     .setParameter("userName", request.getUserName())
+                    .setParameter("id", request.getId())
                     .uniqueResultOptional();
             transaction.commit();
             if (!staffOptional.isPresent() && roleOptional.isPresent()) {
-                String hashedPassword = BCrypt.withDefaults().hashToString(12, request.getPassword().toCharArray());
+                String hashedPassword = PasswordHashingUtils.getInstance().getHash(request.getPassword());
 
                 Staff staff = session.find(Staff.class, request.getId());
                 staff.setFullName(request.getFullName());

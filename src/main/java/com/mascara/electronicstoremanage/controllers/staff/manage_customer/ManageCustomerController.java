@@ -6,6 +6,7 @@ import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.customer.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -147,11 +148,7 @@ public class ManageCustomerController implements Initializable {
                 historyOrderViewModels = FXCollections.observableArrayList(historyOrderList);
             }
         });
-        txtPhoneNumberCustomer.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtPhoneNumberCustomer.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
     }
 
     private void retrieveAllCustomer() {

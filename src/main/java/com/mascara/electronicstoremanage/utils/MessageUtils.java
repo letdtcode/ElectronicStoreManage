@@ -68,4 +68,11 @@ public class MessageUtils {
     //    Sale Message
     public static String INFO_CREATE_ORDER_SUCCESS = "Tạo hóa đơn mới thành công";
 //    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
+
+    //    Staff CRUD Message
+    public static String INFO_CREATE_STAFF_SUCCESS = "Thêm mới nhân viên thành công";
+    public static String INFO_UPDATE_STAFF_SUCCESS = "Cập nhật nhân viên thành công";
+    public static String INFO_DELETE_STAFF_SUCCESS = "Xóa nhân viên thành công";
+    public static String WARNING_USER_NAME_OR_PHONE_NUMBER_DUPLICATED = "User name hoặc số điện thoại đã tồn tại";
+    public static String WARNING_PASSWORD_NOT_ENOUGH_STRONG = "Password phải từ 8-20 kí tự bao gồm chữ cái viết hóa, thường, số và kí tự đặc biệt";
 }

@@ -436,35 +436,12 @@ public class ManageProductController implements Initializable {
                 cbbCategoryFilter.setItems(categoryNameList);
             }
         });
-        txtPriceImport.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtPriceImport.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
 
-        txtPriceSale.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtPriceSale.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
-
-        txtQuantity.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtQuantity.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
-
-        txtWeight.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtWeight.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
-
-        txtWarrantyPeriod.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                txtWarrantyPeriod.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceImport);
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceSale);
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtQuantity);
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtWeight);
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtWarrantyPeriod);
     }
 
     @FXML
