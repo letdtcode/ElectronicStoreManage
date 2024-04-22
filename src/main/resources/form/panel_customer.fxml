@@ -19,7 +19,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_customer.ManageCustomerController">
    <children>
-      <Pane layoutX="14.0" layoutY="34.0" prefHeight="225.0" prefWidth="1119.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
+      <Pane fx:id="customerPanel" layoutX="14.0" layoutY="34.0" prefHeight="225.0" prefWidth="1119.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
          <children>
             <VBox layoutX="14.0" layoutY="23.0" spacing="60.0">
                <children>

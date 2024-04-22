@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.controllers.staff.manage_customer;
 
 import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
 import com.mascara.electronicstoremanage.enums.general.SexEnum;
+import com.mascara.electronicstoremanage.enums.staff.StaffStatusEnum;
 import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
@@ -10,11 +11,14 @@ import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.customer.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.List;
@@ -96,15 +100,19 @@ public class ManageCustomerController implements Initializable {
             CustomerStatusEnum.ACTIVE.getDisplay(),
             CustomerStatusEnum.INACTIVE.getDisplay());
     private ObservableList<String> sexListFilter = FXCollections.observableArrayList(
+            "Tất cả",
             SexEnum.MALE.getDisplay(),
             SexEnum.FEMALE.getDisplay());
     private ObservableList<String> customerStatusListFilter = FXCollections.observableArrayList(
+            "Tất cả",
             CustomerStatusEnum.ACTIVE.getDisplay(),
             CustomerStatusEnum.INACTIVE.getDisplay());
 
     private SexEnum sexOfCustomer = SexEnum.MALE;
     @FXML
     private ToggleGroup sexGroup;
+    @FXML
+    private Pane customerPanel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -149,6 +157,109 @@ public class ManageCustomerController implements Initializable {
             }
         });
         Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
+
+//        Set event for each row
+        customerTableView.setRowFactory(param -> {
+            TableRow<CustomerViewModel> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1 && (!row.isEmpty())) {
+                    int rowIndex = customerTableView.getSelectionModel().getSelectedIndex();
+                    CustomerViewModel customerViewModel = customerTableView.getItems().get(rowIndex);
+                    txtIdCustomer.setText(customerViewModel.getId().toString());
+                    txtFullNameCustomer.setText(customerViewModel.getFullName());
+                    txtPhoneNumberCustomer.setText(customerViewModel.getPhoneNumber());
+                    txtEmailCustomer.setText(customerViewModel.getEmail());
+                    txtAddressCustomer.setText(customerViewModel.getAddress());
+                    if (customerViewModel.getSex().equals(SexEnum.MALE))
+                        rdbMale.setSelected(true);
+                    else
+                        rdbFemale.setSelected(true);
+                    cbbStatusCustomer.setValue(customerViewModel.getStatus().getDisplay());
+                }
+            });
+            return row;
+        });
+
+        //        search filter event
+        FilteredList<CustomerViewModel> filteredList = new FilteredList<>(customerViewModels, b -> true);
+        txtSearchCustomer.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterCustomer(newValue, cbbSexFilter.getValue().toString(), cbbStatusCustomerFilter.getValue().toString(), filteredList);
+        });
+
+        //        filter sex and status
+        cbbSexFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String sexSelected = (String) cbbSexFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterCustomer(txtSearchCustomer.getText().trim(), sexSelected, cbbStatusCustomerFilter.getValue().toString(), filteredList);
+                }
+        );
+        cbbStatusCustomerFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String statusSelected = (String) cbbStatusCustomerFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterCustomer(txtSearchCustomer.getText().trim(), cbbSexFilter.getValue().toString(), statusSelected, filteredList);
+                }
+        );
+
+        SortedList<CustomerViewModel> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(customerTableView.comparatorProperty());
+        customerTableView.setItems(sortedList);
+    }
+
+    private boolean searchByFullNameOrPhoneNumber(String newValueTextField, CustomerViewModel customerViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (customerViewModel.getFullName().toLowerCase().contains(searchKeyword))
+            return true;
+        else if (customerViewModel.getPhoneNumber().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean filterBySex(String sex, CustomerViewModel customerViewModel) {
+        boolean result = false;
+        switch (sex) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Nam":
+                if (customerViewModel.getSex().equals(SexEnum.MALE))
+                    result = true;
+                break;
+            case "Nữ":
+                if (customerViewModel.getSex().equals(SexEnum.FEMALE))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByStatus(String statusStaff, CustomerViewModel customerViewModel) {
+        boolean result = false;
+        switch (statusStaff) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Hoạt động":
+                if (customerViewModel.getStatus().equals(CustomerStatusEnum.ACTIVE))
+                    result = true;
+                break;
+            case "Ngừng hoạt động":
+                if (customerViewModel.getStatus().equals(CustomerStatusEnum.INACTIVE))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private void searchAndFilterCustomer(String newValueTextField, String sexFilter, String statusCustomerFilter,
+                                         FilteredList<CustomerViewModel> filteredList) {
+        filteredList.setPredicate(customerViewModel -> {
+            boolean resultSearch = searchByFullNameOrPhoneNumber(newValueTextField, customerViewModel);
+            boolean resultFilterSex = filterBySex(sexFilter, customerViewModel);
+            boolean resultFilterStatus = filterByStatus(statusCustomerFilter, customerViewModel);
+            return resultSearch && resultFilterSex && resultFilterStatus;
+        });
     }
 
     private void retrieveAllCustomer() {
@@ -238,6 +349,7 @@ public class ManageCustomerController implements Initializable {
 
     @FXML
     public void setOnActionReloadCustomer(ActionEvent actionEvent) {
+        Utillities.getInstance().clearAllTextField(customerPanel);
         retrieveAllCustomer();
     }
 

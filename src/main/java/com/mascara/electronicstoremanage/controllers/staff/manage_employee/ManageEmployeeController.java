@@ -165,8 +165,6 @@ public class ManageEmployeeController implements Initializable {
         SortedList<StaffViewModel> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(staffTableView.comparatorProperty());
         staffTableView.setItems(sortedList);
-
-
     }
 
     private boolean searchByFullNameOrPhoneNumber(String newValueTextField, StaffViewModel staffViewModel) {
