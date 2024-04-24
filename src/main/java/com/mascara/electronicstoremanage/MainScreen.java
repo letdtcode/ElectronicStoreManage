@@ -26,7 +26,7 @@ public class MainScreen extends Application {
 
     public static void main(String[] args) {
         HibernateUtils.buildTable();
-//        initData();
+        initData();
         launch();
     }
 

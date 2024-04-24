@@ -39,10 +39,11 @@
             <CheckBox fx:id="ckbSelectAll" layoutX="14.0" layoutY="194.0" mnemonicParsing="false" text="Chọn tất cả" />
             <TableView fx:id="productApplyTableView" layoutX="14.0" layoutY="234.0" prefHeight="234.0" prefWidth="591.0">
               <columns>
-                <TableColumn fx:id="idProductColumn" prefWidth="112.79998779296875" text="Mã Sản phẩm" />
-                <TableColumn fx:id="selectColumn" prefWidth="81.60000228881836" text="Chọn" />
-                  <TableColumn fx:id="nameProductColumn" prefWidth="188.80006408691406" text="Tên sản phẩm" />
-                  <TableColumn fx:id="codeProductColumn" prefWidth="206.39996337890625" text="Mã code" />
+                <TableColumn fx:id="idProductColumn" prefWidth="100.80001831054688" text="Mã Sản phẩm" />
+                <TableColumn fx:id="selectColumn" prefWidth="64.0" text="Chọn" />
+                  <TableColumn fx:id="nameProductColumn" prefWidth="127.19998168945312" text="Tên sản phẩm" />
+                  <TableColumn fx:id="codeProductColumn" prefWidth="173.5999755859375" text="Mã code" />
+                  <TableColumn fx:id="salePriceColumn" prefWidth="124.00006103515625" text="Giá tiền" />
               </columns>
             </TableView>
             <Text layoutX="340.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái">

@@ -20,4 +20,6 @@ public class ProductApplyViewModel {
     private Long id;
     private String productName;
     private String code;
+    private Double salePrice;
+    private String salePriceShow;
 }

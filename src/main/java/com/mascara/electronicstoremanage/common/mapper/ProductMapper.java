@@ -52,6 +52,7 @@ public interface ProductMapper {
     ProductSaleViewModel entityToSaleViewModel(Product product);
 
     @Mapping(source = "id", target = "checkBox", qualifiedByName = "mapidProductToCheckBox")
+    @Mapping(source = "salePrice", target = "salePriceShow", qualifiedByName = "mapToCurrencyVietnam")
     ProductApplyViewModel entityToApplyViewModel(Product product);
 
     @Named("mapidProductToCheckBox")

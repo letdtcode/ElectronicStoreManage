@@ -52,6 +52,7 @@ public class Discount extends BasePesistence {
     private Double discountValue;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private DiscountStatus status;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

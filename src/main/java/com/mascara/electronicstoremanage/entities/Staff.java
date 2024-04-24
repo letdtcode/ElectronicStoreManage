@@ -47,6 +47,7 @@ public class Staff extends BasePesistence {
     private LocalDate dateOfBirth;
 
     @Column(name = "sex")
+    @Enumerated(EnumType.STRING)
     private SexEnum sex;
 
     @Column(name = "user_name")

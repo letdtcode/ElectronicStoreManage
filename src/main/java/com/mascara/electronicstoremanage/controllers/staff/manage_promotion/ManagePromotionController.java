@@ -42,7 +42,7 @@ public class ManagePromotionController implements Initializable {
     @FXML
     private CheckBox ckbSelectAll;
     @FXML
-    private TableView productApplyTableView;
+    private TableView<ProductApplyViewModel> productApplyTableView;
     @FXML
     private TableColumn<DiscountViewModel, CheckBox> selectColumn;
     @FXML
@@ -100,6 +100,8 @@ public class ManagePromotionController implements Initializable {
     private Pane secondDiscountPanel;
     @FXML
     private TableColumn typeDiscountColumn;
+    @FXML
+    private TableColumn salePriceColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -151,6 +153,7 @@ public class ManagePromotionController implements Initializable {
                 }
             }
         });
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtDiscountValue);
     }
 
     private void retrieveAllProductForApply() {
@@ -162,7 +165,7 @@ public class ManagePromotionController implements Initializable {
         idProductColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameProductColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         codeProductColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
-
+        salePriceColumn.setCellValueFactory(new PropertyValueFactory<>("salePriceShow"));
         productApplyTableView.setItems(productApplyViewModels);
     }
 
@@ -189,7 +192,7 @@ public class ManagePromotionController implements Initializable {
         discountTableView.setItems(discountViewModels);
     }
 
-    private boolean validateDataDiscount(String capaignName, Integer discountValue, LocalDate dateStart, LocalDate dateEnd, String description) {
+    private boolean validateDataDiscount(String capaignName, Double discountValue, LocalDate dateStart, LocalDate dateEnd, String description) {
         boolean isValid = true;
         if (capaignName == null || capaignName.trim().isBlank() ||
                 discountValue == null || discountValue <= 0 ||
@@ -200,6 +203,20 @@ public class ManagePromotionController implements Initializable {
         if (dateEnd.isBefore(dateStart)) {
             isValid = false;
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATE_RANGE_CHOOSE_NOT_VALID);
+        }
+//        Hình thức giảm giá là % và mức giảm giá trên 100 thì không hợp lệ
+        if (cbbTypeDiscount.getValue().equals(TypeDiscountEnum.PERCENT.getDisplay()) && Double.parseDouble(txtDiscountValue.getText()) >= 100) {
+            isValid = false;
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DISCOUNT_PERCENT_CAN_NOT_OVER_100);
+        }
+        if (cbbTypeDiscount.getValue().equals(TypeDiscountEnum.CASH.getDisplay())) {
+            for (ProductApplyViewModel productApplyViewModel : productApplyTableView.getItems()) {
+                if (discountValue > productApplyViewModel.getSalePrice()) {
+                    isValid = false;
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DISCOUNT_VALUE_CAN_NOT_OVER_PRICE_PRODUCT);
+                    break;
+                }
+            }
         }
         return isValid;
     }
@@ -216,7 +233,7 @@ public class ManagePromotionController implements Initializable {
     @FXML
     public void setOnActionCreateDiscount(ActionEvent actionEvent) {
         boolean isValid = validateDataDiscount(txtCapaignName.getText(),
-                Integer.parseInt(txtDiscountValue.getText()),
+                Double.parseDouble(txtDiscountValue.getText()),
                 dtpDateStart.getValue(),
                 dtpDateEnd.getValue(),
                 txtDescription.getText()
@@ -258,7 +275,7 @@ public class ManagePromotionController implements Initializable {
     @FXML
     public void setOnActionUpdateDiscount(ActionEvent actionEvent) {
         boolean isValid = validateDataDiscount(txtCapaignName.getText(),
-                Integer.parseInt(txtDiscountValue.getText()),
+                Double.parseDouble(txtDiscountValue.getText()),
                 dtpDateStart.getValue(),
                 dtpDateEnd.getValue(),
                 txtDescription.getText());
@@ -298,8 +315,6 @@ public class ManagePromotionController implements Initializable {
             }
         } else if (discountTableView.getSelectionModel().isEmpty()) {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
-        } else {
-            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
         }
     }
 

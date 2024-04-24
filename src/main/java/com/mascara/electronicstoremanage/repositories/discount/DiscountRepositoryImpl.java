@@ -161,7 +161,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
         Session session = HibernateUtils.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Optional<Discount> discount = session.createQuery("select d from Discount d join d.productSet ps where d.dateStart <= CURRENT_DATE and d.dateEnd >= CURRENT_DATE and d.deleted is false and ps.id =: id", Discount.class)
+            Optional<Discount> discount = session.createQuery("select d from Discount d join d.productSet ps where d.dateStart <= CURRENT_DATE and d.dateEnd >= CURRENT_DATE and d.deleted is false and d.status = 'IS_APPLYING' and ps.id =: id", Discount.class)
                     .setParameter("id", productId)
                     .uniqueResultOptional();
             return discount;
@@ -187,12 +187,12 @@ public class DiscountRepositoryImpl implements DiscountRepository {
 //                Create discount
                 if (idDiscountUpdate == null) {
                     discounts =
-                            session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts", Discount.class)
+                            session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts and d.deleted is false ", Discount.class)
                                     .setParameter("idProducts", productIds)
                                     .getResultList();
                 } else {
 //                    Update discount ( so idDiscountUpdate != null)
-                    discounts = session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts and d.id !=: idDiscount", Discount.class)
+                    discounts = session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts and d.id !=: idDiscount and d.deleted is false ", Discount.class)
                             .setParameter("idProducts", productIds)
                             .setParameter("idDiscount", idDiscountUpdate)
                             .getResultList();
