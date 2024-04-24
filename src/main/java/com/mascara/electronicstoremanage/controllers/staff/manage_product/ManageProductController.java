@@ -43,6 +43,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -135,9 +136,9 @@ public class ManageProductController implements Initializable {
     @FXML
     private TableColumn<ProductViewModel, String> descriptionColumn;
     @FXML
-    private TableColumn<ProductViewModel, Double> priceImportColumn;
+    private TableColumn<ProductViewModel, String> priceImportColumn;
     @FXML
-    private TableColumn<ProductViewModel, Double> priceSaleColumn;
+    private TableColumn<ProductViewModel, String> priceSaleColumn;
     @FXML
     private TableColumn<ProductViewModel, String> colorProductColumn;
     @FXML
@@ -199,6 +200,8 @@ public class ManageProductController implements Initializable {
     private Pane categoryPanel;
     @FXML
     private Pane productPanel;
+    @FXML
+    private Text lblProductCode;
 
     public ManageProductController() {
         fileChooser = new FileChooser();
@@ -220,8 +223,8 @@ public class ManageProductController implements Initializable {
         idProductColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        priceImportColumn.setCellValueFactory(new PropertyValueFactory<>("importPrice"));
-        priceSaleColumn.setCellValueFactory(new PropertyValueFactory<>("salePrice"));
+        priceImportColumn.setCellValueFactory(new PropertyValueFactory<>("importPriceShow"));
+        priceSaleColumn.setCellValueFactory(new PropertyValueFactory<>("salePriceShow"));
         colorProductColumn.setCellValueFactory(new PropertyValueFactory<>("colorNameListShow"));
         brandColumn.setCellValueFactory(new PropertyValueFactory<>("brandName"));
         materialColumn.setCellValueFactory(new PropertyValueFactory<>("materialName"));
@@ -280,6 +283,7 @@ public class ManageProductController implements Initializable {
                     txtWarrantyPeriod.setText(productViewModel.getWarrantyPeriod().toString());
                     cbbWarrantyPeriodUnit.setValue(productViewModel.getWarrantyPeriodUnit().getDisplay());
                     textareaDescription.setText(productViewModel.getDescription());
+                    lblProductCode.setText(productViewModel.getCode());
 
 //                    Get Image show
                     fileImage = new File(productViewModel.getPathImage());

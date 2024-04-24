@@ -5,6 +5,7 @@ import com.mascara.electronicstoremanage.view_model.discount.DiscountPagingReque
 import com.mascara.electronicstoremanage.view_model.discount.DiscountUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountViewModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public interface DiscountService {
     boolean updateDiscount(DiscountUpdateRequest request);
 
     boolean deleteDiscount(Long id);
+
+    boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd);
 
     DiscountViewModel retrieveDiscountById(Long id);
 

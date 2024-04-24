@@ -111,8 +111,8 @@
                                                 <Font name="Segoe UI" size="15.0" />
                                             </font>
                                         </Text>
-                                        <VBox layoutX="15.0" layoutY="38.9716796875" spacing="30.0">
-                                            <children>
+                              <VBox layoutX="15.0" layoutY="38.9716796875" spacing="30.0">
+                                 <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã sản phẩm:">
                                                     <font>
                                                         <Font name="Segoe UI" size="13.0" />
@@ -148,10 +148,11 @@
                                                         <Font name="Segoe UI" size="13.0" />
                                                     </font>
                                                 </Text>
-                                            </children>
-                                        </VBox>
-                                        <VBox layoutX="116.0" layoutY="36.0" spacing="22.0">
-                                            <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã code:" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="108.0" layoutY="36.0" spacing="22.0">
+                                 <children>
                                                 <TextField fx:id="txtIdProduct" prefHeight="25.0" prefWidth="80.0" />
                                                 <TextField fx:id="txtProductName" prefHeight="25.0" prefWidth="143.0" />
                                                 <TextField fx:id="txtPriceImport" prefHeight="25.0" prefWidth="143.0" />
@@ -159,8 +160,16 @@
                                                 <TextField fx:id="txtQuantity" prefHeight="25.0" prefWidth="143.0" />
                                                 <ComboBox fx:id="cbbProductStatus" prefWidth="150.0" />
                                                 <ComboBox fx:id="cbbBrandName" prefWidth="150.0" />
-                                            </children>
-                                        </VBox>
+                                    <Text fx:id="lblProductCode" strokeType="OUTSIDE" strokeWidth="0.0" text="xxxxxxxx-xxxx-xxxx-xxx-xxxxxxxxxxx">
+                                       <font>
+                                          <Font name="Segoe UI" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets top="2.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                 </children>
+                              </VBox>
                                         <Pane layoutX="909.0" layoutY="22.0" prefHeight="210.0" prefWidth="200.0" style="-fx-background-color: #A8DFFA;">
                                             <children>
                                                 <VBox layoutX="25.0" layoutY="8.0" spacing="8.0">
@@ -194,7 +203,7 @@
                                                 <Font name="Segoe UI" size="13.0" />
                                             </font>
                                         </Text>
-                              <VBox layoutX="320.0" layoutY="35.0" spacing="35.0">
+                              <VBox layoutX="340.0" layoutY="35.0" spacing="35.0">
                                  <children>
                                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục sản phẩm:">
                                                   <font>
@@ -238,7 +247,7 @@
                                                 <Font name="Segoe UI" size="13.0" />
                                             </font>
                                         </Text>
-                              <VBox layoutX="450.0" layoutY="29.0" prefHeight="383.0" prefWidth="200.0" spacing="28.0">
+                              <VBox layoutX="468.0" layoutY="29.0" prefHeight="383.0" prefWidth="200.0" spacing="28.0">
                                  <children>
                                               <ComboBox fx:id="cbbCategoryName" prefHeight="26.0" prefWidth="221.0" />
                                               <ComboBox fx:id="cbbMaterialName" prefHeight="26.0" prefWidth="221.0" />

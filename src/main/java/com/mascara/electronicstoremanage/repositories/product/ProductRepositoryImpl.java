@@ -3,10 +3,13 @@ package com.mascara.electronicstoremanage.repositories.product;
 import com.mascara.electronicstoremanage.common.mapper.ProductMapper;
 import com.mascara.electronicstoremanage.entities.*;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
+import com.mascara.electronicstoremanage.view_model.discount.ProductApplyPagingRequest;
+import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
 import com.mascara.electronicstoremanage.view_model.product.ProductCreateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductPagingRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.ProductSalePagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -42,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Long insert(ProductCreateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
-        UUID uuidCode= UUID.randomUUID();
+        UUID uuidCode = UUID.randomUUID();
         Product product = Product.builder()
                 .productName(request.getProductName())
                 .description(request.getDescription())
@@ -165,7 +168,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .setParameter("productId", idEntity)
                 .setMaxResults(1)
                 .uniqueResultOptional();
-        if(orderOptional.isPresent())
+        if (orderOptional.isPresent())
             return false;
 
         product.setDeleted(true);
@@ -200,7 +203,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<ProductSaleViewModel> retrieveAllProductSale(ProductPagingRequest request) {
+    public List<ProductSaleViewModel> retrieveAllProductSale(ProductSalePagingRequest request) {
         List<ProductSaleViewModel> list = new ArrayList<>();
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();
@@ -212,6 +215,24 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         for (Product product : productList) {
             list.add(ProductMapper.getInstance.entityToSaleViewModel(product));
+        }
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<ProductApplyViewModel> retrieveAllProductApply(ProductApplyPagingRequest request) {
+        List<ProductApplyViewModel> list = new ArrayList<>();
+        Session session = HibernateUtils.getSession();
+        int offset = (request.getPageIndex() - 1) * request.getPageSize();
+        String cmd = HibernateUtils.getRetrieveAllQuery("Product", request);
+        Query query = session.createQuery(cmd, Product.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(request.getPageSize());
+        List<Product> productList = query.getResultList();
+
+        for (Product product : productList) {
+            list.add(ProductMapper.getInstance.entityToApplyViewModel(product));
         }
         session.close();
         return list;

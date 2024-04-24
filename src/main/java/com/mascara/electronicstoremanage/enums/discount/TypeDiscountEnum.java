@@ -1,5 +1,7 @@
 package com.mascara.electronicstoremanage.enums.discount;
 
+import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
+
 /**
  * Created by: IntelliJ IDEA
  * User      : boyng
@@ -16,5 +18,24 @@ public enum TypeDiscountEnum {
     TypeDiscountEnum(String key, String display) {
         this.key = key;
         this.display = display;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public static TypeDiscountEnum getEnumByDisplay(String display) {
+        switch (display) {
+            case "Phần trăm":
+                return TypeDiscountEnum.PERCENT;
+            case "Tiền mặt":
+                return TypeDiscountEnum.CASH;
+            default:
+                return null;
+        }
     }
 }

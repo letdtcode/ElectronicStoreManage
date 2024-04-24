@@ -2,7 +2,6 @@ package com.mascara.electronicstoremanage.controllers.staff.manage_customer;
 
 import com.mascara.electronicstoremanage.enums.customer.CustomerStatusEnum;
 import com.mascara.electronicstoremanage.enums.general.SexEnum;
-import com.mascara.electronicstoremanage.enums.staff.StaffStatusEnum;
 import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;

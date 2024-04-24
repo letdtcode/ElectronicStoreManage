@@ -1,9 +1,8 @@
 package com.mascara.electronicstoremanage.utils;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 import java.text.Normalizer;
@@ -75,6 +74,19 @@ public class Utillities {
         }
     }
 
+    public void unCheckedAllCheckBox(TableView tableView) {
+        ObservableList<TableColumn> columns = tableView.getColumns();
+        for (Object row : tableView.getItems()) {
+            for (TableColumn column : columns) {
+                Object object = column.getCellObservableValue(row).getValue();
+                if (object instanceof CheckBox) {
+                    CheckBox checkBox = (CheckBox) object;
+                    checkBox.setSelected(false);
+                }
+            }
+        }
+    }
+
     private <T extends Pane> List<Node> paneNodes(T parent) {
         return paneNodes(parent, new LinkedList<>());
     }
@@ -97,4 +109,16 @@ public class Utillities {
             }
         });
     }
+
+//    public void setEventCurrencyFormat(TextField textField) {
+//        textField.setOnKeyTyped(event -> {
+//            String typedCharacter = event.getCharacter();
+//            event.consume();
+//            if (typedCharacter.matches("\\d*")) {
+//                String currentText = textField.getText().replaceAll("\\.", "").replace(",", "");
+//                long longVal = Long.parseLong(currentText.concat(typedCharacter));
+//                textField.setText(new DecimalFormat("#,##0").format(longVal));
+//            }
+//        });
+//    }
 }

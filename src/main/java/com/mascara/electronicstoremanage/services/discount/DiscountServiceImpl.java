@@ -1,11 +1,12 @@
 package com.mascara.electronicstoremanage.services.discount;
 
-import com.mascara.electronicstoremanage.services.category.CategoryService;
+import com.mascara.electronicstoremanage.repositories.discount.DiscountRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountCreateRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountPagingRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountViewModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -30,26 +31,31 @@ public class DiscountServiceImpl implements DiscountService {
 
     @Override
     public Long insertDiscount(DiscountCreateRequest request) {
-        return null;
+        return DiscountRepositoryImpl.getInstance().insert(request);
     }
 
     @Override
     public boolean updateDiscount(DiscountUpdateRequest request) {
-        return false;
+        return DiscountRepositoryImpl.getInstance().update(request);
     }
 
     @Override
     public boolean deleteDiscount(Long id) {
-        return false;
+        return DiscountRepositoryImpl.getInstance().delete(id);
+    }
+
+    @Override
+    public boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd) {
+        return DiscountRepositoryImpl.getInstance().checkListProductCanApplyRangeDate(idProducts, dateStart, dateEnd);
     }
 
     @Override
     public DiscountViewModel retrieveDiscountById(Long id) {
-        return null;
+        return DiscountRepositoryImpl.getInstance().retrieveById(id);
     }
 
     @Override
     public List<DiscountViewModel> retrieveAllDiscount(DiscountPagingRequest request) {
-        return null;
+        return DiscountRepositoryImpl.getInstance().retrieveAll(request);
     }
 }

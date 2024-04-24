@@ -9,12 +9,31 @@ package com.mascara.electronicstoremanage.enums.discount;
  */
 public enum DiscountStatus {
     IS_APPLYING("IS_APPLYING", "Đang áp dụng"),
-    EXPIRED("EXPIRED", "Hết hạn");
+    NOT_APPLY("NOT_APPLY", "Không áp dụng");
     private String key;
     private String display;
 
     DiscountStatus(String key, String display) {
         this.key = key;
         this.display = display;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public static DiscountStatus getEnumByDisplay(String display) {
+        switch (display) {
+            case "Đang áp dụng":
+                return DiscountStatus.IS_APPLYING;
+            case "Không áp dụng":
+                return DiscountStatus.NOT_APPLY;
+            default:
+                return null;
+        }
     }
 }

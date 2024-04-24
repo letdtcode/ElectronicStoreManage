@@ -5,8 +5,11 @@ import com.mascara.electronicstoremanage.entities.Discount;
 import com.mascara.electronicstoremanage.entities.Feature;
 import com.mascara.electronicstoremanage.entities.Product;
 import com.mascara.electronicstoremanage.repositories.discount.DiscountRepositoryImpl;
+import com.mascara.electronicstoremanage.utils.CurrencyUtils;
+import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import javafx.scene.control.CheckBox;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -35,6 +38,8 @@ public interface ProductMapper {
     @Mapping(source = "featureSet", target = "featureNameListShow", qualifiedByName = "mapFeatureSetToStringShow")
     @Mapping(source = "colorSet", target = "colorNameList", qualifiedByName = "mapColorSetToList")
     @Mapping(source = "colorSet", target = "colorNameListShow", qualifiedByName = "mapColorSetToStringShow")
+    @Mapping(source = "importPrice", target = "importPriceShow", qualifiedByName = "mapToCurrencyVietnam")
+    @Mapping(source = "salePrice", target = "salePriceShow", qualifiedByName = "mapToCurrencyVietnam")
     ProductViewModel entityToViewModel(Product product);
 
     @Mapping(source = "brand.brandName", target = "brandName")
@@ -43,13 +48,28 @@ public interface ProductMapper {
     @Mapping(source = "colorSet", target = "colorNameList", qualifiedByName = "mapColorSetToList")
     @Mapping(source = "colorSet", target = "colorNameListShow", qualifiedByName = "mapColorSetToStringShow")
     @Mapping(source = "id", target = "discountValueShow", qualifiedByName = "mapProductIdToDiscountValueShow")
+    @Mapping(source = "salePrice", target = "salePriceShow", qualifiedByName = "mapToCurrencyVietnam")
     ProductSaleViewModel entityToSaleViewModel(Product product);
+
+    @Mapping(source = "id", target = "checkBox", qualifiedByName = "mapidProductToCheckBox")
+    ProductApplyViewModel entityToApplyViewModel(Product product);
+
+    @Named("mapidProductToCheckBox")
+    default CheckBox mapidProductToCheckBox(Long id) {
+        return new CheckBox();
+    }
+
 
     @Named("mapFeatureSetToList")
     default List<String> mapFeatureSetToList(Set<Feature> featureSet) {
         return featureSet.stream()
                 .map(Feature::getFeatureName)
                 .collect(Collectors.toList());
+    }
+
+    @Named("mapToCurrencyVietnam")
+    default String mapToCurrencyVietnam(Double money) {
+        return CurrencyUtils.getInstance().convertVietnamCurrency(money);
     }
 
     @Named("mapProductIdToDiscountValueShow")

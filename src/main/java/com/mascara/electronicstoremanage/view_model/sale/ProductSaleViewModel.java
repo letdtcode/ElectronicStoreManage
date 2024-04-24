@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.view_model.sale;
 
 import com.mascara.electronicstoremanage.enums.product.WarrantyPeriodUnitENum;
 import com.mascara.electronicstoremanage.enums.product.WeightUnitEnum;
+import com.mascara.electronicstoremanage.utils.CurrencyUtils;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProductSaleViewModel {
     private Long id;
     private String productName;
     private Double salePrice;
+    private String salePriceShow;
     private Integer quantity;
     private String origin;
     private Double weight;

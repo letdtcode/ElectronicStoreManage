@@ -1,12 +1,12 @@
 package com.mascara.electronicstoremanage.services.order_item;
 
 import com.mascara.electronicstoremanage.repositories.order_item.OrderItemRepositoryImpl;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemUpdateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemViewModel;
 
 import java.util.List;
 
@@ -31,12 +31,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public Long insertOrderItem(OrderItemCreateRequest request) {
+    public Long insertOrderItem(CartItemCreateRequest request) {
         return OrderItemRepositoryImpl.getInstance().insert(request);
     }
 
     @Override
-    public boolean updateOrderItem(OrderItemUpdateRequest request) {
+    public boolean updateOrderItem(CartItemUpdateRequest request) {
         return OrderItemRepositoryImpl.getInstance().update(request);
     }
 
@@ -61,7 +61,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public List<CardItemViewModel> retrieveAllCartItem(Long orderId, CardItemPagingRequest request) {
+    public List<CartItemViewModel> retrieveAllCartItem(Long orderId, CartItemPagingRequest request) {
         return OrderItemRepositoryImpl.getInstance().retrieveAllCartItem(orderId, request);
     }
 }

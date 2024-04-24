@@ -2,10 +2,6 @@ package com.mascara.electronicstoremanage.repositories.category;
 
 import com.mascara.electronicstoremanage.common.interfaces.ModifyEntityRequest;
 import com.mascara.electronicstoremanage.common.interfaces.RetrieveEntityRequest;
-import com.mascara.electronicstoremanage.view_model.brand.BrandCreateRequest;
-import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
-import com.mascara.electronicstoremanage.view_model.brand.BrandUpdateRequest;
-import com.mascara.electronicstoremanage.view_model.brand.BrandViewModel;
 import com.mascara.electronicstoremanage.view_model.category.CategoryCreateRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryUpdateRequest;

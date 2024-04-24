@@ -13,6 +13,7 @@ public class MessageUtils {
 
     public static String WARNING_DATA_NOT_VALID = "Vui lòng nhập đầy đủ dữ liệu";
     public static String WARNING_SELECT_ROW = "Vui lòng chọn 1 hàng để cập nhật";
+    public static String WARNING_CART_EMPTY = "Giỏ hàng hiện tại trống";
     public static String WARNING_HAS_ERROR_OCCURRED = "Đã có lỗi xảy ra";
 
     //    Brand CRUD Message
@@ -68,11 +69,24 @@ public class MessageUtils {
     //    Sale Message
     public static String INFO_CREATE_ORDER_SUCCESS = "Tạo hóa đơn mới thành công";
     public static String INFO_ADD_CART_ITEM_SUCCESS = "Đã thêm sản phẩm vào giỏ hàng";
+    public static String INFO_CHANGE_QUANTITY_PRODUCT_IN_CART_SUCCESS = "Thay đối số lượng thành công";
     public static String INFO_DELETE_CART_ITEM_SUCCESS = "Đã xóa sản phẩm khỏi giỏ hàng";
     public static String INFO_DELETE_ALL_CART_ITEM_SUCCESS = "Đã xóa tất cả sản phẩm trong hóa đơn đang chờ";
     public static String WARNING_MUST_CHOOSE_PRODUCT_AND_ORDER = "Vui lòng chọn sản phẩm muốn thêm vào giỏ";
+    public static String WARNING_PRODUCT_NOT_ENOUGH = "Số lượng sản phẩm không đủ";
 
-//    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
+
+    //    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
+
+    //    Discount CRUD Message
+    public static String INFO_CREATE_DISCOUNT_SUCCESS = "Thêm mới nhân viên thành công";
+    public static String INFO_UPDATE_DISCOUNT_SUCCESS = "Cập nhật nhân viên thành công";
+    public static String INFO_DELETE_DISCOUNT_SUCCESS = "Xóa nhân viên thành công";
+    public static String WARNING_PRODUCT_RANGE_DATE_OVERLAP = "Sản phẩm được chọn bị trùng thời gian áp dụng giảm giá, vui lòng kiểm tra lại";
+    public static String WARNING_DATE_RANGE_CHOOSE_NOT_VALID = "Thời gian bắt đầu phải trước thời gian kết thúc";
+
+    //    public static String WARNING_PASSWORD_NOT_ENOUGH_STRONG = "Password phải từ 8-20 kí tự bao gồm chữ cái viết hóa, thường, số và kí tự đặc biệt";
+
 
     //    Staff CRUD Message
     public static String INFO_CREATE_STAFF_SUCCESS = "Thêm mới nhân viên thành công";

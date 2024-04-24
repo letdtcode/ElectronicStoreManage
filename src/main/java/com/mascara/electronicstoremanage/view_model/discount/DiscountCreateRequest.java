@@ -1,9 +1,11 @@
 package com.mascara.electronicstoremanage.view_model.discount;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mascara.electronicstoremanage.enums.discount.DiscountStatus;
+import com.mascara.electronicstoremanage.enums.discount.TypeDiscountEnum;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +17,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DiscountCreateRequest {
+    private String capaignName;
+    private TypeDiscountEnum typeDiscount;
+    private String description;
+    private LocalDate dateStart;
+    private LocalDate dateEnd;
+    private Double discountValue;
+    private DiscountStatus status;
+    private List<Long> productIds;
 }

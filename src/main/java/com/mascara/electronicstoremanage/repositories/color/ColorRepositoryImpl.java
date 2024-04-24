@@ -3,7 +3,6 @@ package com.mascara.electronicstoremanage.repositories.color;
 import com.mascara.electronicstoremanage.common.mapper.ColorMapper;
 import com.mascara.electronicstoremanage.entities.Color;
 import com.mascara.electronicstoremanage.entities.Product;
-import com.mascara.electronicstoremanage.enums.product.ProductStatusEnum;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.color.ColorCreateRequest;
 import com.mascara.electronicstoremanage.view_model.color.ColorPagingRequest;

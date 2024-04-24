@@ -6,12 +6,12 @@ import com.mascara.electronicstoremanage.entities.Order;
 import com.mascara.electronicstoremanage.entities.OrderItem;
 import com.mascara.electronicstoremanage.entities.Product;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemCreateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.sale.CardItemViewModel;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemUpdateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.CartItemViewModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -41,7 +41,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
     }
 
     @Override
-    public Long insert(OrderItemCreateRequest request) {
+    public Long insert(CartItemCreateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
         Long orderItemId = -1L;
@@ -92,7 +92,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
     }
 
     @Override
-    public boolean update(OrderItemUpdateRequest request) {
+    public boolean update(CartItemUpdateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction transaction = null;
         try {
@@ -109,6 +109,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
                 session.merge(product);
                 session.merge(orderItem);
                 transaction.commit();
+                return true;
             }
         } catch (Exception e) {
             if (transaction != null)
@@ -118,7 +119,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
         } finally {
             session.close();
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -174,8 +175,8 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
     }
 
     @Override
-    public List<CardItemViewModel> retrieveAllCartItem(Long orderId, CardItemPagingRequest request) {
-        List<CardItemViewModel> list = new ArrayList<>();
+    public List<CartItemViewModel> retrieveAllCartItem(Long orderId, CartItemPagingRequest request) {
+        List<CartItemViewModel> list = new ArrayList<>();
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();
         String cmd = HibernateUtils.getRetrieveAllQuery("OrderItem", request);
@@ -185,7 +186,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
         List<OrderItem> orderItems = query.getResultList();
 
         for (OrderItem orderItem : orderItems) {
-            list.add(OrderItemMapper.getInstance.entityToCardItemViewModel(orderItem));
+            list.add(OrderItemMapper.getInstance.entityToCartItemViewModel(orderItem));
         }
         session.close();
         return list;

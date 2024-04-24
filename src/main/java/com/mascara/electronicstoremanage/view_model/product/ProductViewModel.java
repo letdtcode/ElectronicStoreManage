@@ -25,7 +25,9 @@ public class ProductViewModel {
     private String description;
     private String pathImage;
     private Double salePrice;
+    private String salePriceShow;
     private Double importPrice;
+    private String importPriceShow;
     private Integer quantity;
     private String origin;
     private Double weight;
@@ -40,5 +42,6 @@ public class ProductViewModel {
     private String featureNameListShow;
     private List<String> colorNameList;
     private String colorNameListShow;
+    private String code;
     private ProductStatusEnum status;
 }

@@ -13,6 +13,7 @@ import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -151,7 +152,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderPagingRequest request) {
+    public List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderWaitingPagingRequest request) {
         List<OrderWaitingViewModel> list = new ArrayList<>();
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();

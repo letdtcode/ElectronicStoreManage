@@ -14,37 +14,43 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_promotion.ManagePromotionController">
    <children>
-      <Pane layoutX="14.0" layoutY="31.0" prefHeight="480.0" prefWidth="628.0" style="-fx-border-color: #c5c5c5;">
+      <Pane fx:id="firstDiscountPanel" layoutX="14.0" layoutY="31.0" prefHeight="480.0" prefWidth="628.0" style="-fx-border-color: #c5c5c5;">
          <children>
             <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tạo chương trình khuyến mãi">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <TextField layoutX="13.0" layoutY="40.0" prefHeight="25.0" prefWidth="591.0" />
-            <Text layoutX="14.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức giảm giá">
+            <TextField fx:id="txtCapaignName" layoutX="13.0" layoutY="40.0" prefHeight="25.0" prefWidth="591.0" />
+            <Text layoutX="14.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức giảm giá">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <ComboBox layoutX="13.0" layoutY="130.0" prefHeight="25.0" prefWidth="269.0" />
-            <TextField layoutX="340.0" layoutY="130.0" prefHeight="25.0" prefWidth="260.0" />
-            <Text layoutX="340.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mức giảm giá">
+            <ComboBox fx:id="cbbTypeDiscount" layoutX="13.0" layoutY="119.0" prefHeight="25.0" prefWidth="269.0" />
+            <TextField fx:id="txtDiscountValue" layoutX="340.0" layoutY="119.0" prefHeight="25.0" prefWidth="260.0" />
+            <Text layoutX="340.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mức giảm giá">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <CheckBox layoutX="14.0" layoutY="194.0" mnemonicParsing="false" text="Chọn tất cả" />
-            <TableView layoutX="14.0" layoutY="234.0" prefHeight="234.0" prefWidth="591.0">
+            <CheckBox fx:id="ckbSelectAll" layoutX="14.0" layoutY="194.0" mnemonicParsing="false" text="Chọn tất cả" />
+            <TableView fx:id="productApplyTableView" layoutX="14.0" layoutY="234.0" prefHeight="234.0" prefWidth="591.0">
               <columns>
-                <TableColumn prefWidth="81.60000228881836" text="Chọn" />
-                <TableColumn prefWidth="152.8000030517578" text="Mã Sản phẩm" />
-                  <TableColumn prefWidth="356.79998779296875" text="Tên sản phẩm" />
+                <TableColumn fx:id="idProductColumn" prefWidth="112.79998779296875" text="Mã Sản phẩm" />
+                <TableColumn fx:id="selectColumn" prefWidth="81.60000228881836" text="Chọn" />
+                  <TableColumn fx:id="nameProductColumn" prefWidth="188.80006408691406" text="Tên sản phẩm" />
+                  <TableColumn fx:id="codeProductColumn" prefWidth="206.39996337890625" text="Mã code" />
               </columns>
             </TableView>
+            <Text layoutX="340.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái">
+               <font>
+                  <Font name="Segoe UI Bold" size="13.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="cbbDiscountStatus" layoutX="340.0" layoutY="190.0" prefHeight="25.0" prefWidth="260.0" />
          </children>
       </Pane>
       <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chương trình khuyến mãi">
@@ -52,7 +58,7 @@
             <Font name="Segoe UI Bold" size="15.0" />
          </font>
       </Text>
-      <Pane layoutX="655.0" layoutY="31.0" prefHeight="480.0" prefWidth="476.0" style="-fx-border-color: #c5c5c5;">
+      <Pane fx:id="secondDiscountPanel" layoutX="655.0" layoutY="31.0" prefHeight="480.0" prefWidth="476.0" style="-fx-border-color: #c5c5c5;">
          <children>
             <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian sử dụng">
                <font>
@@ -64,50 +70,54 @@
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <DatePicker layoutX="17.0" layoutY="184.0" prefHeight="25.0" prefWidth="374.0" />
+            <DatePicker fx:id="dtpDateEnd" layoutX="17.0" layoutY="184.0" prefHeight="25.0" prefWidth="374.0" />
             <Text layoutX="17.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian kết thúc giảm giá">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <DatePicker layoutX="14.0" layoutY="104.0" prefHeight="25.0" prefWidth="374.0" />
+            <DatePicker fx:id="dtpDateStart" layoutX="14.0" layoutY="104.0" prefHeight="25.0" prefWidth="374.0" />
             <Text layoutX="17.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mô tả">
                <font>
                   <Font name="Segoe UI Bold" size="13.0" />
                </font>
             </Text>
-            <TextArea layoutX="17.0" layoutY="260.0" prefHeight="94.0" prefWidth="444.0" />
+            <TextArea fx:id="txtDescription" layoutX="20.0" layoutY="260.0" prefHeight="94.0" prefWidth="444.0" />
             <Line endX="353.199951171875" endY="7.62939453125E-6" layoutX="115.0" layoutY="38.0" startX="-100.0" />
-            <Button layoutX="211.0" layoutY="370.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="76.0" text="Làm mới">
+            <Button fx:id="btnCreateDiscount" layoutX="62.0" layoutY="371.0" mnemonicParsing="false" onAction="#setOnActionCreateDiscount" prefHeight="45.0" prefWidth="181.0" text="Thêm">
                <font>
-                  <Font name="System Bold" size="13.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
             </Button>
-            <Button layoutX="25.0" layoutY="420.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="181.0" text="Lưu">
+            <Button fx:id="btnUpdateDiscount" layoutX="62.0" layoutY="421.0" mnemonicParsing="false" onAction="#setOnActionUpdateDiscount" prefHeight="45.0" prefWidth="181.0" text="Sửa">
                <font>
-                  <Font name="Segoe UI Bold" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
             </Button>
-            <Button layoutX="260.0" layoutY="420.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="181.0" text="Sửa">
+            <Button fx:id="btnDeleteDiscount" layoutX="254.0" layoutY="369.0" mnemonicParsing="false" onAction="#setOnActionDeleteDiscount" prefHeight="45.0" prefWidth="181.0" text="Xóa">
                <font>
-                  <Font name="Segoe UI Bold" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnReload" layoutX="254.0" layoutY="419.0" mnemonicParsing="false" onAction="#setOnActionReload" prefHeight="45.0" prefWidth="181.0" text="Làm mới">
+               <font>
+                  <Font name="Segoe UI" size="24.0" />
                </font>
             </Button>
          </children>
       </Pane>
       <Pane layoutX="12.0" layoutY="524.0" prefHeight="234.0" prefWidth="1122.0" style="-fx-border-color: #c5c5c5;">
          <children>
-            <TableView layoutX="14.0" layoutY="35.0" prefHeight="187.0" prefWidth="1098.0">
+            <TableView fx:id="discountTableView" layoutX="14.0" layoutY="35.0" prefHeight="187.0" prefWidth="1098.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Mã KM" />
-                <TableColumn prefWidth="119.20004272460938" text="Tên chương trình" />
-                  <TableColumn prefWidth="120.0" text="Hình thức giảm giá" />
-                  <TableColumn prefWidth="142.4000244140625" text="Giảm giá" />
-                  <TableColumn prefWidth="150.39996337890625" text="Sản phẩm" />
-                  <TableColumn prefWidth="120.79998779296875" text="Ngày bắt đầu" />
-                  <TableColumn prefWidth="144.0" text="Ngày kết thúc" />
-                  <TableColumn prefWidth="110.40008544921875" text="Trạng thái" />
-                  <TableColumn prefWidth="124.0" text="Mô tả" />
+                <TableColumn fx:id="idDiscountColumn" prefWidth="75.0" text="Mã KM" />
+                <TableColumn fx:id="capaignNameColumn" prefWidth="119.20004272460938" text="Tên chương trình" />
+                  <TableColumn fx:id="discountValueColumn" prefWidth="116.0" text="Mức giảm giá" />
+                  <TableColumn fx:id="typeDiscountColumn" prefWidth="135.20001220703125" text="Hình thức giảm giá" />
+                  <TableColumn fx:id="dateStartColumn" prefWidth="132.79998779296875" text="Ngày bắt đầu" />
+                  <TableColumn fx:id="dateEndColumn" prefWidth="146.39996337890625" text="Ngày kết thúc" />
+                  <TableColumn fx:id="descriptionColumn" prefWidth="244.800048828125" text="Mô tả" />
+                  <TableColumn fx:id="statusColumn" prefWidth="128.79998779296875" text="Trạng thái" />
               </columns>
             </TableView>
             <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách khuyến mãi">

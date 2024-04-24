@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PagingRequest {
+public abstract class PagingRequest {
     private int pageIndex = 1;
     private int pageSize = 1000;
     private String sortBy = null;

@@ -5,9 +5,9 @@ import com.mascara.electronicstoremanage.common.paging.PagingRequest;
 /**
  * Created by: IntelliJ IDEA
  * User      : boyng
- * Date      : 20/04/2024
- * Time      : 7:03 CH
- * Filename  : CardItemPagingRequest
+ * Date      : 23/04/2024
+ * Time      : 10:49 CH
+ * Filename  : ProductSalePagingRequest
  */
-public class CardItemPagingRequest extends PagingRequest {
+public class ProductSalePagingRequest extends PagingRequest {
 }

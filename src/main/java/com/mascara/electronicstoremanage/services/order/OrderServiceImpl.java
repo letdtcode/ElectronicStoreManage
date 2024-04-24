@@ -7,6 +7,7 @@ import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderPagingRequest request) {
+    public List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderWaitingPagingRequest request) {
         return OrderRepositoryImpl.getInstance().retrieveOrderListWaiting(request);
     }
 

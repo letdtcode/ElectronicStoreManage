@@ -8,6 +8,7 @@ import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface OrderRepository extends ModifyEntityRequest<OrderCreateRequest,
 
     boolean cancelOrder(Long orderId);
 
-    List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderPagingRequest request);
+    List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderWaitingPagingRequest request);
 
     List<HistoryOrderViewModel> retrieveHistoryOrderCustomer(HistoryOrderPagingRequest request);
 }
