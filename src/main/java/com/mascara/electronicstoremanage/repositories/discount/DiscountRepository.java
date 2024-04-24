@@ -23,5 +23,5 @@ public interface DiscountRepository extends ModifyEntityRequest<DiscountCreateRe
         RetrieveEntityRequest<DiscountViewModel, DiscountPagingRequest, Long> {
     Optional<Discount> getDiscountCurrentByProductId(Long productId);
 
-    boolean checkListProductCanApplyRangeDate(List<Long> productIds, LocalDate dateStart, LocalDate dateEnd);
+    boolean checkListProductCanApplyRangeDate(List<Long> productIds, LocalDate dateStart, LocalDate dateEnd, Long idDiscountUpdate);
 }

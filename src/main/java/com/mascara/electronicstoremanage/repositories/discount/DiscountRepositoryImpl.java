@@ -4,6 +4,7 @@ import com.mascara.electronicstoremanage.common.mapper.DiscountMapper;
 import com.mascara.electronicstoremanage.entities.Customer;
 import com.mascara.electronicstoremanage.entities.Discount;
 import com.mascara.electronicstoremanage.entities.Product;
+import com.mascara.electronicstoremanage.enums.discount.DiscountStatus;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountCreateRequest;
 import com.mascara.electronicstoremanage.view_model.discount.DiscountPagingRequest;
@@ -61,8 +62,8 @@ public class DiscountRepositoryImpl implements DiscountRepository {
             tx = session.beginTransaction();
             boolean discountRequestValid = checkListProductCanApplyRangeDate(request.getProductIds(),
                     request.getDateStart(),
-                    request.getDateEnd());
-            if (discountRequestValid) {
+                    request.getDateEnd(), null);
+            if (request.getStatus().equals(DiscountStatus.NOT_APPLY) || discountRequestValid) {
                 List<Product> products = session.createQuery("select p from Product p where p.id in :idProducts and p.deleted is false ", Product.class)
                         .setParameter("idProducts", request.getProductIds())
                         .getResultList();
@@ -90,8 +91,8 @@ public class DiscountRepositoryImpl implements DiscountRepository {
             Discount discount = session.find(Discount.class, request.getId());
             boolean discountRequestValid = checkListProductCanApplyRangeDate(request.getProductIds(),
                     request.getDateStart(),
-                    request.getDateEnd());
-            if (discountRequestValid) {
+                    request.getDateEnd(), request.getId());
+            if (request.getStatus().equals(DiscountStatus.NOT_APPLY) || discountRequestValid) {
                 discount.setCapaignName(request.getCapaignName());
                 discount.setTypeDiscount(request.getTypeDiscount());
                 discount.setDescription(request.getDescription());
@@ -175,16 +176,27 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     }
 
     @Override
-    public boolean checkListProductCanApplyRangeDate(List<Long> productIds, LocalDate dateStart, LocalDate dateEnd) {
+    public boolean checkListProductCanApplyRangeDate(List<Long> productIds, LocalDate dateStart, LocalDate dateEnd, Long idDiscountUpdate) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
         boolean isValid = true;
         try {
             tx = session.beginTransaction();
+            List<Discount> discounts;
             if (productIds != null && productIds.size() > 0) {
-                List<Discount> discounts = session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts", Discount.class)
-                        .setParameter("idProducts", productIds)
-                        .getResultList();
+//                Create discount
+                if (idDiscountUpdate == null) {
+                    discounts =
+                            session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts", Discount.class)
+                                    .setParameter("idProducts", productIds)
+                                    .getResultList();
+                } else {
+//                    Update discount ( so idDiscountUpdate != null)
+                    discounts = session.createQuery("select distinct d from Discount d join d.productSet ps where ps.id in :idProducts and d.id !=: idDiscount", Discount.class)
+                            .setParameter("idProducts", productIds)
+                            .setParameter("idDiscount", idDiscountUpdate)
+                            .getResultList();
+                }
                 if (discounts.size() > 0) {
                     boolean overLapTime = false;
                     for (Discount itemDiscount : discounts) {

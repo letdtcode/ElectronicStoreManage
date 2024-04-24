@@ -236,9 +236,12 @@ public class ManagePromotionController implements Initializable {
             boolean productsCanApply = true;
             if (idProducts.size() > 0) {
                 productsCanApply = DiscountServiceImpl.getInstance()
-                        .checkListProductCanApplyRangeDate(idProducts, dtpDateStart.getValue(), dtpDateEnd.getValue());
+                        .checkListProductCanApplyRangeDate(idProducts,
+                                dtpDateStart.getValue(),
+                                dtpDateEnd.getValue(),
+                                null);
             }
-            if (productsCanApply) {
+            if (request.getStatus().equals(DiscountStatus.NOT_APPLY) || productsCanApply) {
                 Long discountId = DiscountServiceImpl.getInstance().insertDiscount(request);
                 if (discountId == -1) {
                     AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
@@ -277,9 +280,12 @@ public class ManagePromotionController implements Initializable {
             boolean productsCanApply = true;
             if (idProducts.size() > 0) {
                 productsCanApply = DiscountServiceImpl.getInstance()
-                        .checkListProductCanApplyRangeDate(idProducts, dtpDateStart.getValue(), dtpDateEnd.getValue());
+                        .checkListProductCanApplyRangeDate(idProducts,
+                                dtpDateStart.getValue(),
+                                dtpDateEnd.getValue(),
+                                request.getId());
             }
-            if (productsCanApply) {
+            if (request.getStatus().equals(DiscountStatus.NOT_APPLY) || productsCanApply) {
                 boolean success = DiscountServiceImpl.getInstance().updateDiscount(request);
                 if (success) {
                     AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_UPDATE_DISCOUNT_SUCCESS);
@@ -287,6 +293,8 @@ public class ManagePromotionController implements Initializable {
                     AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
                 }
                 retrieveAllDiscount();
+            } else {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_RANGE_DATE_OVERLAP);
             }
         } else if (discountTableView.getSelectionModel().isEmpty()) {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);

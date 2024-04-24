@@ -45,8 +45,8 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd) {
-        return DiscountRepositoryImpl.getInstance().checkListProductCanApplyRangeDate(idProducts, dateStart, dateEnd);
+    public boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd, Long idDiscountUpdate) {
+        return DiscountRepositoryImpl.getInstance().checkListProductCanApplyRangeDate(idProducts, dateStart, dateEnd, idDiscountUpdate);
     }
 
     @Override

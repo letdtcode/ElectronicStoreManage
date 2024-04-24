@@ -22,7 +22,7 @@ public interface DiscountService {
 
     boolean deleteDiscount(Long id);
 
-    boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd);
+    boolean checkListProductCanApplyRangeDate(List<Long> idProducts, LocalDate dateStart, LocalDate dateEnd, Long idDiscountUpdate);
 
     DiscountViewModel retrieveDiscountById(Long id);
 
