@@ -11,6 +11,8 @@ import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -29,17 +31,17 @@ import java.util.ResourceBundle;
  */
 public class ManageOrderController implements Initializable {
     @FXML
-    private ComboBox cbbStatusOrder;
+    private ComboBox<String> cbbStatusOrder;
     @FXML
-    private ComboBox cbbModeDelivery;
+    private ComboBox<String> cbbModeDelivery;
     @FXML
-    private ComboBox cbbModePayment;
+    private ComboBox<String> cbbModePayment;
     @FXML
-    private ComboBox cbbRangeBill;
+    private ComboBox<String> cbbRangeBill;
     @FXML
-    private ComboBox cbbMonthList;
+    private ComboBox<Object> cbbMonthList;
     @FXML
-    private ComboBox cbbYearList;
+    private ComboBox<Object> cbbYearList;
     @FXML
     private TextField txtSearchOrder;
     @FXML
@@ -88,7 +90,7 @@ public class ManageOrderController implements Initializable {
             "500,000 VND - 1,000,000 VND",
             "1,000,000 VND - 5,000,000 VND",
             "5,000,000 VND - 10,000,000 VND",
-            "1,000,000 VND - 20,000,000 VND",
+            "10,000,000 VND - 20,000,000 VND",
             "20,000,000 VND - 50,000,000 VND",
             "Trên 50,000,000");
     private ObservableList<Object> monthList = FXCollections.observableArrayList("Tất cả", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
@@ -116,11 +118,11 @@ public class ManageOrderController implements Initializable {
         retrieveAllOrder();
         retrieveAllOrderItem();
         setUpUI();
-        addListenerForEachRow();
+        addListener();
     }
 
 
-    private void addListenerForEachRow() {
+    private void addListener() {
         orderTableView.setRowFactory(param -> {
             TableRow<OrderViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -137,6 +139,203 @@ public class ManageOrderController implements Initializable {
             });
             return row;
         });
+
+        //        search filter event
+        FilteredList<OrderViewModel> filteredList = new FilteredList<>(orderViewModels, b -> true);
+        txtSearchOrder.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterOrder(newValue, cbbStatusOrder.getValue(), cbbModeDelivery.getValue(), cbbModePayment.getValue(), cbbRangeBill.getSelectionModel().getSelectedIndex(), cbbMonthList.getValue(), cbbYearList.getValue(), filteredList);
+        });
+
+        //        filter sex and status
+        cbbStatusOrder.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String statusSelected = cbbStatusOrder.getSelectionModel().getSelectedItem();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), statusSelected, cbbModeDelivery.getValue(), cbbModePayment.getValue(), cbbRangeBill.getSelectionModel().getSelectedIndex(), cbbMonthList.getSelectionModel().getSelectedItem(), cbbYearList.getSelectionModel().getSelectedItem(), filteredList);
+                }
+        );
+        cbbModeDelivery.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String deliverySelected = cbbModeDelivery.getSelectionModel().getSelectedItem();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), cbbStatusOrder.getValue(), deliverySelected, cbbModePayment.getValue().toString(), cbbRangeBill.getSelectionModel().getSelectedIndex(), cbbMonthList.getSelectionModel().getSelectedItem(), cbbYearList.getSelectionModel().getSelectedItem(), filteredList);
+                }
+        );
+        cbbModePayment.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String paymentSelected = cbbModePayment.getSelectionModel().getSelectedItem();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), cbbStatusOrder.getValue(), cbbModeDelivery.getValue(), paymentSelected, cbbRangeBill.getSelectionModel().getSelectedIndex(), cbbMonthList.getSelectionModel().getSelectedItem(), cbbYearList.getSelectionModel().getSelectedItem(), filteredList);
+                }
+        );
+        cbbRangeBill.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    int indexCbb = cbbRangeBill.getSelectionModel().getSelectedIndex();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), cbbStatusOrder.getValue(), cbbModeDelivery.getValue(), cbbModePayment.getValue(), indexCbb, cbbMonthList.getSelectionModel().getSelectedItem(), cbbYearList.getSelectionModel().getSelectedItem(), filteredList);
+                }
+        );
+        cbbMonthList.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    Object monthSelected = cbbMonthList.getSelectionModel().getSelectedItem();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), cbbStatusOrder.getValue(), cbbModeDelivery.getValue(), cbbModePayment.getValue(), cbbRangeBill.getSelectionModel().getSelectedIndex(), monthSelected, cbbYearList.getSelectionModel().getSelectedItem(), filteredList);
+                }
+        );
+        cbbYearList.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    Object yearSelected = cbbYearList.getSelectionModel().getSelectedItem();
+                    searchAndFilterOrder(txtSearchOrder.getText().trim(), cbbStatusOrder.getValue(), cbbModeDelivery.getValue(), cbbModePayment.getValue(), cbbRangeBill.getSelectionModel().getSelectedIndex(), cbbMonthList.getSelectionModel().getSelectedItem(), yearSelected, filteredList);
+                }
+        );
+
+        SortedList<OrderViewModel> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(orderTableView.comparatorProperty());
+        orderTableView.setItems(sortedList);
+    }
+
+    private void searchAndFilterOrder(String newValueTextField,
+                                      String orderStatusFilter,
+                                      String modeDeliveryFilter,
+                                      String modePaymentFilter,
+                                      int indexRangeBillFilter,
+                                      Object monthFilter,
+                                      Object yearFilter,
+                                      FilteredList<OrderViewModel> filteredList) {
+        filteredList.setPredicate(orderViewModel -> {
+            boolean resultSearch = searchByOrderIdOrFullnameCustomer(newValueTextField, orderViewModel);
+            boolean resultStatusFilter = filterByStatus(orderStatusFilter, orderViewModel);
+            boolean resultDeliveryFilter = filterByDelivery(modeDeliveryFilter, orderViewModel);
+            boolean resultPaymentFilter = filterByPayment(modePaymentFilter, orderViewModel);
+            boolean resultRangeBillFilter = filterByRangeBill(indexRangeBillFilter, orderViewModel);
+            boolean resultMonthYearCreatedFilter = filterByMonthYearCreated(monthFilter, yearFilter, orderViewModel);
+            return resultSearch && resultStatusFilter && resultDeliveryFilter && resultRangeBillFilter && resultPaymentFilter && resultMonthYearCreatedFilter;
+        });
+    }
+
+    private boolean filterByStatus(String status, OrderViewModel orderViewModel) {
+        boolean result = false;
+        switch (status) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Chờ thanh toán":
+                if (orderViewModel.getStatus().equals(OrderStatusEnum.PENDING))
+                    result = true;
+                break;
+            case "Đã thanh toán":
+                if (orderViewModel.getStatus().equals(OrderStatusEnum.PAID))
+                    result = true;
+                break;
+            case "Đã hủy":
+                if (orderViewModel.getStatus().equals(OrderStatusEnum.CANCELED))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByDelivery(String modeDelivery, OrderViewModel orderViewModel) {
+        boolean result = false;
+        switch (modeDelivery) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Trực tiếp":
+                if (orderViewModel.getModeOfDelivery() != null && orderViewModel.getModeOfDelivery().equals(ModeOfDeliveryEnum.DIRECT_SALE))
+                    result = true;
+                break;
+            case "Khác":
+                if (orderViewModel.getModeOfDelivery() != null && orderViewModel.getModeOfDelivery().equals(ModeOfDeliveryEnum.OTHER))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByPayment(String modePayment, OrderViewModel orderViewModel) {
+        boolean result = false;
+        switch (modePayment) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Tiền mặt":
+                if (orderViewModel.getModeOfPayment() != null && orderViewModel.getModeOfPayment().equals(ModeOfPaymentEnum.CASH))
+                    result = true;
+                break;
+            case "Quẹt thẻ":
+                if (orderViewModel.getModeOfPayment() != null && orderViewModel.getModeOfPayment().equals(ModeOfPaymentEnum.CARD_SWIPE))
+                    result = true;
+                break;
+            case "Chuyển khoản":
+                if (orderViewModel.getModeOfPayment() != null && orderViewModel.getModeOfPayment().equals(ModeOfPaymentEnum.BANK_TRANSFER))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByRangeBill(int index, OrderViewModel orderViewModel) {
+        boolean result = false;
+        Double totalBill = orderViewModel.getTotalBill();
+        switch (index) {
+            case 0:
+                result = true;
+                break;
+            case 1:
+                if (totalBill == null || (totalBill >= 0 && totalBill <= 500000))
+                    result = true;
+                break;
+            case 2:
+                if (totalBill >= 500000 && totalBill <= 1000000)
+                    result = true;
+                break;
+            case 3:
+                if (totalBill >= 1000000 && totalBill <= 5000000)
+                    result = true;
+                break;
+            case 4:
+                if (totalBill >= 5000000 && totalBill <= 1000000)
+                    result = true;
+                break;
+            case 5:
+                if (totalBill >= 10000000 && totalBill <= 20000000)
+                    result = true;
+                break;
+            case 6:
+                if (totalBill >= 20000000 && totalBill <= 50000000)
+                    result = true;
+                break;
+            case 7:
+                if (totalBill > 50000000)
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByMonthYearCreated(Object month, Object year, OrderViewModel orderViewModel) {
+        boolean result = false;
+        int monthCreatedOfOrder = orderViewModel.getDateCheckout().getMonthValue();
+        int yearCreatedOfOrder = orderViewModel.getDateCheckout().getYear();
+
+        if (month.equals("Tất cả") && year.equals("Tất cả"))
+            result = true;
+        if (month.equals("Tất cả") && year instanceof Integer) {
+            if (yearCreatedOfOrder == (int) year)
+                result = true;
+        }
+        if (month instanceof Integer && year.equals("Tất cả")) {
+            if (monthCreatedOfOrder == (int) month)
+                result = true;
+        }
+        if (month instanceof Integer && year instanceof Integer) {
+            if (monthCreatedOfOrder == (int) month && yearCreatedOfOrder == (int) year)
+                result = true;
+        }
+        return result;
+    }
+
+    private boolean searchByOrderIdOrFullnameCustomer(String newValueTextField, OrderViewModel orderViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (searchKeyword.matches("\\d+") && orderViewModel.getId() == Double.parseDouble(newValueTextField))
+            return true;
+        else if (orderViewModel.getFullNameCustomer().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
     }
 
     private void setUpUI() {

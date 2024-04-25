@@ -48,13 +48,13 @@
                               <VBox spacing="10.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tháng:" />
-                                    <ComboBox fx:id="cbbMonthList" prefHeight="25.0" prefWidth="68.0" />
+                                    <ComboBox fx:id="cbbMonthList" prefHeight="26.0" prefWidth="80.0" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Năm:" />
-                                    <ComboBox fx:id="cbbYearList" prefHeight="25.0" prefWidth="85.0" />
+                                    <ComboBox fx:id="cbbYearList" prefHeight="26.0" prefWidth="71.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -74,9 +74,9 @@
                 <TableColumn fx:id="orderIdColumn" prefWidth="50.399959564208984" text="Mã HĐ" />
                 <TableColumn fx:id="totalBillColumn" text="Tổng tiền" />
                   <TableColumn fx:id="totalPayColumn" prefWidth="79.20001220703125" text="Thanh toán" />
-                  <TableColumn fx:id="changeMoneyColumn" prefWidth="103.19998168945312" text="Tiền thừa" />
-                  <TableColumn fx:id="modePaymentColumn" prefWidth="89.60000610351562" text="Thanh toán" />
-                  <TableColumn fx:id="modeDeliveryColumn" prefWidth="87.20001220703125" text="Giao hàng" />
+                  <TableColumn fx:id="changeMoneyColumn" prefWidth="90.40003967285156" text="Tiền thừa" />
+                  <TableColumn fx:id="modePaymentColumn" prefWidth="112.79998779296875" text="Hình thức thanh toán" />
+                  <TableColumn fx:id="modeDeliveryColumn" prefWidth="78.4000244140625" text="Giao hàng" />
                   <TableColumn fx:id="dateCreatedColumn" prefWidth="116.0" text="Ngày lập hóa đơn" />
                   <TableColumn fx:id="statusColumn" prefWidth="84.800048828125" text="Trạng thái" />
                   <TableColumn fx:id="nameStaffColumn" prefWidth="96.00006103515625" text="Tên NV" />
