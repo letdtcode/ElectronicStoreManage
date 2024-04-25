@@ -1,4 +1,4 @@
-package com.mascara.electronicstoremanage.view_model.order_item;
+package com.mascara.electronicstoremanage.view_model.order;
 
 import com.mascara.electronicstoremanage.common.paging.PagingRequest;
 

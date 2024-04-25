@@ -1,18 +1,15 @@
 package com.mascara.electronicstoremanage.repositories.order;
 
 import com.mascara.electronicstoremanage.common.mapper.OrderMapper;
-import com.mascara.electronicstoremanage.entities.Brand;
-import com.mascara.electronicstoremanage.entities.Customer;
-import com.mascara.electronicstoremanage.entities.Order;
-import com.mascara.electronicstoremanage.entities.Staff;
+import com.mascara.electronicstoremanage.entities.*;
 import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 import org.hibernate.Session;
@@ -21,6 +18,7 @@ import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by: IntelliJ IDEA
@@ -139,11 +137,24 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public boolean cancelOrder(Long orderId) {
         Session session = HibernateUtils.getSession();
+        Transaction transaction = session.beginTransaction();
         try {
             Order order = session.find(Order.class, orderId);
             order.setStatus(OrderStatusEnum.CANCELED);
+
+            Set<OrderItem> orderItemSet = order.getOrderItemSet();
+            for (OrderItem item : orderItemSet) {
+                long productId = item.getProductId();
+                Product product = session.find(Product.class, productId);
+                int currentQuantity = product.getQuantity();
+                product.setQuantity(currentQuantity + item.getQuantity());
+                session.merge(product);
+            }
+            transaction.commit();
             return HibernateUtils.merge(order);
         } catch (Exception e) {
+            if (transaction != null)
+                transaction.rollback();
             e.printStackTrace();
         } finally {
             session.close();

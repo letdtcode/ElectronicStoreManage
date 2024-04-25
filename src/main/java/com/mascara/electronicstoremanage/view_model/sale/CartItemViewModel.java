@@ -1,5 +1,6 @@
 package com.mascara.electronicstoremanage.view_model.sale;
 
+import com.mascara.electronicstoremanage.enums.discount.TypeDiscountEnum;
 import com.mascara.electronicstoremanage.utils.CurrencyUtils;
 import lombok.*;
 
@@ -22,4 +23,6 @@ public class CartItemViewModel {
     private Double unitPrice;
     private Integer quantity;
     private String unitPriceShow;
+    private Double discountValue;
+    private TypeDiscountEnum typeDiscount;
 }

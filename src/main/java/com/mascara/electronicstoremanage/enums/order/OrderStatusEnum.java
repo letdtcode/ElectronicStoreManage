@@ -19,4 +19,25 @@ public enum OrderStatusEnum {
         this.key = key;
         this.display = display;
     }
+
+    public static OrderStatusEnum getEnumByDisplay(String display) {
+        switch (display) {
+            case "Chờ thanh toán":
+                return OrderStatusEnum.PENDING;
+            case "Đã thanh toán":
+                return OrderStatusEnum.PAID;
+            case "Đã hủy":
+                return OrderStatusEnum.CANCELED;
+            default:
+                return null;
+        }
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
 }

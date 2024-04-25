@@ -1,4 +1,4 @@
-package com.mascara.electronicstoremanage.view_model.order;
+package com.mascara.electronicstoremanage.view_model.sale;
 
 import com.mascara.electronicstoremanage.enums.order.ModeOfDeliveryEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;

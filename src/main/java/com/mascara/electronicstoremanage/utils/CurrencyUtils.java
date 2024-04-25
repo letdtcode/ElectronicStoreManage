@@ -41,16 +41,21 @@ public class CurrencyUtils {
         return numberFormat.format(money);
     }
 
-//    public Double parseVietnamCurrency(final String amount) {
-//        final NumberFormat format = NumberFormat.getNumberInstance(this.locale);
-//        if (format instanceof DecimalFormat) {
-//            ((DecimalFormat) format).setParseBigDecimal(true);
-//        }
-//        try {
-//            return (Double) format.parse(amount.replaceAll("[^\\d.,]", ""));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    public Double parseVietnamCurrency(final String amount) {
+        final NumberFormat format = NumberFormat.getNumberInstance(this.locale);
+        if (format instanceof DecimalFormat) {
+            ((DecimalFormat) format).setParseBigDecimal(true);
+        }
+        try {
+            return format.parse(amount.replaceAll("[^\\d.,]", "")).doubleValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getSymbolCurrencyVietnam() {
+        Currency currency = Currency.getInstance("VND");
+        return currency.getSymbol();
+    }
 }

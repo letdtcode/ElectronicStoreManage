@@ -3,7 +3,7 @@ package com.mascara.electronicstoremanage.services.order;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order.OrderUpdateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;

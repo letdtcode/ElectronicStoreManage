@@ -140,6 +140,8 @@ public class ManageSaleController implements Initializable {
     @FXML
     private Button btnChangeQuantityProductInCartItem;
 
+    private boolean isChangingText = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllProduct();
@@ -171,6 +173,12 @@ public class ManageSaleController implements Initializable {
 
         cbbPayment.getSelectionModel().selectFirst();
         cbbDelivery.getSelectionModel().selectFirst();
+
+        lblTotalBill.setText(0 + " " + CurrencyUtils.getInstance().getSymbolCurrencyVietnam());
+        lblDiscountMoney.setText(0 + " " + CurrencyUtils.getInstance().getSymbolCurrencyVietnam());
+        lblTotalPay.setText(0 + " " + CurrencyUtils.getInstance().getSymbolCurrencyVietnam());
+        lblChangeMoney.setText(0 + " " + CurrencyUtils.getInstance().getSymbolCurrencyVietnam());
+        txtCustomerGive.setText("");
     }
 
     private void retrieveAllCardItem() {
@@ -186,12 +194,13 @@ public class ManageSaleController implements Initializable {
         CartItemPagingRequest request = new CartItemPagingRequest();
         request.setCondition(" orderId = " + orderId);
         List<CartItemViewModel> cardItemList =
-                OrderItemServiceImpl.getInstance().retrieveAllCartItem(orderId, request);
+                OrderItemServiceImpl.getInstance().retrieveAllCartItem( request);
         cardItemViewModels = FXCollections.observableArrayList(cardItemList);
         cardItemsTableView.setItems(cardItemViewModels);
     }
 
     private void addListener() {
+        Utillities.getInstance().setEventOnlyAcceptNumber(txtCustomerGive);
         orderWaitingTableView.setRowFactory(param -> {
             TableRow<OrderWaitingViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -206,13 +215,40 @@ public class ManageSaleController implements Initializable {
                     reloadDataCartItem(orderWaitingViewModel.getId());
 
                     double total = 0d;
-                    for (CartItemViewModel cardItem : cardItemViewModels) {
-                        total += cardItem.getUnitPrice() * cardItem.getQuantity();
+                    double totalDiscount = 0d;
+                    double totalPay = 0d;
+                    for (CartItemViewModel cartItem : cardItemViewModels) {
+                        total += cartItem.getUnitPrice() * cartItem.getQuantity();
                     }
                     lblTotalBill.setText(CurrencyUtils.getInstance().convertVietnamCurrency(total));
+
+                    for (CartItemViewModel cartItem : cardItemViewModels) {
+                        if (cartItem.getTypeDiscount() != null) {
+                            switch (cartItem.getTypeDiscount()) {
+                                case CASH -> totalDiscount += cartItem.getDiscountValue() * cartItem.getQuantity();
+                                case PERCENT ->
+                                        totalDiscount += ((cartItem.getUnitPrice() * cartItem.getDiscountValue()) / 100) * cartItem.getQuantity();
+                            }
+                        }
+                    }
+                    lblDiscountMoney.setText(CurrencyUtils.getInstance().convertVietnamCurrency(totalDiscount));
+
+                    totalPay = total - totalDiscount;
+                    lblTotalPay.setText(CurrencyUtils.getInstance().convertVietnamCurrency(totalPay));
+
+
                 }
             });
             return row;
+        });
+
+        txtCustomerGive.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                txtCustomerGive.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+            double changeMoney = 0d;
+            changeMoney = Double.parseDouble(txtCustomerGive.getText().isEmpty() ? String.valueOf(0d) : txtCustomerGive.getText()) - CurrencyUtils.getInstance().parseVietnamCurrency(lblTotalPay.getText());
+            lblChangeMoney.setText(CurrencyUtils.getInstance().convertVietnamCurrency(changeMoney));
         });
 
         //        search filter event
@@ -431,6 +467,73 @@ public class ManageSaleController implements Initializable {
             retrieveAllProduct();
             reloadDataCartItem(orderWaitingViewModel.getId());
             addListener();
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
+        }
+    }
+
+    @FXML
+    public void setOnActionCheckout(ActionEvent actionEvent) {
+        boolean isValid = validForCheckout();
+        if (isValid) {
+            if (orderWaitingTableView.getSelectionModel().getSelectedIndex() > -1) {
+                OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+                OrderUpdateRequest request = OrderUpdateRequest.builder()
+                        .Id(orderWaitingViewModel.getId())
+                        .totalBill(CurrencyUtils.getInstance().parseVietnamCurrency(lblTotalBill.getText()))
+                        .totalPay(CurrencyUtils.getInstance().parseVietnamCurrency(lblTotalPay.getText()))
+                        .changeMoney(CurrencyUtils.getInstance().parseVietnamCurrency(lblChangeMoney.getText()))
+                        .modeOfDelivery(ModeOfDeliveryEnum.getEnumByDisplay(cbbDelivery.getValue().toString()))
+                        .modeOfPayment(ModeOfPaymentEnum.getEnumByDisplay(cbbPayment.getValue().toString()))
+                        .note(textareaNote.getText())
+                        .status(OrderStatusEnum.PAID)
+                        .staffId(1l)
+                        .customerId(1l)
+                        .build();
+                boolean success = OrderServiceImpl.getInstance().updateOrder(request);
+                if (success) {
+                    AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CHECKOUT_SUCCESS);
+                } else {
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+                }
+                retrieveAllOrderWaiting();
+                setUpUI();
+            } else {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
+            }
+
+        }
+    }
+
+    private boolean validForCheckout() {
+        boolean isValid = true;
+        double totalPay = CurrencyUtils.getInstance().parseVietnamCurrency(lblTotalPay.getText());
+        double customerGive = txtCustomerGive.getText().isEmpty() ? 0 : Double.valueOf(txtCustomerGive.getText());
+        if (customerGive < totalPay) {
+            isValid = false;
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_MONEY_CUSTOMER_GIVE_NOT_ENOUGH);
+        }
+        if (cardItemViewModels.isEmpty()) {
+            isValid = false;
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CART_EMPTY);
+        }
+        return isValid;
+    }
+
+    @FXML
+    public void setOnActionCancelOrder(ActionEvent actionEvent) {
+        if (orderWaitingTableView.getSelectionModel().getSelectedIndex() > -1) {
+            OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+            boolean success = OrderServiceImpl.getInstance().cancelOrder(orderWaitingViewModel.getId());
+            if (success) {
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_CANCEL_ORDER_SUCCESS);
+            } else {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+            }
+            retrieveAllOrderWaiting();
+            retrieveAllProduct();
+            cardItemsTableView.getItems().clear();
+            setUpUI();
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
         }

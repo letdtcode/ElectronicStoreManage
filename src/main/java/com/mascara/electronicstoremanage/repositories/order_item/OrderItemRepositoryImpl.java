@@ -6,8 +6,8 @@ import com.mascara.electronicstoremanage.entities.Order;
 import com.mascara.electronicstoremanage.entities.OrderItem;
 import com.mascara.electronicstoremanage.entities.Product;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
+import com.mascara.electronicstoremanage.view_model.order.OrderItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.order.OrderItemViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemUpdateRequest;
@@ -152,7 +152,7 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
     public OrderItemViewModel retrieveById(Long entityId) {
         Session session = HibernateUtils.getSession();
         OrderItem orderItem = session.find(OrderItem.class, entityId);
-        OrderItemViewModel orderItemViewModel = OrderItemMapper.getInstance.entityToViewModel(orderItem);
+        OrderItemViewModel orderItemViewModel = OrderItemMapper.getInstance.entityToViewModel(orderItem, orderItem.getUnitPrice(), orderItem.getQuantity());
         return orderItemViewModel;
     }
 
@@ -168,14 +168,14 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
         List<OrderItem> orderItemList = query.getResultList();
 
         for (OrderItem orderItem : orderItemList) {
-            list.add(OrderItemMapper.getInstance.entityToViewModel(orderItem));
+            list.add(OrderItemMapper.getInstance.entityToViewModel(orderItem, orderItem.getUnitPrice(), orderItem.getQuantity()));
         }
         session.close();
         return list;
     }
 
     @Override
-    public List<CartItemViewModel> retrieveAllCartItem(Long orderId, CartItemPagingRequest request) {
+    public List<CartItemViewModel> retrieveAllCartItem(CartItemPagingRequest request) {
         List<CartItemViewModel> list = new ArrayList<>();
         Session session = HibernateUtils.getSession();
         int offset = (request.getPageIndex() - 1) * request.getPageSize();
@@ -187,6 +187,24 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
 
         for (OrderItem orderItem : orderItems) {
             list.add(OrderItemMapper.getInstance.entityToCartItemViewModel(orderItem));
+        }
+        session.close();
+        return list;
+    }
+
+    @Override
+    public List<OrderItemViewModel> retrieveListOrderItemOfOrder(OrderItemPagingRequest request) {
+        List<OrderItemViewModel> list = new ArrayList<>();
+        Session session = HibernateUtils.getSession();
+        int offset = (request.getPageIndex() - 1) * request.getPageSize();
+        String cmd = HibernateUtils.getRetrieveAllQuery("OrderItem", request);
+        Query query = session.createQuery(cmd, OrderItem.class);
+        query.setFirstResult(offset);
+        query.setMaxResults(request.getPageSize());
+        List<OrderItem> orderItems = query.getResultList();
+
+        for (OrderItem orderItem : orderItems) {
+            list.add(OrderItemMapper.getInstance.entityToViewModel(orderItem, orderItem.getUnitPrice(), orderItem.getQuantity()));
         }
         session.close();
         return list;

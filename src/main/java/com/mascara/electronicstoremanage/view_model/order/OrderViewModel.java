@@ -1,9 +1,11 @@
 package com.mascara.electronicstoremanage.view_model.order;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.mascara.electronicstoremanage.enums.order.ModeOfDeliveryEnum;
+import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;
+import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
+import lombok.*;
+
+import java.time.LocalDate;
 
 /**
  * Created by: IntelliJ IDEA
@@ -15,6 +17,26 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-//@NoArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OrderViewModel {
+    private Long id;
+    private Double totalBill;
+    private String totalBillShow;
+    private Double totalPay;
+    private String totalPayShow;
+    private Double changeMoney;
+    private String changeMoneyShow;
+    private ModeOfDeliveryEnum modeOfDelivery;
+    private String modeOfDeliveryShow;
+    private ModeOfPaymentEnum modeOfPayment;
+    private String modeOfPaymentShow;
+    private OrderStatusEnum status;
+    private String statusShow;
+    private Long staffId;
+    private String fullNameStaff;
+    private Long customerId;
+    private String fullNameCustomer;
+    private String note;
+    private LocalDate dateCheckout;
 }

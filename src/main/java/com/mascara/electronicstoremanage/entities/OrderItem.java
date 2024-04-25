@@ -60,5 +60,4 @@ public class OrderItem extends BasePesistence {
 
     @Column(name = "product_id", nullable = false)
     private Long productId;
-
 }

@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.manage_order.ManageOrderController">
    <children>
       <Pane layoutX="9.0" layoutY="25.0" prefHeight="466.0" prefWidth="1127.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
@@ -21,25 +20,25 @@
                   <Pane prefHeight="82.0" prefWidth="200.0" style="-fx-border-color: #c5c5c5;">
                      <children>
                         <Text layoutX="43.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái thanh toán" />
-                        <ComboBox layoutX="14.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
+                        <ComboBox fx:id="cbbStatusOrder" layoutX="14.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="82.0" prefWidth="200.0" style="-fx-border-color: #c5c5c5;">
                      <children>
-                        <Text layoutX="74.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức giao hàng" />
-                        <ComboBox layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
+                        <Text layoutX="46.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức giao hàng" />
+                        <ComboBox fx:id="cbbModeDelivery" layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="82.0" prefWidth="200.0" style="-fx-border-color: #c5c5c5;">
                      <children>
                         <Text layoutX="43.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hình thức thanh toán" />
-                        <ComboBox layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
+                        <ComboBox fx:id="cbbModePayment" layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="82.0" prefWidth="200.0" style="-fx-border-color: #c5c5c5;">
                      <children>
                         <Text layoutX="74.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng tiền" />
-                        <ComboBox layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
+                        <ComboBox fx:id="cbbRangeBill" layoutX="20.0" layoutY="41.0" prefHeight="25.0" prefWidth="159.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="82.0" prefWidth="200.0" style="-fx-border-color: #c5c5c5;">
@@ -49,13 +48,13 @@
                               <VBox spacing="10.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tháng:" />
-                                    <ComboBox prefHeight="25.0" prefWidth="68.0" />
+                                    <ComboBox fx:id="cbbMonthList" prefHeight="25.0" prefWidth="68.0" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Năm:" />
-                                    <ComboBox prefHeight="25.0" prefWidth="85.0" />
+                                    <ComboBox fx:id="cbbYearList" prefHeight="25.0" prefWidth="85.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -67,38 +66,36 @@
             <Pane layoutX="279.0" layoutY="46.0" prefHeight="66.0" prefWidth="751.0" style="-fx-border-color: #c5c5c5;">
                <children>
                   <Text layoutX="34.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm hóa đơn:" />
-                  <TextField layoutX="149.0" layoutY="16.0" prefHeight="25.0" prefWidth="564.0" />
+                  <TextField fx:id="txtSearchOrder" layoutX="149.0" layoutY="16.0" prefHeight="25.0" prefWidth="564.0" />
                </children>
             </Pane>
-            <TableView layoutX="21.0" layoutY="240.0" prefHeight="200.0" prefWidth="1088.0">
+            <TableView fx:id="orderTableView" layoutX="21.0" layoutY="240.0" prefHeight="200.0" prefWidth="1088.0">
               <columns>
-                <TableColumn prefWidth="50.399959564208984" text="Mã HĐ" />
-                <TableColumn text="Tổng tiền" />
-                  <TableColumn prefWidth="79.20001220703125" text="Thanh toán" />
-                  <TableColumn prefWidth="94.39997863769531" text="Tiền thừa trả khách" />
-                  <TableColumn prefWidth="75.0" text="Hình thức thanh toán" />
-                  <TableColumn prefWidth="112.800048828125" text="Hình thức giao hàng" />
-                  <TableColumn prefWidth="106.39996337890625" text="Ngày lập hóa đơn" />
-                  <TableColumn prefWidth="67.20001220703125" text="Trạng thái" />
-                  <TableColumn prefWidth="49.5999755859375" text="Mã NV" />
-                  <TableColumn prefWidth="103.2000732421875" text="Tên NV" />
-                  <TableColumn prefWidth="60.79998779296875" text="Mã KH" />
-                  <TableColumn prefWidth="110.39996337890625" text="Tên KH" />
-                  <TableColumn prefWidth="112.7999267578125" text="Ghi chú" />
+                <TableColumn fx:id="orderIdColumn" prefWidth="50.399959564208984" text="Mã HĐ" />
+                <TableColumn fx:id="totalBillColumn" text="Tổng tiền" />
+                  <TableColumn fx:id="totalPayColumn" prefWidth="79.20001220703125" text="Thanh toán" />
+                  <TableColumn fx:id="changeMoneyColumn" prefWidth="103.19998168945312" text="Tiền thừa" />
+                  <TableColumn fx:id="modePaymentColumn" prefWidth="89.60000610351562" text="Thanh toán" />
+                  <TableColumn fx:id="modeDeliveryColumn" prefWidth="87.20001220703125" text="Giao hàng" />
+                  <TableColumn fx:id="dateCreatedColumn" prefWidth="116.0" text="Ngày lập hóa đơn" />
+                  <TableColumn fx:id="statusColumn" prefWidth="84.800048828125" text="Trạng thái" />
+                  <TableColumn fx:id="nameStaffColumn" prefWidth="96.00006103515625" text="Tên NV" />
+                  <TableColumn fx:id="nameCustomerColumn" minWidth="0.0" prefWidth="121.60003662109375" text="Tên KH" />
+                  <TableColumn fx:id="noteColumn" minWidth="0.0" prefWidth="180.80010986328125" text="Ghi chú" />
               </columns>
             </TableView>
          </children>
       </Pane>
       <Pane layoutX="9.0" layoutY="532.0" prefHeight="230.0" prefWidth="1127.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
          <children>
-            <TableView layoutX="20.0" layoutY="15.0" prefHeight="200.0" prefWidth="1088.0">
+            <TableView fx:id="orderItemTableView" layoutX="20.0" layoutY="15.0" prefHeight="200.0" prefWidth="1088.0">
                <columns>
-                  <TableColumn prefWidth="107.99996566772461" text="Mã HĐ chi tiết" />
-                  <TableColumn prefWidth="157.6000518798828" text="Mã sản phẩm" />
-                  <TableColumn prefWidth="230.39999389648438" text="Tên sản phẩm chi tiết" />
-                  <TableColumn prefWidth="221.60003662109375" text="Số lượng" />
-                  <TableColumn prefWidth="193.59994506835938" text="Đơn giá" />
-                  <TableColumn prefWidth="180.00003051757812" text="Thành tiền" />
+                  <TableColumn fx:id="orderItemIdColumn" prefWidth="107.99996566772461" text="Mã HĐ chi tiết" />
+                  <TableColumn fx:id="productIdColumn" prefWidth="157.6000518798828" text="Mã sản phẩm" />
+                  <TableColumn fx:id="productNameColumn" prefWidth="230.39999389648438" text="Tên sản phẩm chi tiết" />
+                  <TableColumn fx:id="quantityColumn" prefWidth="221.60003662109375" text="Số lượng" />
+                  <TableColumn fx:id="unitPriceColumn" prefWidth="193.59994506835938" text="Đơn giá" />
+                  <TableColumn fx:id="totalItemColumn" prefWidth="180.00003051757812" text="Thành tiền" />
                </columns>
             </TableView>
          </children>

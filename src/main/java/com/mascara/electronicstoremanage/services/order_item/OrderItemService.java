@@ -1,7 +1,7 @@
 package com.mascara.electronicstoremanage.services.order_item;
 
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemPagingRequest;
-import com.mascara.electronicstoremanage.view_model.order_item.OrderItemViewModel;
+import com.mascara.electronicstoremanage.view_model.order.OrderItemPagingRequest;
+import com.mascara.electronicstoremanage.view_model.order.OrderItemViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.CartItemUpdateRequest;
@@ -29,5 +29,7 @@ public interface OrderItemService {
 
     List<OrderItemViewModel> retrieveAllOrderItem(OrderItemPagingRequest request);
 
-    List<CartItemViewModel> retrieveAllCartItem(Long orderId, CartItemPagingRequest request);
+    List<OrderItemViewModel> retrieveListOrderItemOfOrder(OrderItemPagingRequest request);
+
+    List<CartItemViewModel> retrieveAllCartItem(CartItemPagingRequest request);
 }

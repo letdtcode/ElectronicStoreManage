@@ -110,7 +110,7 @@
                   <Button fx:id="btnReloadCustomerData" layoutX="267.0" layoutY="8.0" mnemonicParsing="false" onAction="#setOnActionReloadChangeCustomer" prefHeight="39.0" prefWidth="43.0" styleClass="btnReloadCustomerData" stylesheets="@../style.css" />
                </children>
             </Pane>
-            <Button fx:id="btnCheckOut" layoutX="64.0" layoutY="656.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="239.0" text="THANH TOÁN">
+            <Button fx:id="btnCheckOut" layoutX="64.0" layoutY="656.0" mnemonicParsing="false" onAction="#setOnActionCheckout" prefHeight="86.0" prefWidth="239.0" text="THANH TOÁN">
                <font>
                   <Font name="Segoe UI Bold" size="24.0" />
                </font></Button>
@@ -118,7 +118,7 @@
             <Button fx:id="btnCreateOrder" layoutX="273.0" layoutY="155.0" mnemonicParsing="false" onAction="#setOnActionCreateOrder" text="Tạo mới" />
             <ComboBox fx:id="cbbPayment" layoutX="168.0" layoutY="403.0" prefHeight="25.0" prefWidth="159.0" />
             <ComboBox fx:id="cbbDelivery" layoutX="168.0" layoutY="444.0" prefHeight="25.0" prefWidth="159.0" />
-            <Button fx:id="btnCancelOrder" layoutX="63.0" layoutY="619.0" mnemonicParsing="false" text="Hủy hóa đơn" />
+            <Button fx:id="btnCancelOrder" layoutX="63.0" layoutY="619.0" mnemonicParsing="false" onAction="#setOnActionCancelOrder" text="Hủy hóa đơn" />
             <Button fx:id="btnReloadOrder" layoutX="231.0" layoutY="619.0" mnemonicParsing="false" onAction="#setOnActionReloadOrder" text="Làm mới" />
          </children>
       </Pane>
