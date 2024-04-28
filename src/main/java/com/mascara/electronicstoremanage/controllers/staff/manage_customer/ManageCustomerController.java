@@ -113,12 +113,13 @@ public class ManageCustomerController implements Initializable {
     @FXML
     private Pane customerPanel;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllCustomer();
         retrieveAllHistoryOrder();
-        addListener();
         setUpUI();
+        addListener();
     }
 
     private void setUpUI() {
@@ -147,12 +148,17 @@ public class ManageCustomerController implements Initializable {
         tabPanel.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             int selectedIndex = newValue.intValue();
             if (selectedIndex == 1) {
-                CustomerViewModel customerViewModel = customerTableView.getSelectionModel().getSelectedItem();
-                HistoryOrderPagingRequest request = new HistoryOrderPagingRequest();
-                request.setCondition(" customerId = " + customerViewModel.getId());
-                List<HistoryOrderViewModel> historyOrderList = OrderServiceImpl.getInstance()
-                        .retrieveHistoryOrderCustomer(request);
-                historyOrderViewModels = FXCollections.observableArrayList(historyOrderList);
+                if (customerTableView.getSelectionModel().getSelectedIndex() == -1) {
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
+                } else {
+                    CustomerViewModel customerViewModel = customerTableView.getSelectionModel().getSelectedItem();
+                    HistoryOrderPagingRequest request = new HistoryOrderPagingRequest();
+                    request.setCondition(" customerId = " + customerViewModel.getId());
+                    List<HistoryOrderViewModel> historyOrderList = OrderServiceImpl.getInstance()
+                            .retrieveHistoryOrderCustomer(request);
+                    historyOrderViewModels = FXCollections.observableArrayList(historyOrderList);
+                    historyOrderTableView.setItems(historyOrderViewModels);
+                }
             }
         });
         Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);

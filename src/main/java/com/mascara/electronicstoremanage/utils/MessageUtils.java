@@ -75,6 +75,7 @@ public class MessageUtils {
     public static final String INFO_CANCEL_ORDER_SUCCESS = "Hủy đơn hàng thành công";
     public static final String INFO_DELETE_ALL_CART_ITEM_SUCCESS = "Đã xóa tất cả sản phẩm trong hóa đơn đang chờ";
     public static final String WARNING_MUST_CHOOSE_PRODUCT_AND_ORDER = "Vui lòng chọn sản phẩm muốn thêm vào giỏ";
+    public static final String WARNING_MUST_CHOOSE_ORDER = "Vui lòng chọn hóa đơn";
     public static final String WARNING_PRODUCT_NOT_ENOUGH = "Số lượng sản phẩm không đủ";
     public static final String WARNING_MONEY_CUSTOMER_GIVE_NOT_ENOUGH = "Không đủ thanh toán hóa đơn";
 

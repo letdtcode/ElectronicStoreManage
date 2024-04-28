@@ -66,4 +66,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductApplyViewModel> retrieveAllProductApply(ProductApplyPagingRequest request) {
         return ProductRepositoryImpl.getInstance().retrieveAllProductApply(request);
     }
+
+    @Override
+    public ProductSaleViewModel retrieveByCode(String code) {
+        return ProductRepositoryImpl.getInstance().retrieveByCode(code);
+    }
 }

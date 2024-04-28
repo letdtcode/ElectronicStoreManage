@@ -2,6 +2,8 @@ package com.mascara.electronicstoremanage;
 
 import com.mascara.electronicstoremanage.entities.Role;
 import com.mascara.electronicstoremanage.services.role.RoleServiceImpl;
+import com.mascara.electronicstoremanage.utils.BarCodeUtils;
+import com.mascara.electronicstoremanage.utils.EAN13Generator;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.role.RoleCreateRequest;
 import javafx.application.Application;
@@ -27,6 +29,9 @@ public class MainScreen extends Application {
     public static void main(String[] args) {
         HibernateUtils.buildTable();
         initData();
+        BarCodeUtils.getInstance().generateCode128BarcodeImage(EAN13Generator.getInstance().generateRandomEAN13(), "upload/barcodes/example1.jpg");
+        BarCodeUtils.getInstance().generateCode128BarcodeImage(EAN13Generator.getInstance().generateRandomEAN13(), "upload/barcodes/example2.jpg");
+
         launch();
     }
 

@@ -32,4 +32,6 @@ public interface ProductService {
     List<ProductSaleViewModel> retrieveAllProductSale(ProductSalePagingRequest request);
 
     List<ProductApplyViewModel> retrieveAllProductApply(ProductApplyPagingRequest request);
+
+    ProductSaleViewModel retrieveByCode(String code);
 }

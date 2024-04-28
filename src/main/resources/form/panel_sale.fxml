@@ -68,7 +68,11 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Pane fx:id="panelCamera" layoutX="21.0" layoutY="33.0" prefHeight="134.0" prefWidth="159.0" style="-fx-background-color: #000;" />
+            <Button fx:id="btnOpenCamera" layoutX="41.0" layoutY="74.0" mnemonicParsing="false" onAction="#setOnActionOpenCamera" prefHeight="70.0" prefWidth="118.0" text="Mở Camera">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Pane layoutX="790.0" prefHeight="768.0" prefWidth="355.0" style="-fx-background-color: #BFEDEB;">

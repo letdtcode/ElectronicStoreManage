@@ -25,4 +25,6 @@ public interface ProductRepository extends ModifyEntityRequest<ProductCreateRequ
     List<ProductSaleViewModel> retrieveAllProductSale(ProductSalePagingRequest request);
 
     List<ProductApplyViewModel> retrieveAllProductApply(ProductApplyPagingRequest request);
+
+    ProductSaleViewModel retrieveByCode(String code);
 }

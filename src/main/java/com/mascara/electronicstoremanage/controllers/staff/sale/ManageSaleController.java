@@ -1,5 +1,7 @@
 package com.mascara.electronicstoremanage.controllers.staff.sale;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
 import com.mascara.electronicstoremanage.enums.order.ModeOfDeliveryEnum;
 import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;
 import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
@@ -15,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,13 +25,15 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.Exchanger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -45,8 +50,6 @@ public class ManageSaleController implements Initializable {
     private Button btnAddToCard;
     @FXML
     private TableView<ProductSaleViewModel> productTableView;
-    @FXML
-    private Pane panelCamera;
     @FXML
     private Text lblIdOrder;
     @FXML
@@ -142,14 +145,57 @@ public class ManageSaleController implements Initializable {
 
     private boolean isChangingText = false;
 
+    private WebcamPanel webcamPanel = null;
+    private Webcam webcam = null;
+
+    private SwingNode swingNode;
+    @FXML
+    private Button btnOpenCamera;
+
+    private Exchanger<String> productCode = new Exchanger<>();
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllProduct();
         retrieveAllOrderWaiting();
         retrieveAllCardItem();
+//        initCamera();
+//        cameraHandle();
         setUpUI();
         addListener();
     }
+
+
+    private void initCamera() {
+        swingNode = new SwingNode();
+//        Dimension size = WebcamResolution.QVGA.getSize();
+//        webcam = Webcam.getWebcams().get(0);
+//        webcam.setViewSize(size);
+//
+//        webcamPanel = new WebcamPanel(webcam);
+//        webcamPanel.setPreferredSize(size);
+//        webcamPanel.setFPSDisplayed(true);
+
+//        panelCamera.getChildren().add(swingNode);
+    }
+
+//    private void createSwingContent(final SwingNode swingNode) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                Dimension size = WebcamResolution.QVGA.getSize();
+//                webcam = Webcam.getWebcams().get(0);
+//                webcam.setViewSize(size);
+//
+//                webcamPanel = new WebcamPanel(webcam);
+//                webcamPanel.setPreferredSize(size);
+//                webcamPanel.setFPSDisplayed(true);
+//                swingNode.setContent(webcamPanel);
+//                webcamPanel.start();
+//            }
+//        });
+//    }
 
     private void setUpUI() {
         btnCreateOrder.setDisable(false);
@@ -194,7 +240,7 @@ public class ManageSaleController implements Initializable {
         CartItemPagingRequest request = new CartItemPagingRequest();
         request.setCondition(" orderId = " + orderId);
         List<CartItemViewModel> cardItemList =
-                OrderItemServiceImpl.getInstance().retrieveAllCartItem( request);
+                OrderItemServiceImpl.getInstance().retrieveAllCartItem(request);
         cardItemViewModels = FXCollections.observableArrayList(cardItemList);
         cardItemsTableView.setItems(cardItemViewModels);
     }
@@ -536,6 +582,57 @@ public class ManageSaleController implements Initializable {
             setUpUI();
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
+        }
+    }
+
+    private void showMessage(String text) {
+        JOptionPane.showMessageDialog(null, text);
+    }
+
+    @FXML
+    public void setOnActionOpenCamera(ActionEvent actionEvent) {
+        if (orderWaitingTableView.getSelectionModel().getSelectedIndex() > -1) {
+            OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
+
+            AtomicReference<String> productCode = new AtomicReference<>();
+            final Thread thread = new Thread(() -> {
+                try (QrCapture qr = new QrCapture()) {
+                    productCode.set(qr.getResult());
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            thread.setDaemon(true);
+            thread.start();
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            ProductSaleViewModel productSaleViewModel = ProductServiceImpl.getInstance().retrieveByCode(productCode.get());
+            if (productSaleViewModel != null) {
+                Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", "Vui lòng nhập số lượng sản phẩm: ");
+                if (quantityStr.isPresent()) {
+                    int quantity = Integer.parseInt(quantityStr.get());
+                    CartItemCreateRequest request = CartItemCreateRequest.builder()
+                            .quantity(quantity)
+                            .orderId(orderWaitingViewModel.getId())
+                            .productId(productSaleViewModel.getId())
+                            .build();
+                    Long orderItemId = OrderItemServiceImpl.getInstance().insertOrderItem(request);
+                    if (orderItemId != -1) {
+                        AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_ADD_CART_ITEM_SUCCESS);
+                        reloadDataCartItem(orderWaitingViewModel.getId());
+                        retrieveAllProduct();
+                        addListener();
+                    } else {
+                        AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
+                    }
+                }
+            }
+        } else {
+            AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_MUST_CHOOSE_ORDER);
         }
     }
 }

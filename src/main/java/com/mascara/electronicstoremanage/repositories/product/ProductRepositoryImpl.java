@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.repositories.product;
 
 import com.mascara.electronicstoremanage.common.mapper.ProductMapper;
 import com.mascara.electronicstoremanage.entities.*;
+import com.mascara.electronicstoremanage.utils.EAN13Generator;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyPagingRequest;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
@@ -18,7 +19,6 @@ import org.hibernate.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +45,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Long insert(ProductCreateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
-        UUID uuidCode = UUID.randomUUID();
+        String code = EAN13Generator.getInstance().generateRandomEAN13();
         Product product = Product.builder()
                 .productName(request.getProductName())
                 .description(request.getDescription())
@@ -59,7 +59,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .warrantyPeriod(request.getWarrantyPeriod())
                 .warrantyPeriodUnit(request.getWarrantyPeriodUnit())
                 .size(request.getSize())
-                .code(uuidCode.toString())
+                .code(code)
                 .status(request.getStatus())
                 .build();
         Long productId = -1L;
@@ -236,5 +236,18 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         session.close();
         return list;
+    }
+
+    @Override
+    public ProductSaleViewModel retrieveByCode(String code) {
+        Session session = HibernateUtils.getSession();
+        Optional<Product> product = session.createQuery("select p from Product p where p.code =: code and p.deleted is false", Product.class)
+                .setParameter("code", code)
+                .uniqueResultOptional();
+        if (product.isPresent()) {
+            ProductSaleViewModel productViewModel = ProductMapper.getInstance.entityToSaleViewModel(product.get());
+            return productViewModel;
+        }
+        return null;
     }
 }

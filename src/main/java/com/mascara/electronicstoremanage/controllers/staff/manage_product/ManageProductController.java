@@ -31,6 +31,8 @@ import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -326,6 +328,102 @@ public class ManageProductController implements Initializable {
             });
             return row;
         });
+
+
+        //        search and filter category
+        FilteredList<CategoryViewModel> filteredCategoryList = new FilteredList<>(categoryViewModels, b -> true);
+        txtSearchCategory.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterCategory(newValue, filteredCategoryList);
+        });
+
+        SortedList<CategoryViewModel> sortedCategoryList = new SortedList<>(filteredCategoryList);
+        sortedCategoryList.comparatorProperty().bind(categoryTableView.comparatorProperty());
+        categoryTableView.setItems(sortedCategoryList);
+
+        //        search and filter product
+        FilteredList<ProductViewModel> filteredProductList = new FilteredList<>(productViewModels, b -> true);
+        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterProduct(newValue, cbbCategoryFilter.getValue().toString(), cbbProductStatusFilter.getValue().toString(), filteredProductList);
+        });
+
+        cbbCategoryFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String categoryName = (String) cbbCategoryFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterProduct(txtSearchProduct.getText().trim(), categoryName, cbbProductStatusFilter.getValue().toString(), filteredProductList);
+                }
+        );
+
+        cbbProductStatusFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String productStatus = (String) cbbProductStatusFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterProduct(txtSearchProduct.getText().trim(), cbbCategoryFilter.getValue().toString(), productStatus, filteredProductList);
+                }
+        );
+
+        SortedList<ProductViewModel> sortedProductList = new SortedList<>(filteredProductList);
+        sortedProductList.comparatorProperty().bind(productTableView.comparatorProperty());
+        productTableView.setItems(sortedProductList);
+    }
+
+    private void searchAndFilterCategory(String newValueTextField, FilteredList<CategoryViewModel> filteredList) {
+        filteredList.setPredicate(categoryViewModel -> {
+            boolean resultSearch = searchByCategoryName(newValueTextField, categoryViewModel);
+
+            return resultSearch;
+        });
+    }
+
+    private boolean filterByProductStatus(String productStatus, ProductViewModel productViewModel) {
+        boolean result = false;
+        switch (productStatus) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Đang kinh doanh":
+                if (productViewModel.getStatus().equals(ProductStatusEnum.ON_BUSINESS))
+                    result = true;
+                break;
+            case "Ngừng kinh doanh":
+                if (productViewModel.getStatus().equals(ProductStatusEnum.STOP_BUSINESS))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByCategoryName(String categoryName, ProductViewModel productViewModel) {
+        if (productViewModel.getCategoryName().equals(categoryName))
+            return true;
+        return false;
+    }
+
+    private void searchAndFilterProduct(String newValueTextField, String categoryName, String productStatus, FilteredList<ProductViewModel> filteredList) {
+        filteredList.setPredicate(productViewModel -> {
+            boolean resultSearch = searchByProductName(newValueTextField, productViewModel);
+            boolean resultFilterCategoryName = filterByCategoryName(categoryName, productViewModel);
+            boolean resultFilterProductStatus = filterByProductStatus(productStatus, productViewModel);
+            return resultSearch;
+        });
+    }
+
+    private boolean searchByCategoryName(String newValueTextField, CategoryViewModel categoryViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (categoryViewModel.getCategoryName().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean searchByProductName(String newValueTextField, ProductViewModel productViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (productViewModel.getProductName().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
     }
 
     private void setUpUI() {
