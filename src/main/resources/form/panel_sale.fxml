@@ -68,7 +68,7 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Button fx:id="btnOpenCamera" layoutX="41.0" layoutY="74.0" mnemonicParsing="false" onAction="#setOnActionOpenCamera" prefHeight="70.0" prefWidth="118.0" text="Mở Camera">
+            <Button fx:id="btnOpenCamera" layoutX="50.0" layoutY="71.0" mnemonicParsing="false" onAction="#setOnActionOpenCamera" prefHeight="70.0" prefWidth="118.0" text="Mở Camera">
                <font>
                   <Font size="14.0" />
                </font>

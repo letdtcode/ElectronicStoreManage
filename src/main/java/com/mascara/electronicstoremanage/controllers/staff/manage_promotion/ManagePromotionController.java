@@ -6,6 +6,7 @@ import com.mascara.electronicstoremanage.services.discount.DiscountServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
 import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.discount.*;
 import javafx.beans.value.ChangeListener;
@@ -102,6 +103,8 @@ public class ManagePromotionController implements Initializable {
     private TableColumn typeDiscountColumn;
     @FXML
     private TableColumn salePriceColumn;
+    @FXML
+    private Button btnExportExcel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -339,5 +342,14 @@ public class ManagePromotionController implements Initializable {
         dtpDateStart.setValue(null);
         dtpDateEnd.setValue(null);
         retrieveAllDiscount();
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(discountTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

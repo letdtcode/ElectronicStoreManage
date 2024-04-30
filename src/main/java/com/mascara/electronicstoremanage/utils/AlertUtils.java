@@ -44,9 +44,10 @@ public class AlertUtils {
         return choose.get() == btnOk;
     }
 
-    public static Optional<String> textInputDialog(String title, String content) {
+    public static Optional<String> textInputDialog(String title, String headerText, String content) {
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setTitle(title);
+        textInputDialog.setHeaderText(headerText);
         textInputDialog.getDialogPane().setContentText(content);
         Utillities.getInstance().setEventOnlyAcceptNumber(textInputDialog.getEditor());
         return textInputDialog.showAndWait();

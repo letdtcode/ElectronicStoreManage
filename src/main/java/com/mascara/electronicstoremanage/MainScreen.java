@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -29,9 +30,6 @@ public class MainScreen extends Application {
     public static void main(String[] args) {
         HibernateUtils.buildTable();
         initData();
-        BarCodeUtils.getInstance().generateCode128BarcodeImage(EAN13Generator.getInstance().generateRandomEAN13(), "upload/barcodes/example1.jpg");
-        BarCodeUtils.getInstance().generateCode128BarcodeImage(EAN13Generator.getInstance().generateRandomEAN13(), "upload/barcodes/example2.jpg");
-
         launch();
     }
 

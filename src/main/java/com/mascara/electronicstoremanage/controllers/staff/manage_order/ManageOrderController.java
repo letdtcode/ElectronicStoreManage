@@ -5,6 +5,9 @@ import com.mascara.electronicstoremanage.enums.order.ModeOfPaymentEnum;
 import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.services.order_item.OrderItemServiceImpl;
+import com.mascara.electronicstoremanage.utils.AlertUtils;
+import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
 import com.mascara.electronicstoremanage.view_model.order.OrderItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderItemViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
@@ -13,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -112,6 +116,8 @@ public class ManageOrderController implements Initializable {
     private TableColumn unitPriceColumn;
     @FXML
     private TableColumn totalItemColumn;
+    @FXML
+    private Button btnExportExcel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -383,5 +389,14 @@ public class ManageOrderController implements Initializable {
         noteColumn.setCellValueFactory(new PropertyValueFactory<>("note"));
 
         orderTableView.setItems(orderViewModels);
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(orderTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

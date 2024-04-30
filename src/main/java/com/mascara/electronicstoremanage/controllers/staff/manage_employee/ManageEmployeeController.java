@@ -6,6 +6,7 @@ import com.mascara.electronicstoremanage.services.role.RoleServiceImpl;
 import com.mascara.electronicstoremanage.services.staff.StaffServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
 import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.role.RolePagingRequest;
 import com.mascara.electronicstoremanage.view_model.role.RoleViewModel;
@@ -114,6 +115,8 @@ public class ManageEmployeeController implements Initializable {
     private Pane staffPanel;
     @FXML
     private ComboBox cbbStatusFilter;
+    @FXML
+    private Button btnExportExcel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -363,5 +366,14 @@ public class ManageEmployeeController implements Initializable {
             isValid = false;
         }
         return isValid;
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(staffTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

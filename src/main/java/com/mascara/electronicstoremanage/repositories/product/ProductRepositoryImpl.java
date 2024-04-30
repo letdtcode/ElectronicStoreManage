@@ -2,7 +2,6 @@ package com.mascara.electronicstoremanage.repositories.product;
 
 import com.mascara.electronicstoremanage.common.mapper.ProductMapper;
 import com.mascara.electronicstoremanage.entities.*;
-import com.mascara.electronicstoremanage.utils.EAN13Generator;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyPagingRequest;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
@@ -45,7 +44,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Long insert(ProductCreateRequest request) {
         Session session = HibernateUtils.getSession();
         Transaction tx = null;
-        String code = EAN13Generator.getInstance().generateRandomEAN13();
         Product product = Product.builder()
                 .productName(request.getProductName())
                 .description(request.getDescription())
@@ -59,7 +57,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .warrantyPeriod(request.getWarrantyPeriod())
                 .warrantyPeriodUnit(request.getWarrantyPeriodUnit())
                 .size(request.getSize())
-                .code(code)
+                .code(request.getCode())
                 .status(request.getStatus())
                 .build();
         Long productId = -1L;

@@ -426,7 +426,7 @@ public class ManageSaleController implements Initializable {
             OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
             ProductSaleViewModel productSaleViewModel = productTableView.getSelectionModel().getSelectedItem();
 
-            Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", "Vui lòng nhập số lượng sản phẩm: ");
+            Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", productSaleViewModel.getProductName() + " - " + productSaleViewModel.getSalePriceShow(), "Vui lòng nhập số lượng sản phẩm: ");
             if (quantityStr.isPresent()) {
                 int quantity = Integer.parseInt(quantityStr.get());
                 CartItemCreateRequest request = CartItemCreateRequest.builder()
@@ -497,7 +497,7 @@ public class ManageSaleController implements Initializable {
         if (cardItemsTableView.getSelectionModel().getSelectedIndex() > -1) {
             OrderWaitingViewModel orderWaitingViewModel = orderWaitingTableView.getSelectionModel().getSelectedItem();
             CartItemViewModel cardItemViewModel = cardItemsTableView.getSelectionModel().getSelectedItem();
-            Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", "Vui lòng nhập số lượng sản phẩm: ");
+            Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", cardItemViewModel.getProductName() + " - " + cardItemViewModel.getUnitPriceShow(), "Vui lòng nhập số lượng sản phẩm: ");
             int quantity = Integer.parseInt(quantityStr.get());
             CartItemUpdateRequest request = CartItemUpdateRequest.builder()
                     .quantity(quantity)
@@ -612,7 +612,7 @@ public class ManageSaleController implements Initializable {
 
             ProductSaleViewModel productSaleViewModel = ProductServiceImpl.getInstance().retrieveByCode(productCode.get());
             if (productSaleViewModel != null) {
-                Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", "Vui lòng nhập số lượng sản phẩm: ");
+                Optional<String> quantityStr = AlertUtils.textInputDialog("Nhập số lượng", productSaleViewModel.getProductName() + " - " + productSaleViewModel.getSalePriceShow(), "Vui lòng nhập số lượng sản phẩm: ");
                 if (quantityStr.isPresent()) {
                     int quantity = Integer.parseInt(quantityStr.get());
                     CartItemCreateRequest request = CartItemCreateRequest.builder()
@@ -630,6 +630,8 @@ public class ManageSaleController implements Initializable {
                         AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
                     }
                 }
+            } else {
+                AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_NOT_RECOGNIZE_PRODUCT_CODE);
             }
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_MUST_CHOOSE_ORDER);

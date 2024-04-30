@@ -78,6 +78,7 @@ public class MessageUtils {
     public static final String WARNING_MUST_CHOOSE_ORDER = "Vui lòng chọn hóa đơn";
     public static final String WARNING_PRODUCT_NOT_ENOUGH = "Số lượng sản phẩm không đủ";
     public static final String WARNING_MONEY_CUSTOMER_GIVE_NOT_ENOUGH = "Không đủ thanh toán hóa đơn";
+    public static final String WARNING_NOT_RECOGNIZE_PRODUCT_CODE = "Không tìm thấy code sản phẩm";
 
 
     //    public static String INFO_UPDATE_CUSTOMER_SUCCESS = "Cập nhật khách hàng thành công";
@@ -102,5 +103,9 @@ public class MessageUtils {
     public static final String WARNING_USER_NAME_OR_PHONE_NUMBER_DUPLICATED = "User name hoặc số điện thoại đã tồn tại";
     public static final String WARNING_PASSWORD_NOT_ENOUGH_STRONG = "Password phải từ 8-20 kí tự bao gồm chữ cái viết hóa, thường, số và kí tự đặc biệt";
 
+    //Export Excel
+    public static final String EXPORT_EXCEL_FAILED = "Xuất excel thất bại. Vui lòng kiểm tra lại !";
+    public static final String EXPORT_EXCEL_SUCCESS = "Xuất excel thành công";
 
+    public static final String INFO_IMPORT_DATA_SUCCESS = "Nhập dữ liệu thành công";
 }

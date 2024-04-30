@@ -37,5 +37,6 @@ public class ProductCreateRequest {
     private String categoryName;
     private List<String> featureNameList;
     private List<String> colorNameList;
+    private String code;
     private ProductStatusEnum status;
 }

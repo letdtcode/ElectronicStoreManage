@@ -9,10 +9,7 @@ import com.mascara.electronicstoremanage.services.color.ColorServiceImpl;
 import com.mascara.electronicstoremanage.services.feature.FeatureServiceImpl;
 import com.mascara.electronicstoremanage.services.material.MaterialServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
-import com.mascara.electronicstoremanage.utils.AlertUtils;
-import com.mascara.electronicstoremanage.utils.FileHandleUtils;
-import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.*;
 import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
 import com.mascara.electronicstoremanage.view_model.brand.BrandViewModel;
 import com.mascara.electronicstoremanage.view_model.category.CategoryCreateRequest;
@@ -204,6 +201,10 @@ public class ManageProductController implements Initializable {
     private Pane productPanel;
     @FXML
     private Text lblProductCode;
+    @FXML
+    private Button btnExportExcel1;
+    @FXML
+    private Button btnImportExcel;
 
     public ManageProductController() {
         fileChooser = new FileChooser();
@@ -684,9 +685,13 @@ public class ManageProductController implements Initializable {
                 gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
                 fileImage);
         if (isValid) {
-            String pathImage = FileHandleUtils.getInstance().copyFile(
-                    Utillities.getInstance().toSlug(txtProductName.getText()),
-                    fileImage.getAbsolutePath());
+            String slugProductName = Utillities.getInstance().toSlug(txtProductName.getText());
+            String pathImage = FileHandleUtils.getInstance().copyFile(slugProductName, fileImage.getAbsolutePath());
+            String productCode = EAN13Generator.getInstance().generateRandomEAN13();
+            BarCodeUtils.getInstance()
+                    .generateCode128BarcodeImage(productCode,
+                            "upload/barcodes/" + slugProductName + ".jpg");
+
             ProductCreateRequest request = ProductCreateRequest.builder()
                     .productName(txtProductName.getText())
                     .description(textareaDescription.getText())
@@ -703,6 +708,7 @@ public class ManageProductController implements Initializable {
                     .brandName(cbbBrandName.getValue().toString())
                     .materialName(cbbMaterialName.getValue().toString())
                     .categoryName(cbbCategoryName.getValue().toString())
+                    .code(productCode)
                     .status(ProductStatusEnum.getEnumByDisplay(cbbProductStatus.getValue().toString()))
                     .build();
 
@@ -842,6 +848,43 @@ public class ManageProductController implements Initializable {
         fileImage = fileChooser.showOpenDialog(nodeRoot.getScene().getWindow());
         if (fileImage != null) {
             imgViewProduct.setImage(new Image(fileImage.toURI().toString(), 200, 175, true, true));
+        }
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(productTableView);
+        if (exportExcel) {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        } else {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
+        }
+    }
+
+    @FXML
+    public void setOnActionImportExcel(ActionEvent actionEvent) {
+        boolean importSuccess = true;
+        List<CategoryCreateRequest> requests = TableVieExporterUtils.getInstance().importCategory(btnImportExcel.getScene().getWindow());
+        if (requests != null && !requests.isEmpty()) {
+            for (CategoryCreateRequest request : requests) {
+                boolean isValid = validateDataCategory(request.getCategoryName());
+                if (isValid) {
+                    Long categoryId = CategoryServiceImpl.getInstance().insertCategory(request);
+                    if (categoryId == -1) {
+                        importSuccess = false;
+                        AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+                        break;
+                    }
+                } else {
+                    importSuccess = false;
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
+                    break;
+                }
+            }
+            if (importSuccess) {
+                retrieveAllCategory();
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_IMPORT_DATA_SUCCESS);
+            }
         }
     }
 }
