@@ -1,15 +1,17 @@
 package com.mascara.electronicstoremanage.services.order;
 
+import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.repositories.order.OrderRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
-import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
+import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -70,5 +72,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<HistoryOrderViewModel> retrieveHistoryOrderCustomer(HistoryOrderPagingRequest request) {
         return OrderRepositoryImpl.getInstance().retrieveHistoryOrderCustomer(request);
+    }
+
+    @Override
+    public Long countNumberOfOrderRangeDate(LocalDate dateStart, LocalDate dateEnd, OrderStatusEnum status) {
+        return OrderRepositoryImpl.getInstance().countNumberOfOrderRangeDate(dateStart, dateEnd, status);
     }
 }

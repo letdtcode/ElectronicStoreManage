@@ -6,7 +6,7 @@ import com.mascara.electronicstoremanage.services.discount.DiscountServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
 import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.discount.*;
 import javafx.beans.value.ChangeListener;
@@ -346,7 +346,7 @@ public class ManagePromotionController implements Initializable {
 
     @FXML
     public void setOnActionExportExcel(ActionEvent actionEvent) {
-        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(discountTableView);
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(discountTableView);
         if (exportExcel)
             AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
         else

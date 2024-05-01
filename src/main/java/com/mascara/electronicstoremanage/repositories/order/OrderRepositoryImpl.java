@@ -16,6 +16,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -196,5 +198,38 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
         session.close();
         return list;
+    }
+
+    @Override
+    public Long countNumberOfOrderRangeDate(LocalDate dateStart, LocalDate dateEnd, OrderStatusEnum status) {
+        Session session = HibernateUtils.getSession();
+        Transaction tx = null;
+        long result = 0;
+        try {
+            tx = session.beginTransaction();
+            if ((dateEnd == null && dateStart != null) || (dateStart == dateEnd && dateStart != null)) {
+                result = session.createQuery("select count(o.id) from Order o where o.lastModifiedDate =: dateStart and o.status =: status and o.deleted is false", Long.class)
+                        .setParameter("dateStart", dateStart.atStartOfDay())
+                        .setParameter("status", status)
+                        .uniqueResult();
+            } else if (dateStart != null && dateEnd != null) {
+                result = session.createQuery("select count(o.id) from Order o where o.lastModifiedDate >=: dateStart and o.lastModifiedDate <=: dateEnd and o.status =: status and o.deleted is false", Long.class)
+                        .setParameter("dateStart", dateStart.atStartOfDay())
+                        .setParameter("dateEnd", dateEnd.atTime(LocalTime.MAX))
+                        .setParameter("status", status)
+                        .uniqueResult();
+            } else if (dateStart == null && dateEnd == null) {
+                result = session.createQuery("select count(o.id) from Order o where o.status =: status and o.deleted is false", Long.class)
+                        .setParameter("status", status)
+                        .uniqueResult();
+            }
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
     }
 }

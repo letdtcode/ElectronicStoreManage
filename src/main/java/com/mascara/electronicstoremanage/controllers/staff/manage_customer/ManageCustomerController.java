@@ -6,7 +6,7 @@ import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
 import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.customer.*;
 import javafx.collections.FXCollections;
@@ -372,7 +372,7 @@ public class ManageCustomerController implements Initializable {
 
     @FXML
     public void setOnActionExportExcel(ActionEvent actionEvent) {
-        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(customerTableView);
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(customerTableView);
         if (exportExcel)
             AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
         else

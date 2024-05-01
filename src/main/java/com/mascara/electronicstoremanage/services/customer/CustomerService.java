@@ -24,4 +24,5 @@ public interface CustomerService {
     CustomerViewModel retrieveCustomerById(Long id);
 
     List<CustomerViewModel> retrieveAllCustomer(CustomerPagingRequest request);
+    Long countTotalCustomer();
 }

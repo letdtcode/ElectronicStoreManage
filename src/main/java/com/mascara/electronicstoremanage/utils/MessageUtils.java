@@ -108,4 +108,5 @@ public class MessageUtils {
     public static final String EXPORT_EXCEL_SUCCESS = "Xuất excel thành công";
 
     public static final String INFO_IMPORT_DATA_SUCCESS = "Nhập dữ liệu thành công";
+    public static final String WARNING_DATE_END_MUST_AFTER_DATE_START = "Ngày kết thúc phải sau ngày bắt đầu";
 }

@@ -6,7 +6,7 @@ import com.mascara.electronicstoremanage.services.role.RoleServiceImpl;
 import com.mascara.electronicstoremanage.services.staff.StaffServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
 import com.mascara.electronicstoremanage.utils.Utillities;
 import com.mascara.electronicstoremanage.view_model.role.RolePagingRequest;
 import com.mascara.electronicstoremanage.view_model.role.RoleViewModel;
@@ -370,7 +370,7 @@ public class ManageEmployeeController implements Initializable {
 
     @FXML
     public void setOnActionExportExcel(ActionEvent actionEvent) {
-        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(staffTableView);
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(staffTableView);
         if (exportExcel)
             AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
         else

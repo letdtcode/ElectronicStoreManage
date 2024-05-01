@@ -1,5 +1,6 @@
 package com.mascara.electronicstoremanage.services.order;
 
+import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.HistoryOrderViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
@@ -9,6 +10,7 @@ import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -34,5 +36,6 @@ public interface OrderService {
     List<OrderWaitingViewModel> retrieveOrderListWaiting(OrderWaitingPagingRequest request);
 
     List<HistoryOrderViewModel> retrieveHistoryOrderCustomer(HistoryOrderPagingRequest request);
+    Long countNumberOfOrderRangeDate(LocalDate dateStart, LocalDate dateEnd, OrderStatusEnum status);
 
 }

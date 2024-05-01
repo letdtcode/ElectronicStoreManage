@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.repositories.product;
 
 import com.mascara.electronicstoremanage.common.mapper.ProductMapper;
 import com.mascara.electronicstoremanage.entities.*;
+import com.mascara.electronicstoremanage.utils.CurrencyUtils;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyPagingRequest;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
@@ -11,10 +12,13 @@ import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSalePagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticPagingRequest;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticViewModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -247,5 +251,30 @@ public class ProductRepositoryImpl implements ProductRepository {
             return productViewModel;
         }
         return null;
+    }
+
+    @Override
+    public List<ProductStatisticViewModel> statisticProductList(ProductStatisticPagingRequest request) {
+        Session session = HibernateUtils.getSession();
+        int offset = (request.getPageIndex() - 1) * request.getPageSize();
+        Query query = null;
+        if ((request.getDateEnd() == null && request.getDateStart() != null) || (request.getDateStart() == request.getDateEnd() && request.getDateStart() != null)) {
+            query = session.createQuery("select p.id, p.productName, p.code, sum(o.totalPay) as revenueMoney,sum(oi.quantity) as quantity from Product p left join OrderItem oi on p.Id = oi.productId and oi.lastModifiedDate =:dateNow left join Order o on oi.orderId = o.Id and o.lastModifiedDate =: dateNow where p.deleted is false group by p.id", ProductStatisticViewModel.class);
+            query.setParameter("dateNow", request.getDateStart().atStartOfDay());
+        } else if (request.getDateStart() == null && request.getDateEnd() == null) {
+            query = session.createQuery("select p.id, p.productName, p.code, sum(o.totalPay) as revenueMoney,sum(oi.quantity) as quantity from Product p left join OrderItem oi on p.Id = oi.productId left join Order o on oi.orderId = o.Id where p.deleted is false group by p.id", ProductStatisticViewModel.class);
+        } else {
+            query = session.createQuery("select p.id, p.productName, p.code, sum(o.totalPay) as revenueMoney,sum(oi.quantity) as quantity from Product p left join OrderItem oi on p.Id = oi.productId and oi.lastModifiedDate >=:dateStart and oi.lastModifiedDate <=:dateEnd left join Order o on oi.orderId = o.Id and o.lastModifiedDate >=: dateStart and o.lastModifiedDate <=: dateEnd where p.deleted is false group by p.id", ProductStatisticViewModel.class);
+            query.setParameter("dateStart", request.getDateStart().atStartOfDay());
+            query.setParameter("dateEnd", request.getDateEnd().atTime(LocalTime.MAX));
+        }
+        query.setFirstResult(offset);
+        query.setMaxResults(request.getPageSize());
+        List<ProductStatisticViewModel> productList = query.getResultList();
+        for (ProductStatisticViewModel model : productList) {
+            model.setRevenueMoneyShow(model.getRevenueMoney() != null ? CurrencyUtils.getInstance().convertVietnamCurrency(model.getRevenueMoney()) : CurrencyUtils.getInstance().convertVietnamCurrency(0));
+        }
+        session.close();
+        return productList;
     }
 }

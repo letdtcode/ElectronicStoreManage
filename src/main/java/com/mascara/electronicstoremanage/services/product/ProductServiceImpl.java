@@ -9,6 +9,8 @@ import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSalePagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticPagingRequest;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticViewModel;
 
 import java.util.List;
 
@@ -70,5 +72,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductSaleViewModel retrieveByCode(String code) {
         return ProductRepositoryImpl.getInstance().retrieveByCode(code);
+    }
+
+    @Override
+    public List<ProductStatisticViewModel> statisticProductList(ProductStatisticPagingRequest request) {
+        return ProductRepositoryImpl.getInstance().statisticProductList(request);
     }
 }

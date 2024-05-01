@@ -7,7 +7,7 @@ import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.services.order_item.OrderItemServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.TableVieExporterUtils;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
 import com.mascara.electronicstoremanage.view_model.order.OrderItemPagingRequest;
 import com.mascara.electronicstoremanage.view_model.order.OrderItemViewModel;
 import com.mascara.electronicstoremanage.view_model.order.OrderPagingRequest;
@@ -393,7 +393,7 @@ public class ManageOrderController implements Initializable {
 
     @FXML
     public void setOnActionExportExcel(ActionEvent actionEvent) {
-        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(orderTableView);
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(orderTableView);
         if (exportExcel)
             AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
         else

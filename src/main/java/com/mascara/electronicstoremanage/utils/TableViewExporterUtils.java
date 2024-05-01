@@ -22,15 +22,15 @@ import java.util.List;
  * Time      : 5:20 CH
  * Filename  : TableVieExporterUtils
  */
-public class TableVieExporterUtils {
+public class TableViewExporterUtils {
     private CellStyle cellStyleFormatNumber = null;
     private static FileChooser fileChooser = null;
 
-    private static TableVieExporterUtils instance = null;
+    private static TableViewExporterUtils instance = null;
 
-    public static TableVieExporterUtils getInstance() {
+    public static TableViewExporterUtils getInstance() {
         if (instance == null)
-            instance = new TableVieExporterUtils();
+            instance = new TableViewExporterUtils();
         return instance;
     }
 

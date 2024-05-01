@@ -9,6 +9,7 @@ import com.mascara.electronicstoremanage.utils.CurrencyUtils;
 import com.mascara.electronicstoremanage.view_model.discount.ProductApplyViewModel;
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticViewModel;
 import javafx.scene.control.CheckBox;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -54,6 +55,8 @@ public interface ProductMapper {
     @Mapping(source = "id", target = "checkBox", qualifiedByName = "mapidProductToCheckBox")
     @Mapping(source = "salePrice", target = "salePriceShow", qualifiedByName = "mapToCurrencyVietnam")
     ProductApplyViewModel entityToApplyViewModel(Product product);
+
+    ProductStatisticViewModel entityToStatisticViewModel(Product product);
 
     @Named("mapidProductToCheckBox")
     default CheckBox mapidProductToCheckBox(Long id) {

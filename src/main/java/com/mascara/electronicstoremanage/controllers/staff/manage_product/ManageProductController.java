@@ -853,7 +853,7 @@ public class ManageProductController implements Initializable {
 
     @FXML
     public void setOnActionExportExcel(ActionEvent actionEvent) {
-        boolean exportExcel = TableVieExporterUtils.getInstance().exportExcel(productTableView);
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(productTableView);
         if (exportExcel) {
             AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
         } else {
@@ -864,7 +864,7 @@ public class ManageProductController implements Initializable {
     @FXML
     public void setOnActionImportExcel(ActionEvent actionEvent) {
         boolean importSuccess = true;
-        List<CategoryCreateRequest> requests = TableVieExporterUtils.getInstance().importCategory(btnImportExcel.getScene().getWindow());
+        List<CategoryCreateRequest> requests = TableViewExporterUtils.getInstance().importCategory(btnImportExcel.getScene().getWindow());
         if (requests != null && !requests.isEmpty()) {
             for (CategoryCreateRequest request : requests) {
                 boolean isValid = validateDataCategory(request.getCategoryName());
