@@ -270,8 +270,13 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         query.setFirstResult(offset);
         query.setMaxResults(request.getPageSize());
+
         List<ProductStatisticViewModel> productList = query.getResultList();
         for (ProductStatisticViewModel model : productList) {
+            query = session.createQuery("select c.categoryName from Category c join Product p on c.Id = p.categoryId where p.id =: idProduct", String.class);
+            query.setParameter("idProduct", model.getId());
+            String categoryName = (String) query.getSingleResult();
+            model.setCategoryName(categoryName);
             model.setRevenueMoneyShow(model.getRevenueMoney() != null ? CurrencyUtils.getInstance().convertVietnamCurrency(model.getRevenueMoney()) : CurrencyUtils.getInstance().convertVietnamCurrency(0));
         }
         session.close();

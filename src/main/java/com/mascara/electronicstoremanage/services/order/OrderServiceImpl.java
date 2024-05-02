@@ -10,6 +10,8 @@ import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.OrderCancelStatisticPagingRequest;
+import com.mascara.electronicstoremanage.view_model.statistic.OrderCancelStatisticViewModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -77,5 +79,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long countNumberOfOrderRangeDate(LocalDate dateStart, LocalDate dateEnd, OrderStatusEnum status) {
         return OrderRepositoryImpl.getInstance().countNumberOfOrderRangeDate(dateStart, dateEnd, status);
+    }
+
+    @Override
+    public List<OrderCancelStatisticViewModel> retrieveOrderCancelStatistic(OrderCancelStatisticPagingRequest request) {
+        return OrderRepositoryImpl.getInstance().retrieveOrderCancelStatistic(request);
     }
 }

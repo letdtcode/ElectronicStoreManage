@@ -118,7 +118,7 @@
                                     </Text>
                                     <Pane prefHeight="54.0" prefWidth="243.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
                                        <children>
-                                          <ComboBox fx:id="cbbCategoryName" layoutX="14.0" layoutY="14.0" onAction="#setOnActionChooseCategoryName" prefHeight="25.0" prefWidth="222.0" />
+                                          <ComboBox fx:id="cbbCategoryName" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="222.0" />
                                        </children>
                                     </Pane>
                                  </children>
@@ -175,7 +175,7 @@
                               </Text>
                               <Pane prefHeight="54.0" prefWidth="382.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
                                  <children>
-                                    <TextField fx:id="txtIdOrder" layoutX="11.0" layoutY="12.0" prefHeight="31.0" prefWidth="361.0" />
+                                    <TextField fx:id="txtSearchOrderCancel" layoutX="11.0" layoutY="12.0" prefHeight="31.0" prefWidth="361.0" />
                                  </children>
                               </Pane>
                            </children>

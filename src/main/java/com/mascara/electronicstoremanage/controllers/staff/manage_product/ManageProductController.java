@@ -401,7 +401,7 @@ public class ManageProductController implements Initializable {
             boolean resultSearch = searchByProductName(newValueTextField, productViewModel);
             boolean resultFilterCategoryName = filterByCategoryName(categoryName, productViewModel);
             boolean resultFilterProductStatus = filterByProductStatus(productStatus, productViewModel);
-            return resultSearch;
+            return resultSearch && resultFilterCategoryName && resultFilterProductStatus;
         });
     }
 

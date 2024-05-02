@@ -21,6 +21,7 @@ public class ProductStatisticViewModel {
     private Double revenueMoney;
     private Long quantity;
     private String revenueMoneyShow;
+    private String categoryName;
 
     public ProductStatisticViewModel(Long id, String productName, String code, Double revenueMoney, Long quantity) {
         this.id = id;

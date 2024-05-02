@@ -11,6 +11,8 @@ import com.mascara.electronicstoremanage.view_model.sale.OrderCreateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingPagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.OrderWaitingViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.OrderCancelStatisticPagingRequest;
+import com.mascara.electronicstoremanage.view_model.statistic.OrderCancelStatisticViewModel;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,4 +34,6 @@ public interface OrderRepository extends ModifyEntityRequest<OrderCreateRequest,
     List<HistoryOrderViewModel> retrieveHistoryOrderCustomer(HistoryOrderPagingRequest request);
 
     Long countNumberOfOrderRangeDate(LocalDate dateStart, LocalDate dateEnd, OrderStatusEnum status);
+
+    List<OrderCancelStatisticViewModel> retrieveOrderCancelStatistic(OrderCancelStatisticPagingRequest request);
 }
