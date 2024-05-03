@@ -109,4 +109,8 @@ public class MessageUtils {
 
     public static final String INFO_IMPORT_DATA_SUCCESS = "Nhập dữ liệu thành công";
     public static final String WARNING_DATE_END_MUST_AFTER_DATE_START = "Ngày kết thúc phải sau ngày bắt đầu";
+    public static final String USER_NAME_PASSWORD_NOT_EMPTY = "Tên đăng nhập và mật khẩu không được để trống";
+    public static final String WARNING_CONFIRM_PASSWORD_NOT_MATCH = "Mật khẩu xác nhận không khớp với mật khẩu đầu vào";
+    public static final String UPDATE_PASSWORD_SUCCESS = "Cập nhật mật khẩu thành công";
+    public static final String OLD_PASSWORD_NOT_CORRECT = "Password cũ không đúng";
 }

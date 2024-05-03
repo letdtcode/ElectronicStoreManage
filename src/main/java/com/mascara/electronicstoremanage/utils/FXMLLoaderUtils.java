@@ -33,7 +33,7 @@ public class FXMLLoaderUtils {
         try {
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.initOwner(request.getNodeOwner().getScene().getWindow());
+            stage.initOwner(request.getNodeOwner() != null ? request.getNodeOwner().getScene().getWindow() : null);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene(root, request.getWidth(), request.getHeight()));
             stage.setTitle(request.getTitle());

@@ -1,9 +1,14 @@
 package com.mascara.electronicstoremanage.controllers.staff.dashboard;
 
+import com.mascara.electronicstoremanage.utils.FXMLLoaderUtils;
+import com.mascara.electronicstoremanage.utils.StageRequestUtils;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -39,6 +44,8 @@ public class DashboardController implements Initializable {
     private Pane tabStatistic;
     @FXML
     private BorderPane panelMain;
+    @FXML
+    private ImageView imageViewAvatar;
 
     @FXML
     private void showTabSale(MouseEvent event) {
@@ -93,5 +100,17 @@ public class DashboardController implements Initializable {
             throw new RuntimeException(e);
         }
         panelMain.setCenter(root);
+    }
+
+    @FXML
+    public void setOnActionShowPopUpProfile(Event event) {
+        StageRequestUtils requestUtils = StageRequestUtils.builder()
+                .url("/form/profile/profile_user.fxml")
+                .title("THÔNG TIN TÀI KHOẢN")
+                .nodeOwner((Node) event.getSource())
+                .width(373d)
+                .height(433d)
+                .build();
+        FXMLLoaderUtils.getInstance().showFormChild(requestUtils);
     }
 }

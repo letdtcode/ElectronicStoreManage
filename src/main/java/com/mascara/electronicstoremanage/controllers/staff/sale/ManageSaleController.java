@@ -246,7 +246,7 @@ public class ManageSaleController implements Initializable {
     }
 
     private void addListener() {
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtCustomerGive);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtCustomerGive);
         orderWaitingTableView.setRowFactory(param -> {
             TableRow<OrderWaitingViewModel> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -388,8 +388,8 @@ public class ManageSaleController implements Initializable {
 
     @FXML
     public void setOnActionReloadChangeCustomer(ActionEvent actionEvent) {
-        lblIdCustomer.setText(String.valueOf(SharedCustomer.getInstance().getCustomerId()));
-        lblNameCustomer.setText(SharedCustomer.getInstance().getNameCustomer());
+        lblIdCustomer.setText(String.valueOf(SharedData.getInstance().getCustomerId()));
+        lblNameCustomer.setText(SharedData.getInstance().getNameCustomer());
     }
 
     @FXML

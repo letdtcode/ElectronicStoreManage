@@ -49,7 +49,7 @@ public class AlertUtils {
         textInputDialog.setTitle(title);
         textInputDialog.setHeaderText(headerText);
         textInputDialog.getDialogPane().setContentText(content);
-        Utillities.getInstance().setEventOnlyAcceptNumber(textInputDialog.getEditor());
+        Utilities.getInstance().setEventOnlyAcceptNumber(textInputDialog.getEditor());
         return textInputDialog.showAndWait();
     }
 }

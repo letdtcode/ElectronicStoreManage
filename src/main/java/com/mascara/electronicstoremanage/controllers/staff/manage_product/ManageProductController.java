@@ -272,15 +272,15 @@ public class ManageProductController implements Initializable {
                     ProductViewModel productViewModel = productTableView.getItems().get(rowIndex);
                     txtIdProduct.setText(productViewModel.getId().toString());
                     txtProductName.setText(productViewModel.getProductName());
-                    txtPriceImport.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
-                    txtPriceSale.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
-                    txtQuantity.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
+                    txtPriceImport.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
+                    txtPriceSale.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
+                    txtQuantity.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
                     cbbProductStatus.setValue(productViewModel.getStatus().getDisplay());
                     cbbBrandName.setValue(productViewModel.getBrandName());
                     cbbCategoryName.setValue(productViewModel.getCategoryName());
                     cbbMaterialName.setValue(productViewModel.getMaterialName());
                     txtSize.setText(productViewModel.getSize());
-                    txtWeight.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getWeight()));
+                    txtWeight.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getWeight()));
                     cbbWeightUnit.setValue(productViewModel.getWeightUnit().getDisplay());
                     txtOrigin.setText(productViewModel.getOrigin());
                     txtWarrantyPeriod.setText(productViewModel.getWarrantyPeriod().toString());
@@ -540,11 +540,11 @@ public class ManageProductController implements Initializable {
             }
         });
 
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceImport);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceSale);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtQuantity);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtWeight);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtWarrantyPeriod);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPriceImport);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPriceSale);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtQuantity);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtWeight);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtWarrantyPeriod);
     }
 
     @FXML
@@ -599,13 +599,13 @@ public class ManageProductController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_CAN_NOT_DELETE);
         }
-        Utillities.getInstance().clearAllTextField(categoryPanel);
+        Utilities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
     @FXML
     public void setOnActionReloadCategory(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(categoryPanel);
+        Utilities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
@@ -685,7 +685,7 @@ public class ManageProductController implements Initializable {
                 gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
                 fileImage);
         if (isValid) {
-            String slugProductName = Utillities.getInstance().toSlug(txtProductName.getText());
+            String slugProductName = Utilities.getInstance().toSlug(txtProductName.getText());
             String pathImage = FileHandleUtils.getInstance().copyFile(slugProductName, fileImage.getAbsolutePath());
             String productCode = EAN13Generator.getInstance().generateRandomEAN13();
             BarCodeUtils.getInstance()
@@ -760,7 +760,7 @@ public class ManageProductController implements Initializable {
         if (isValid && !productTableView.getSelectionModel().isEmpty()) {
             ProductViewModel productViewModel = productTableView.getSelectionModel().getSelectedItem();
             String pathImage = FileHandleUtils.getInstance().copyFile(
-                    Utillities.getInstance().toSlug(txtProductName.getText()),
+                    Utilities.getInstance().toSlug(txtProductName.getText()),
                     fileImage.getAbsolutePath());
 
             ProductUpdateRequest request = ProductUpdateRequest.builder()
@@ -828,17 +828,17 @@ public class ManageProductController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_CAN_NOT_DELETE);
         }
-        Utillities.getInstance().clearAllTextField(productPanel);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        Utilities.getInstance().clearAllTextField(productPanel);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
         retrieveAllProduct();
     }
 
     @FXML
     public void setOnActionReloadProduct(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(productPanel);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        Utilities.getInstance().clearAllTextField(productPanel);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
         imgViewProduct.setImage(new Image("file:upload\\images\\default_image_product.png", 200, 175, true, true));
         retrieveAllProduct();
     }

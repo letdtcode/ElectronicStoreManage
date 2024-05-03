@@ -24,6 +24,7 @@
             org.hibernate.dialect.MySQLDialect
         </property>
         <property name="hbm2ddl.auto">update</property>
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
         <!-- List các file mapping XML -->
         <mapping class="com.mascara.electronicstoremanage.entities.Brand"/>
         <mapping class="com.mascara.electronicstoremanage.entities.Category"/>

@@ -7,7 +7,7 @@ import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
 import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.Utilities;
 import com.mascara.electronicstoremanage.view_model.customer.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -164,7 +164,7 @@ public class ManageCustomerController implements Initializable {
                 }
             }
         });
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
 
 //        Set event for each row
         customerTableView.setRowFactory(param -> {
@@ -357,7 +357,7 @@ public class ManageCustomerController implements Initializable {
 
     @FXML
     public void setOnActionReloadCustomer(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(customerPanel);
+        Utilities.getInstance().clearAllTextField(customerPanel);
         retrieveAllCustomer();
     }
 

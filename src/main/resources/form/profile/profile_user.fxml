@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="433.0" prefWidth="373.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.dashboard.ProfileController">
+   <children>
+      <TabPane layoutX="4.0" layoutY="6.0" prefHeight="423.0" prefWidth="366.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Thông tin tài khoản">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="359.0">
+                     <children>
+                        <VBox layoutX="14.0" layoutY="14.0" spacing="35.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã nhân viên:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Họ tên:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Giới tính:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày sinh:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Điện thoại:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vai trò:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="130.0" layoutY="9.0" spacing="35.0">
+                           <children>
+                              <Text fx:id="lblIdStaff" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
+                              <Text fx:id="lblFullNameStaff" strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn Đức Thành" />
+                              <Text fx:id="lblSexStaff" strokeType="OUTSIDE" strokeWidth="0.0" text="Nam" />
+                              <Text fx:id="lblDateOfBirthStaff" strokeType="OUTSIDE" strokeWidth="0.0" text="23/12/2002" />
+                              <Text fx:id="lblPhoneNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="0342293128" />
+                              <Text fx:id="lblEmail" strokeType="OUTSIDE" strokeWidth="0.0" text="ndtforwork@gmail.com" />
+                              <Text fx:id="lblRole" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="btnLogout" layoutX="155.0" layoutY="354.0" mnemonicParsing="false" onAction="#setOnActionLogOut" text="Đăng xuất" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabChangePassword" text="Đổi mật khẩu">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="39.0" layoutY="44.0" spacing="40.0">
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu hiện tại" />
+                                    <PasswordField fx:id="txtCurrentPassword" prefHeight="26.0" prefWidth="288.0" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mật khẩu mới" />
+                                    <PasswordField fx:id="txtNewPassword" prefHeight="26.0" prefWidth="288.0" />
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Xác nhận mật khẩu mới" />
+                                    <PasswordField fx:id="txtConfirmNewPassword" prefHeight="26.0" prefWidth="288.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <HBox layoutX="73.0" layoutY="290.0" spacing="100.0">
+                           <children>
+                              <Button fx:id="btnConfirm" mnemonicParsing="false" onAction="#setOnActionChangePassword" text="Xác nhận" />
+                              <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#setOnActionCancelChangePassword" text="Hủy bỏ" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
