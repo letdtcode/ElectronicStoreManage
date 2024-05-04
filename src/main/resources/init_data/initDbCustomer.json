@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "fullName": "Nguyễn Đức Thành",
+      "phoneNumber": "0342293125",
+      "email": "ndtforwork@gmail.com",
+      "address": "Sài Gòn",
+      "sex": "Nam",
+      "status": "Hoạt động"
+    },
+    {
+      "fullName": "Mai Bảo Huy",
+      "phoneNumber": "0342293128",
+      "email": "huyxxi@gmail.com",
+      "address": "Bến tre",
+      "sex": "Nam",
+      "status": "Hoạt động"
+    }
+  ]
+}

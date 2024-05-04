@@ -311,8 +311,8 @@ public class ManageOrderController implements Initializable {
 
     private boolean filterByMonthYearCreated(Object month, Object year, OrderViewModel orderViewModel) {
         boolean result = false;
-        int monthCreatedOfOrder = orderViewModel.getDateCheckout().getMonthValue();
-        int yearCreatedOfOrder = orderViewModel.getDateCheckout().getYear();
+        int monthCreatedOfOrder = orderViewModel.getDateCheckOut().getMonthValue();
+        int yearCreatedOfOrder = orderViewModel.getDateCheckOut().getYear();
 
         if (month.equals("Tất cả") && year.equals("Tất cả"))
             result = true;
@@ -382,7 +382,7 @@ public class ManageOrderController implements Initializable {
         changeMoneyColumn.setCellValueFactory(new PropertyValueFactory<>("changeMoneyShow"));
         modePaymentColumn.setCellValueFactory(new PropertyValueFactory<>("modeOfPaymentShow"));
         modeDeliveryColumn.setCellValueFactory(new PropertyValueFactory<>("modeOfDeliveryShow"));
-        dateCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("dateCheckout"));
+        dateCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("dateTimeCheckOut"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("statusShow"));
         nameStaffColumn.setCellValueFactory(new PropertyValueFactory<>("fullNameStaff"));
         nameCustomerColumn.setCellValueFactory(new PropertyValueFactory<>("fullNameCustomer"));

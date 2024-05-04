@@ -24,10 +24,10 @@
             </Text>
             <TableView fx:id="orderWaitingTableView" layoutX="9.0" layoutY="31.0" prefHeight="173.0" prefWidth="509.0">
               <columns>
-                <TableColumn fx:id="orderIdColumn" prefWidth="99.19997882843018" text="Mã hóa đơn" />
-                <TableColumn fx:id="dateCreateOrderColumn" prefWidth="77.60000610351562" text="Ngày tạo" />
-                  <TableColumn fx:id="nameStaffOrderColumn" prefWidth="157.6000213623047" text="Nhân viên tạo" />
-                  <TableColumn fx:id="nameCustomerOrderColumn" prefWidth="176.0" text="Khách hàng" />
+                <TableColumn fx:id="orderIdColumn" prefWidth="83.20001220703125" text="Mã hóa đơn" />
+                <TableColumn fx:id="dateCreateOrderColumn" prefWidth="168.0" text="Ngày tạo" />
+                  <TableColumn fx:id="nameStaffOrderColumn" prefWidth="124.79998779296875" text="Nhân viên tạo" />
+                  <TableColumn fx:id="nameCustomerOrderColumn" prefWidth="136.79998779296875" text="Khách hàng" />
               </columns>
             </TableView>
          </children>

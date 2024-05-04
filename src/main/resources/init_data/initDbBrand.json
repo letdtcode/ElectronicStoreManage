@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "brandName": "IBM"
+    },
+    {
+      "brandName": "Sony"
+    },
+    {
+      "brandName": "Huawei"
+    },
+    {
+      "brandName": "Intel"
+    },
+    {
+      "brandName": "Dell"
+    },
+    {
+      "brandName": "Cisco"
+    },
+    {
+      "brandName": "Xiaomi"
+    },
+    {
+      "brandName": "Nvidia"
+    },
+    {
+      "brandName": "Lenovo"
+    },
+    {
+      "brandName": "Panasonic"
+    }
+  ]
+}

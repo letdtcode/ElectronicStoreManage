@@ -8,6 +8,7 @@ import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.CurrencyUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
+import com.mascara.electronicstoremanage.utils.OClockNowUtils;
 import com.mascara.electronicstoremanage.view_model.category.CategoryPagingRequest;
 import com.mascara.electronicstoremanage.view_model.category.CategoryViewModel;
 import com.mascara.electronicstoremanage.view_model.statistic.OrderCancelStatisticPagingRequest;
@@ -117,6 +118,7 @@ public class StatisticController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        startOClock();
         request = new ProductStatisticPagingRequest();
         orderCancelPagingRequest = new OrderCancelStatisticPagingRequest();
         setUpUI();
@@ -130,6 +132,12 @@ public class StatisticController implements Initializable {
         lblNumCustomer.setText(CustomerServiceImpl.getInstance().countTotalCustomer().toString());
         lblNumOrder.setText(String.valueOf(totalOrderPaid));
         lblNumOrderCancel.setText(String.valueOf(totalOrderCancel));
+    }
+
+    private void startOClock() {
+        OClockNowUtils oclockNowUtils = new OClockNowUtils(lblTimeNow);
+        Thread threadOClock = new Thread(oclockNowUtils);
+        threadOClock.start();
     }
 
     private void getStatisticOrderCancelDateNow() {
@@ -251,6 +259,7 @@ public class StatisticController implements Initializable {
             List<OrderCancelStatisticViewModel> orderCancelList = OrderServiceImpl.getInstance().retrieveOrderCancelStatistic(orderCancelPagingRequest);
             orderCancelStatisticViewModels = FXCollections.observableArrayList(orderCancelList);
             tableViewOrderCancel.setItems(orderCancelStatisticViewModels);
+            addListener();
 
             double totalRevenue = productList.stream().mapToDouble(product -> product.getRevenueMoney() == null ? 0.0 : product.getRevenueMoney()).sum();
             long totalOrderPaid = OrderServiceImpl.getInstance().countNumberOfOrderRangeDate(dateStart, dateEnd, OrderStatusEnum.PAID);
@@ -268,10 +277,12 @@ public class StatisticController implements Initializable {
             btnFilterRangeDate.setDisable(true);
             getStatisticProductAll();
             getStatisticOrderCancelAll();
+            addListener();
         } else if (rdbStatisticDateNow.isSelected()) {
             btnFilterRangeDate.setDisable(true);
             getStatisticProductDateNow();
             getStatisticOrderCancelDateNow();
+            addListener();
         } else if (rdbStatisticRangeDate.isSelected()) {
             btnFilterRangeDate.setDisable(false);
         }
@@ -290,6 +301,7 @@ public class StatisticController implements Initializable {
         revenueColumn.setCellValueFactory(new PropertyValueFactory<>("revenueMoneyShow"));
 
         tableViewProductStatistic.setItems(productStatisticViewModels);
+
         Double totalRevenue = productList.stream().mapToDouble(product -> product.getRevenueMoney() == null ? 0.0 : product.getRevenueMoney()).sum();
         lblRevenue.setText(CurrencyUtils.getInstance().convertVietnamCurrency(totalRevenue));
     }
@@ -299,7 +311,6 @@ public class StatisticController implements Initializable {
         orderCancelPagingRequest.setDateEnd(null);
         List<OrderCancelStatisticViewModel> orderCancelList = OrderServiceImpl.getInstance().retrieveOrderCancelStatistic(orderCancelPagingRequest);
         orderCancelStatisticViewModels = FXCollections.observableArrayList(orderCancelList);
-
         tableViewOrderCancel.setItems(orderCancelStatisticViewModels);
     }
 
@@ -308,7 +319,6 @@ public class StatisticController implements Initializable {
         request.setDateEnd(null);
         List<ProductStatisticViewModel> productList = ProductServiceImpl.getInstance().statisticProductList(request);
         productStatisticViewModels = FXCollections.observableArrayList(productList);
-
         tableViewProductStatistic.setItems(productStatisticViewModels);
 
         double totalRevenue = productList.stream().mapToDouble(product -> product.getRevenueMoney() == null ? 0.0 : product.getRevenueMoney()).sum();

@@ -17,6 +17,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by: IntelliJ IDEA
@@ -37,14 +38,22 @@ public interface OrderMapper {
     @Mapping(source = "status", target = "statusShow", qualifiedByName = "mapToStatusShow")
     @Mapping(source = "staff", target = "fullNameStaff", qualifiedByName = "mapStaffToStaffName")
     @Mapping(source = "customer", target = "fullNameCustomer", qualifiedByName = "mapCustomerToCustomerName")
-    @Mapping(source = "createdDate", target = "dateCheckout", qualifiedByName = "mapLocalDateTimeToLocalDate")
+    @Mapping(source = "createdDate", target = "dateTimeCheckOut", qualifiedByName = "mapToCreatedTime")
+    @Mapping(source = "createdDate", target = "dateCheckOut", qualifiedByName = "mapLocalDateTimeToLocalDate")
     OrderViewModel entityToViewModel(Order order);
 
     @Mapping(source = "staff", target = "nameStaff", qualifiedByName = "mapStaffToStaffName")
     @Mapping(source = "customer", target = "nameCustomer", qualifiedByName = "mapCustomerToCustomerName")
+    @Mapping(source = "createdDate", target = "createdTime", qualifiedByName = "mapToCreatedTime")
     OrderWaitingViewModel entityToWaitingViewModel(Order order);
 
     HistoryOrderViewModel entityToHistoryOrderViewModel(Order order);
+
+    @Named("mapToCreatedTime")
+    default String mapToCreatedTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return localDateTime.format(formatter);
+    }
 
     @Named("mapToCurrencyVietnam")
     default String mapToCurrencyVietnam(Double money) {
@@ -56,6 +65,11 @@ public interface OrderMapper {
         return modeOfDeliveryEnum != null ? modeOfDeliveryEnum.getDisplay() : null;
     }
 
+    @Named("mapLocalDateTimeToLocalDate")
+    default LocalDate mapLocalDateTimeToLocalDate(LocalDateTime localDateTime) {
+        return localDateTime.toLocalDate();
+    }
+
     @Named("mapToModePaymentShow")
     default String mapToModePaymentShow(ModeOfPaymentEnum modeOfPaymentEnum) {
         return modeOfPaymentEnum != null ? modeOfPaymentEnum.getDisplay() : null;
@@ -64,11 +78,6 @@ public interface OrderMapper {
     @Named("mapToStatusShow")
     default String mapToStatusShow(OrderStatusEnum statusEnum) {
         return statusEnum.getDisplay();
-    }
-
-    @Named("mapLocalDateTimeToLocalDate")
-    default LocalDate mapToStatusShow(LocalDateTime localDateTime) {
-        return localDateTime.toLocalDate();
     }
 
     @Named("mapStaffToStaffName")

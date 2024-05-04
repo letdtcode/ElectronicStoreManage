@@ -78,7 +78,7 @@
                   <TableColumn fx:id="changeMoneyColumn" prefWidth="90.40003967285156" text="Tiền thừa" />
                   <TableColumn fx:id="modePaymentColumn" prefWidth="112.79998779296875" text="Hình thức thanh toán" />
                   <TableColumn fx:id="modeDeliveryColumn" prefWidth="78.4000244140625" text="Giao hàng" />
-                  <TableColumn fx:id="dateCreatedColumn" prefWidth="116.0" text="Ngày lập hóa đơn" />
+                  <TableColumn fx:id="dateCreatedColumn" prefWidth="116.0" text="Thời gian lập hóa đơn" />
                   <TableColumn fx:id="statusColumn" prefWidth="84.800048828125" text="Trạng thái" />
                   <TableColumn fx:id="nameStaffColumn" prefWidth="96.00006103515625" text="Tên NV" />
                   <TableColumn fx:id="nameCustomerColumn" minWidth="0.0" prefWidth="121.60003662109375" text="Tên KH" />

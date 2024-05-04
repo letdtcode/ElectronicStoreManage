@@ -352,7 +352,7 @@ public class ManageSaleController implements Initializable {
         List<OrderWaitingViewModel> orderList = OrderServiceImpl.getInstance().retrieveOrderListWaiting(request);
         orderWaitingViewModels = FXCollections.observableList(orderList);
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        dateCreateOrderColumn.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
+        dateCreateOrderColumn.setCellValueFactory(new PropertyValueFactory<>("createdTime"));
         nameStaffOrderColumn.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
         nameCustomerOrderColumn.setCellValueFactory(new PropertyValueFactory<>("nameCustomer"));
         orderWaitingTableView.setItems(orderWaitingViewModels);

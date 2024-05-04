@@ -31,14 +31,15 @@ public class LoginController {
     private TextField txtUserName;
 
     @FXML
-    private TextField txtPassword;
-
-    @FXML
     private Button btnLogin;
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
+    private Label labelName;
+    @FXML
+    private PasswordField txtPassword;
 
     @FXML
     public void initialize() {
@@ -80,6 +81,7 @@ public class LoginController {
                         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         scene = new Scene(root, 1366, 766);
                         stage.setScene(scene);
+                        stage.setTitle("Quản lý bán hàng thiết bị điện tử");
                         scene.getWindow().centerOnScreen();
                         stage.show();
                     }

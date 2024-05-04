@@ -38,5 +38,6 @@ public class OrderViewModel {
     private Long customerId;
     private String fullNameCustomer;
     private String note;
-    private LocalDate dateCheckout;
+    private String dateTimeCheckOut;
+    private LocalDate dateCheckOut;
 }
