@@ -14,7 +14,7 @@
             root
         </property>
         <property name="hibernate.connection.password">
-            20021223
+            baohuy
         </property>
         <property name = "hibernate.show_sql">true</property>
         <property name="show_sql">true</property>
