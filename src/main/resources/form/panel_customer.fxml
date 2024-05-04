@@ -52,9 +52,9 @@
                   <ComboBox fx:id="cbbStatusCustomer" prefHeight="26.0" prefWidth="268.0" />
                </children>
             </VBox>
-            <Pane layoutX="897.0" layoutY="9.0" prefHeight="207.0" prefWidth="200.0" style="-fx-background-color: #A8DFFA;">
+            <Pane layoutX="853.0" layoutY="24.0" prefHeight="168.0" prefWidth="165.0" style="-fx-background-color: #A8DFFA;">
                <children>
-                  <VBox layoutX="25.0" layoutY="8.0" spacing="30.0">
+                  <VBox layoutX="8.0" layoutY="10.0" spacing="10.0">
                      <children>
                         <Button fx:id="btnAddCustomer" mnemonicParsing="false" onAction="#setOnActionCreateCustomer" prefHeight="42.0" prefWidth="149.0" text="Thêm">
                            <font>
@@ -82,6 +82,7 @@
                   <TextField fx:id="txtPhoneNumberCustomer" />
                </children>
             </VBox>
+            <Button fx:id="btnExportExcel" layoutX="1028.0" layoutY="100.0" mnemonicParsing="false" onAction="#setOnActionExportExcel" text="Xuất Excel" />
          </children>
       </Pane>
       <Pane layoutX="14.0" layoutY="401.0" prefHeight="359.0" prefWidth="1119.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">

@@ -6,7 +6,8 @@ import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.services.order.OrderServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
+import com.mascara.electronicstoremanage.utils.Utilities;
 import com.mascara.electronicstoremanage.view_model.customer.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -112,13 +113,16 @@ public class ManageCustomerController implements Initializable {
     private ToggleGroup sexGroup;
     @FXML
     private Pane customerPanel;
+    @FXML
+    private Button btnExportExcel;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         retrieveAllCustomer();
         retrieveAllHistoryOrder();
-        addListener();
         setUpUI();
+        addListener();
     }
 
     private void setUpUI() {
@@ -147,15 +151,20 @@ public class ManageCustomerController implements Initializable {
         tabPanel.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             int selectedIndex = newValue.intValue();
             if (selectedIndex == 1) {
-                CustomerViewModel customerViewModel = customerTableView.getSelectionModel().getSelectedItem();
-                HistoryOrderPagingRequest request = new HistoryOrderPagingRequest();
-                request.setCondition(" customerId = " + customerViewModel.getId());
-                List<HistoryOrderViewModel> historyOrderList = OrderServiceImpl.getInstance()
-                        .retrieveHistoryOrderCustomer(request);
-                historyOrderViewModels = FXCollections.observableArrayList(historyOrderList);
+                if (customerTableView.getSelectionModel().getSelectedIndex() == -1) {
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);
+                } else {
+                    CustomerViewModel customerViewModel = customerTableView.getSelectionModel().getSelectedItem();
+                    HistoryOrderPagingRequest request = new HistoryOrderPagingRequest();
+                    request.setCondition(" customerId = " + customerViewModel.getId());
+                    List<HistoryOrderViewModel> historyOrderList = OrderServiceImpl.getInstance()
+                            .retrieveHistoryOrderCustomer(request);
+                    historyOrderViewModels = FXCollections.observableArrayList(historyOrderList);
+                    historyOrderTableView.setItems(historyOrderViewModels);
+                }
             }
         });
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumberCustomer);
 
 //        Set event for each row
         customerTableView.setRowFactory(param -> {
@@ -348,7 +357,7 @@ public class ManageCustomerController implements Initializable {
 
     @FXML
     public void setOnActionReloadCustomer(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(customerPanel);
+        Utilities.getInstance().clearAllTextField(customerPanel);
         retrieveAllCustomer();
     }
 
@@ -359,5 +368,14 @@ public class ManageCustomerController implements Initializable {
         } else if (rdbFemale.isSelected()) {
             sexOfCustomer = SexEnum.FEMALE;
         }
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(customerTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

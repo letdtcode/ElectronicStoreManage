@@ -3,6 +3,7 @@ package com.mascara.electronicstoremanage.view_model.sale;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by: IntelliJ IDEA
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @Builder
 public class OrderWaitingViewModel {
     private Long id;
-    private LocalDate createdDate;
+    private String createdTime;
     private String nameStaff;
     private String nameCustomer;
 }

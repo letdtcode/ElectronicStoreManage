@@ -6,7 +6,8 @@ import com.mascara.electronicstoremanage.services.discount.DiscountServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
+import com.mascara.electronicstoremanage.utils.Utilities;
 import com.mascara.electronicstoremanage.view_model.discount.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -102,6 +103,8 @@ public class ManagePromotionController implements Initializable {
     private TableColumn typeDiscountColumn;
     @FXML
     private TableColumn salePriceColumn;
+    @FXML
+    private Button btnExportExcel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -121,7 +124,7 @@ public class ManagePromotionController implements Initializable {
                     DiscountViewModel discountViewModel = discountTableView.getSelectionModel().getSelectedItem();
                     txtCapaignName.setText(discountViewModel.getCapaignName());
                     cbbTypeDiscount.setValue(discountViewModel.getTypeDiscount().getDisplay());
-                    txtDiscountValue.setText(Utillities.getInstance().removeTrailingZeros(discountViewModel.getDiscountValue()));
+                    txtDiscountValue.setText(Utilities.getInstance().removeTrailingZeros(discountViewModel.getDiscountValue()));
                     cbbDiscountStatus.setValue(discountViewModel.getStatus().getDisplay());
                     dtpDateStart.setValue(discountViewModel.getDateStart());
                     dtpDateEnd.setValue(discountViewModel.getDateEnd());
@@ -153,7 +156,7 @@ public class ManagePromotionController implements Initializable {
                 }
             }
         });
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtDiscountValue);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtDiscountValue);
     }
 
     private void retrieveAllProductForApply() {
@@ -332,12 +335,21 @@ public class ManagePromotionController implements Initializable {
 
     @FXML
     public void setOnActionReload(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(firstDiscountPanel);
-        Utillities.getInstance().clearAllTextField(secondDiscountPanel);
-        Utillities.getInstance().unCheckedAllCheckBox(productApplyTableView);
+        Utilities.getInstance().clearAllTextField(firstDiscountPanel);
+        Utilities.getInstance().clearAllTextField(secondDiscountPanel);
+        Utilities.getInstance().unCheckedAllCheckBox(productApplyTableView);
         ckbSelectAll.setSelected(false);
         dtpDateStart.setValue(null);
         dtpDateEnd.setValue(null);
         retrieveAllDiscount();
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(discountTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

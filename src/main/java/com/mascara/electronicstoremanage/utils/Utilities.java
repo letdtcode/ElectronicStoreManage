@@ -19,21 +19,21 @@ import java.util.regex.Pattern;
  * Time      : 7:20 CH
  * Filename  : SlugUtils
  */
-public class Utillities {
+public class Utilities {
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
     private static final Pattern STRONG_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,20}$");
 
 
-    private static Utillities instance = null;
+    private static Utilities instance = null;
 
-    public static Utillities getInstance() {
+    public static Utilities getInstance() {
         if (instance == null)
-            instance = new Utillities();
+            instance = new Utilities();
         return instance;
     }
 
-    private Utillities() {
+    private Utilities() {
 
     }
 

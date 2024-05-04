@@ -2,10 +2,13 @@ package com.mascara.electronicstoremanage.repositories.staff;
 
 import com.mascara.electronicstoremanage.common.interfaces.ModifyEntityRequest;
 import com.mascara.electronicstoremanage.common.interfaces.RetrieveEntityRequest;
+import com.mascara.electronicstoremanage.entities.Staff;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffPagingRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffViewModel;
+
+import java.util.Optional;
 
 /**
  * Created by: IntelliJ IDEA
@@ -16,4 +19,7 @@ import com.mascara.electronicstoremanage.view_model.staff.StaffViewModel;
  */
 public interface StaffRepository extends ModifyEntityRequest<StaffCreateRequest, StaffUpdateRequest, Long>,
         RetrieveEntityRequest<StaffViewModel, StaffPagingRequest, Long> {
+    Optional<Staff> getInfoByEmail(String email);
+
+    boolean updatePassword(Long idStaff, String newPassword);
 }

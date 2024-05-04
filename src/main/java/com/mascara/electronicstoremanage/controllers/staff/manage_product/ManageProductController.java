@@ -9,10 +9,7 @@ import com.mascara.electronicstoremanage.services.color.ColorServiceImpl;
 import com.mascara.electronicstoremanage.services.feature.FeatureServiceImpl;
 import com.mascara.electronicstoremanage.services.material.MaterialServiceImpl;
 import com.mascara.electronicstoremanage.services.product.ProductServiceImpl;
-import com.mascara.electronicstoremanage.utils.AlertUtils;
-import com.mascara.electronicstoremanage.utils.FileHandleUtils;
-import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.*;
 import com.mascara.electronicstoremanage.view_model.brand.BrandPagingRequest;
 import com.mascara.electronicstoremanage.view_model.brand.BrandViewModel;
 import com.mascara.electronicstoremanage.view_model.category.CategoryCreateRequest;
@@ -31,6 +28,8 @@ import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -202,6 +201,10 @@ public class ManageProductController implements Initializable {
     private Pane productPanel;
     @FXML
     private Text lblProductCode;
+    @FXML
+    private Button btnExportExcel1;
+    @FXML
+    private Button btnImportExcel;
 
     public ManageProductController() {
         fileChooser = new FileChooser();
@@ -269,15 +272,15 @@ public class ManageProductController implements Initializable {
                     ProductViewModel productViewModel = productTableView.getItems().get(rowIndex);
                     txtIdProduct.setText(productViewModel.getId().toString());
                     txtProductName.setText(productViewModel.getProductName());
-                    txtPriceImport.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
-                    txtPriceSale.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
-                    txtQuantity.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
+                    txtPriceImport.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getImportPrice()));
+                    txtPriceSale.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getSalePrice()));
+                    txtQuantity.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getQuantity()));
                     cbbProductStatus.setValue(productViewModel.getStatus().getDisplay());
                     cbbBrandName.setValue(productViewModel.getBrandName());
                     cbbCategoryName.setValue(productViewModel.getCategoryName());
                     cbbMaterialName.setValue(productViewModel.getMaterialName());
                     txtSize.setText(productViewModel.getSize());
-                    txtWeight.setText(Utillities.getInstance().removeTrailingZeros(productViewModel.getWeight()));
+                    txtWeight.setText(Utilities.getInstance().removeTrailingZeros(productViewModel.getWeight()));
                     cbbWeightUnit.setValue(productViewModel.getWeightUnit().getDisplay());
                     txtOrigin.setText(productViewModel.getOrigin());
                     txtWarrantyPeriod.setText(productViewModel.getWarrantyPeriod().toString());
@@ -326,6 +329,102 @@ public class ManageProductController implements Initializable {
             });
             return row;
         });
+
+
+        //        search and filter category
+        FilteredList<CategoryViewModel> filteredCategoryList = new FilteredList<>(categoryViewModels, b -> true);
+        txtSearchCategory.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterCategory(newValue, filteredCategoryList);
+        });
+
+        SortedList<CategoryViewModel> sortedCategoryList = new SortedList<>(filteredCategoryList);
+        sortedCategoryList.comparatorProperty().bind(categoryTableView.comparatorProperty());
+        categoryTableView.setItems(sortedCategoryList);
+
+        //        search and filter product
+        FilteredList<ProductViewModel> filteredProductList = new FilteredList<>(productViewModels, b -> true);
+        txtSearchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchAndFilterProduct(newValue, cbbCategoryFilter.getValue().toString(), cbbProductStatusFilter.getValue().toString(), filteredProductList);
+        });
+
+        cbbCategoryFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String categoryName = (String) cbbCategoryFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterProduct(txtSearchProduct.getText().trim(), categoryName, cbbProductStatusFilter.getValue().toString(), filteredProductList);
+                }
+        );
+
+        cbbProductStatusFilter.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    String productStatus = (String) cbbProductStatusFilter.getSelectionModel().getSelectedItem();
+                    searchAndFilterProduct(txtSearchProduct.getText().trim(), cbbCategoryFilter.getValue().toString(), productStatus, filteredProductList);
+                }
+        );
+
+        SortedList<ProductViewModel> sortedProductList = new SortedList<>(filteredProductList);
+        sortedProductList.comparatorProperty().bind(productTableView.comparatorProperty());
+        productTableView.setItems(sortedProductList);
+    }
+
+    private void searchAndFilterCategory(String newValueTextField, FilteredList<CategoryViewModel> filteredList) {
+        filteredList.setPredicate(categoryViewModel -> {
+            boolean resultSearch = searchByCategoryName(newValueTextField, categoryViewModel);
+
+            return resultSearch;
+        });
+    }
+
+    private boolean filterByProductStatus(String productStatus, ProductViewModel productViewModel) {
+        boolean result = false;
+        switch (productStatus) {
+            case "Tất cả":
+                result = true;
+                break;
+            case "Đang kinh doanh":
+                if (productViewModel.getStatus().equals(ProductStatusEnum.ON_BUSINESS))
+                    result = true;
+                break;
+            case "Ngừng kinh doanh":
+                if (productViewModel.getStatus().equals(ProductStatusEnum.STOP_BUSINESS))
+                    result = true;
+                break;
+        }
+        return result;
+    }
+
+    private boolean filterByCategoryName(String categoryName, ProductViewModel productViewModel) {
+        if (productViewModel.getCategoryName().equals(categoryName))
+            return true;
+        return false;
+    }
+
+    private void searchAndFilterProduct(String newValueTextField, String categoryName, String productStatus, FilteredList<ProductViewModel> filteredList) {
+        filteredList.setPredicate(productViewModel -> {
+            boolean resultSearch = searchByProductName(newValueTextField, productViewModel);
+            boolean resultFilterCategoryName = filterByCategoryName(categoryName, productViewModel);
+            boolean resultFilterProductStatus = filterByProductStatus(productStatus, productViewModel);
+            return resultSearch && resultFilterCategoryName && resultFilterProductStatus;
+        });
+    }
+
+    private boolean searchByCategoryName(String newValueTextField, CategoryViewModel categoryViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (categoryViewModel.getCategoryName().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
+    }
+
+    private boolean searchByProductName(String newValueTextField, ProductViewModel productViewModel) {
+        if (newValueTextField.isEmpty() || newValueTextField.isBlank() || newValueTextField == null)
+            return true;
+        String searchKeyword = newValueTextField.toLowerCase();
+
+        if (productViewModel.getProductName().toLowerCase().contains(searchKeyword))
+            return true;
+        else
+            return false;
     }
 
     private void setUpUI() {
@@ -441,11 +540,11 @@ public class ManageProductController implements Initializable {
             }
         });
 
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceImport);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPriceSale);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtQuantity);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtWeight);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtWarrantyPeriod);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPriceImport);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPriceSale);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtQuantity);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtWeight);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtWarrantyPeriod);
     }
 
     @FXML
@@ -500,13 +599,13 @@ public class ManageProductController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_CAN_NOT_DELETE);
         }
-        Utillities.getInstance().clearAllTextField(categoryPanel);
+        Utilities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
     @FXML
     public void setOnActionReloadCategory(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(categoryPanel);
+        Utilities.getInstance().clearAllTextField(categoryPanel);
         retrieveAllCategory();
     }
 
@@ -586,9 +685,13 @@ public class ManageProductController implements Initializable {
                 gridPanelFeature.getChildren().stream().map(node -> (CheckBox) node).collect(Collectors.toList()),
                 fileImage);
         if (isValid) {
-            String pathImage = FileHandleUtils.getInstance().copyFile(
-                    Utillities.getInstance().toSlug(txtProductName.getText()),
-                    fileImage.getAbsolutePath());
+            String slugProductName = Utilities.getInstance().toSlug(txtProductName.getText());
+            String pathImage = FileHandleUtils.getInstance().copyFile(slugProductName, fileImage.getAbsolutePath());
+            String productCode = EAN13Generator.getInstance().generateRandomEAN13();
+            BarCodeUtils.getInstance()
+                    .generateCode128BarcodeImage(productCode,
+                            "upload/barcodes/" + slugProductName + ".jpg");
+
             ProductCreateRequest request = ProductCreateRequest.builder()
                     .productName(txtProductName.getText())
                     .description(textareaDescription.getText())
@@ -605,6 +708,7 @@ public class ManageProductController implements Initializable {
                     .brandName(cbbBrandName.getValue().toString())
                     .materialName(cbbMaterialName.getValue().toString())
                     .categoryName(cbbCategoryName.getValue().toString())
+                    .code(productCode)
                     .status(ProductStatusEnum.getEnumByDisplay(cbbProductStatus.getValue().toString()))
                     .build();
 
@@ -656,7 +760,7 @@ public class ManageProductController implements Initializable {
         if (isValid && !productTableView.getSelectionModel().isEmpty()) {
             ProductViewModel productViewModel = productTableView.getSelectionModel().getSelectedItem();
             String pathImage = FileHandleUtils.getInstance().copyFile(
-                    Utillities.getInstance().toSlug(txtProductName.getText()),
+                    Utilities.getInstance().toSlug(txtProductName.getText()),
                     fileImage.getAbsolutePath());
 
             ProductUpdateRequest request = ProductUpdateRequest.builder()
@@ -724,17 +828,17 @@ public class ManageProductController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PRODUCT_CAN_NOT_DELETE);
         }
-        Utillities.getInstance().clearAllTextField(productPanel);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        Utilities.getInstance().clearAllTextField(productPanel);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
         retrieveAllProduct();
     }
 
     @FXML
     public void setOnActionReloadProduct(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(productPanel);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelColor);
-        Utillities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
+        Utilities.getInstance().clearAllTextField(productPanel);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelColor);
+        Utilities.getInstance().unCheckedAllCheckBox(gridPanelFeature);
         imgViewProduct.setImage(new Image("file:upload\\images\\default_image_product.png", 200, 175, true, true));
         retrieveAllProduct();
     }
@@ -744,6 +848,43 @@ public class ManageProductController implements Initializable {
         fileImage = fileChooser.showOpenDialog(nodeRoot.getScene().getWindow());
         if (fileImage != null) {
             imgViewProduct.setImage(new Image(fileImage.toURI().toString(), 200, 175, true, true));
+        }
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(productTableView);
+        if (exportExcel) {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        } else {
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
+        }
+    }
+
+    @FXML
+    public void setOnActionImportExcel(ActionEvent actionEvent) {
+        boolean importSuccess = true;
+        List<CategoryCreateRequest> requests = TableViewExporterUtils.getInstance().importCategory(btnImportExcel.getScene().getWindow());
+        if (requests != null && !requests.isEmpty()) {
+            for (CategoryCreateRequest request : requests) {
+                boolean isValid = validateDataCategory(request.getCategoryName());
+                if (isValid) {
+                    Long categoryId = CategoryServiceImpl.getInstance().insertCategory(request);
+                    if (categoryId == -1) {
+                        importSuccess = false;
+                        AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_CATEGORY_NAME_DUPLICATED);
+                        break;
+                    }
+                } else {
+                    importSuccess = false;
+                    AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
+                    break;
+                }
+            }
+            if (importSuccess) {
+                retrieveAllCategory();
+                AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.INFO_IMPORT_DATA_SUCCESS);
+            }
         }
     }
 }

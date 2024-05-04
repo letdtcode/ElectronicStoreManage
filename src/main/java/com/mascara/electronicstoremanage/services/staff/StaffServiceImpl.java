@@ -1,5 +1,6 @@
 package com.mascara.electronicstoremanage.services.staff;
 
+import com.mascara.electronicstoremanage.entities.Staff;
 import com.mascara.electronicstoremanage.repositories.staff.StaffRepositoryImpl;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffPagingRequest;
@@ -7,6 +8,7 @@ import com.mascara.electronicstoremanage.view_model.staff.StaffUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.staff.StaffViewModel;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by: IntelliJ IDEA
@@ -52,5 +54,15 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<StaffViewModel> retrieveAllStaff(StaffPagingRequest request) {
         return StaffRepositoryImpl.getInstance().retrieveAll(request);
+    }
+
+    @Override
+    public Optional<Staff> getInfoByEmail(String email) {
+        return StaffRepositoryImpl.getInstance().getInfoByEmail(email);
+    }
+
+    @Override
+    public boolean updatePassword(Long idStaff, String newPassword) {
+        return StaffRepositoryImpl.getInstance().updatePassword(idStaff, newPassword);
     }
 }

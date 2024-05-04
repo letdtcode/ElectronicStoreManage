@@ -2,6 +2,7 @@ package com.mascara.electronicstoremanage.services.auth;
 
 import com.mascara.electronicstoremanage.entities.Staff;
 import com.mascara.electronicstoremanage.repositories.staff.StaffRepositoryImpl;
+import com.mascara.electronicstoremanage.utils.PasswordHashingUtils;
 import com.mascara.electronicstoremanage.view_model.auth.LoginCreateRequest;
 
 import java.util.Optional;
@@ -30,8 +31,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean login(LoginCreateRequest request) {
         Optional<Staff> staff = StaffRepositoryImpl.getInstance().findByUserName(request.getUserName());
-        if (staff.isPresent() && staff.get().getPassword().equals(request.getPassword()))
-            return true;
+        if (staff.isPresent()) {
+            if (PasswordHashingUtils.getInstance().verify(request.getPassword(), staff.get().getPassword()))
+                return true;
+        }
         return false;
     }
 }

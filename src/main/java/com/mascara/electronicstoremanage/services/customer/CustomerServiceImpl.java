@@ -52,4 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerViewModel> retrieveAllCustomer(CustomerPagingRequest request) {
         return CustomerRepositoryImpl.getInstance().retrieveAll(request);
     }
+
+    @Override
+    public Long countTotalCustomer() {
+        return CustomerRepositoryImpl.getInstance().countTotalCustomer();
+    }
 }

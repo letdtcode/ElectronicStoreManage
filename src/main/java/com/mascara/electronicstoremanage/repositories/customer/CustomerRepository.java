@@ -2,10 +2,13 @@ package com.mascara.electronicstoremanage.repositories.customer;
 
 import com.mascara.electronicstoremanage.common.interfaces.ModifyEntityRequest;
 import com.mascara.electronicstoremanage.common.interfaces.RetrieveEntityRequest;
+import com.mascara.electronicstoremanage.enums.order.OrderStatusEnum;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerUpdateRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerViewModel;
+
+import java.time.LocalDate;
 
 /**
  * Created by: IntelliJ IDEA
@@ -16,4 +19,5 @@ import com.mascara.electronicstoremanage.view_model.customer.CustomerViewModel;
  */
 public interface CustomerRepository extends ModifyEntityRequest<CustomerCreateRequest, CustomerUpdateRequest, Long>,
         RetrieveEntityRequest<CustomerViewModel, CustomerPagingRequest, Long> {
+    Long countTotalCustomer();
 }

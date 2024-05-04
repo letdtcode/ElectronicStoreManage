@@ -122,6 +122,7 @@
                   <ComboBox fx:id="cbbStatus" prefHeight="26.0" prefWidth="178.0" />
                </children>
             </VBox>
+            <Button fx:id="btnExportExcel" layoutX="802.0" layoutY="96.0" mnemonicParsing="false" onAction="#setOnActionExportExcel" text="Xuất Excel" />
          </children>
       </Pane>
       <Pane layoutX="14.0" layoutY="293.0" prefHeight="64.0" prefWidth="742.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">

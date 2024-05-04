@@ -1,130 +1,197 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-            <tabs>
-                <Tab text="Doanh thu">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="768.0" prefWidth="1146.0">
-                            <children>
-                                <Pane layoutX="13.0" layoutY="14.0" prefHeight="562.0" prefWidth="1124.0" style="-fx-background-color: #A5E897;">
-                           <children>
-                              <DatePicker layoutX="71.0" layoutY="13.0" />
-                              <Text layoutX="23.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></Text>
-                              <StackedBarChart layoutX="493.0" layoutY="79.0" prefHeight="373.0" prefWidth="387.0">
-                                <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </StackedBarChart>
-                              <Text layoutX="589.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Biểu đồ doanh thu" wrappingWidth="195.159423828125">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <Button layoutX="845.0" layoutY="13.0" mnemonicParsing="false" text="Xuất Excel" />
-                              <Pane layoutX="32.0" layoutY="79.0" prefHeight="347.0" prefWidth="382.0" style="-fx-border-color: #ABABAB; -fx-background-color: #fff;">
-                                 <children>
-                                    <Text layoutX="111.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bảng thông tin doanh thu">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <TableView layoutY="28.0" prefHeight="319.0" prefWidth="380.0">
-                                      <columns>
-                                        <TableColumn prefWidth="191.20005798339844" text="C1" />
-                                        <TableColumn prefWidth="187.99993896484375" text="C2" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                              </Pane>
-                           </children>
-                            </Pane>
-
-                            </children>
-                        </AnchorPane>
-                    </content>
-
-                </Tab>
-                <Tab text="Sản phẩm">
-
-                </Tab>
-
-
-            </tabs>
-        </TabPane>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="768.0" prefWidth="1146.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1146.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mascara.electronicstoremanage.controllers.staff.statistic.StatisticController">
+   <children>
+      <HBox layoutX="81.0" layoutY="44.0" spacing="80.0">
          <children>
-            <Pane layoutY="28.0" prefHeight="562.0" prefWidth="1124.0" style="-fx-background-color: #A5E897;">
+            <Pane prefHeight="98.0" prefWidth="166.0" style="-fx-background-color: #FFC88D;">
                <children>
-                  <DatePicker layoutX="71.0" layoutY="13.0" />
-                  <Text layoutX="23.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày">
+                  <Text layoutX="29.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Doanh thu">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Segoe UI" size="23.0" />
                      </font>
                   </Text>
-                  <Text layoutX="610.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Biểu đồ doanh thu" wrappingWidth="195.159423828125">
+                  <Text fx:id="lblRevenue" layoutX="23.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="82.025.087 VND">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Segoe UI" size="17.0" />
                      </font>
                   </Text>
-                  <Button layoutX="845.0" layoutY="13.0" mnemonicParsing="false" text="Xuất Excel" />
-                  <Pane layoutX="32.0" layoutY="79.0" prefHeight="347.0" prefWidth="382.0" style="-fx-border-color: #ABABAB; -fx-background-color: #fff;">
-                     <children>
-                        <Text layoutX="83.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bảng thông tin sản phẩm bán chạy">
-                           <font>
-                              <Font name="Segoe UI" size="14.0" />
-                           </font>
-                        </Text>
-                        <TableView layoutY="28.0" prefHeight="319.0" prefWidth="380.0">
-                           <columns>
-                              <TableColumn prefWidth="191.20005798339844" text="C1" />
-                              <TableColumn prefWidth="187.99993896484375" text="C2" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="518.0" layoutY="79.0" prefHeight="347.0" prefWidth="380.0" style="-fx-background-color: fff;">
-                     <children>
-                        <Circle fill="DODGERBLUE" layoutX="190.0" layoutY="174.0" radius="125.0" stroke="BLACK" strokeType="INSIDE" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="574.0" layoutY="439.0" prefHeight="37.0" prefWidth="268.0" style="-fx-background-color: fff;">
-                     <children>
-                        <Text layoutX="34.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tai nghe" />
-                        <Text layoutX="110.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bàn phím" />
-                        <Text layoutX="195.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Điện thoại" />
-                        <Pane layoutX="14.0" layoutY="11.0" prefHeight="16.0" prefWidth="14.0" style="-fx-background-color: red;" />
-                        <Pane layoutX="88.0" layoutY="11.0" prefHeight="16.0" prefWidth="14.0" style="-fx-background-color: #2BDD27;" />
-                        <Pane layoutX="171.0" layoutY="12.0" prefHeight="16.0" prefWidth="14.0" style="-fx-background-color: #1D89F3;" />
-                     </children>
-                  </Pane>
+               </children>
+            </Pane>
+            <Pane prefHeight="98.0" prefWidth="166.0" style="-fx-background-color: #FFC88D;">
+               <children>
+                  <Text layoutX="29.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số hóa đơn">
+                     <font>
+                        <Font name="Segoe UI" size="23.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="lblNumOrder" layoutX="74.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="14">
+                     <font>
+                        <Font name="Segoe UI" size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane prefHeight="98.0" prefWidth="166.0" style="-fx-background-color: #FFC88D;">
+               <children>
+                  <Text layoutX="29.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số hàng hủy">
+                     <font>
+                        <Font name="Segoe UI" size="23.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="lblNumOrderCancel" layoutX="78.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4">
+                     <font>
+                        <Font name="Segoe UI" size="17.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane prefHeight="98.0" prefWidth="222.0" style="-fx-background-color: #FFC88D;">
+               <children>
+                  <Text layoutX="29.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng khách hàng">
+                     <font>
+                        <Font name="Segoe UI" size="23.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="lblNumCustomer" layoutX="102.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10">
+                     <font>
+                        <Font name="Segoe UI" size="17.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
          </children>
-      </AnchorPane>
-
-    </children>
-</StackPane>
+      </HBox>
+      <VBox layoutX="81.0" layoutY="154.0" spacing="10.0">
+         <children>
+            <RadioButton fx:id="rdbStatisticAll" mnemonicParsing="false" onAction="#setOnActionChooseTypeStatistic" selected="true" text="Tất cả">
+               <toggleGroup>
+                  <ToggleGroup fx:id="chooseStatistic" />
+               </toggleGroup>
+            </RadioButton>
+            <HBox spacing="110.0">
+               <children>
+                  <RadioButton fx:id="rdbStatisticDateNow" mnemonicParsing="false" onAction="#setOnActionChooseTypeStatistic" selected="true" text="Hôm nay" toggleGroup="$chooseStatistic" />
+                  <Text fx:id="lblDateNow" strokeType="OUTSIDE" strokeWidth="0.0" text="01/05/2024" />
+               </children>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="734.0" spacing="40.0">
+               <children>
+                  <RadioButton fx:id="rdbStatisticRangeDate" mnemonicParsing="false" onAction="#setOnActionChooseTypeStatistic" text="Theo khoảng thời gian" toggleGroup="$chooseStatistic" />
+                  <DatePicker fx:id="dtpStart" prefHeight="26.0" prefWidth="230.0" />
+                  <DatePicker fx:id="dtpEnd" prefHeight="26.0" prefWidth="254.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <TabPane layoutX="24.0" layoutY="255.0" prefHeight="452.0" prefWidth="1106.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabProduct" text="Sản phẩm">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="1106.0">
+                     <children>
+                        <HBox layoutX="25.0" layoutY="13.892578125" spacing="400.0">
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Danh mục">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Pane prefHeight="54.0" prefWidth="243.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
+                                       <children>
+                                          <ComboBox fx:id="cbbCategoryName" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="222.0" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Pane prefHeight="54.0" prefWidth="382.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
+                                       <children>
+                                          <TextField fx:id="txtSearchProductName" layoutX="11.0" layoutY="12.0" prefHeight="31.0" prefWidth="361.0" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tableViewProductStatistic" layoutX="22.0" layoutY="111.0" prefHeight="292.0" prefWidth="1064.0">
+                          <columns>
+                            <TableColumn fx:id="idProductColumn" prefWidth="154.3999900817871" text="Mã sản phẩm" />
+                            <TableColumn fx:id="codeProductColumn" prefWidth="192.79998779296875" text="Mã code" />
+                              <TableColumn fx:id="productNameColumn" prefWidth="228.79998779296875" text="Tên sản phẩm" />
+                              <TableColumn fx:id="quantityColumn" prefWidth="221.5999755859375" text="Số lượng" />
+                              <TableColumn fx:id="revenueColumn" prefWidth="266.39996337890625" text="Doanh thu" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabOrderCancel" text="Hóa đơn hủy">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableViewOrderCancel" layoutX="33.0" layoutY="110.0" prefHeight="298.0" prefWidth="1064.0">
+                          <columns>
+                            <TableColumn fx:id="idOrderColumn" prefWidth="93.60000228881836" text="Mã hóa đơn" />
+                            <TableColumn fx:id="totalPayColumn" prefWidth="144.8000030517578" text="Tổng tiền" />
+                              <TableColumn fx:id="modeOfPaymentColumn" prefWidth="144.8000030517578" text="Hình thức thanh toán" />
+                              <TableColumn fx:id="dateCreatedColumn" prefWidth="231.199951171875" text="Thời gian lập hóa đơn" />
+                              <TableColumn fx:id="nameCustomerColumn" prefWidth="224.00006103515625" text="Tên khách hàng" />
+                              <TableColumn fx:id="noteColumn" prefWidth="221.5999755859375" text="Ghi chú" />
+                          </columns>
+                        </TableView>
+                        <VBox layoutX="690.0" layoutY="20.0" spacing="5.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Pane prefHeight="54.0" prefWidth="382.0" style="-fx-border-color: #c5c5c5; -fx-border-width: 2;">
+                                 <children>
+                                    <TextField fx:id="txtSearchOrderCancel" layoutX="11.0" layoutY="12.0" prefHeight="31.0" prefWidth="361.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="btnSendReport" layoutX="997.0" layoutY="722.0" mnemonicParsing="false" onAction="#setOnActionSendReport" prefHeight="31.0" prefWidth="92.0" text="Gửi báo cáo" />
+      <Text fx:id="lblTimeNow" layoutX="936.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5:41 PM">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Text>
+      <Button fx:id="btnFilterRangeDate" layoutX="823.0" layoutY="209.0" mnemonicParsing="false" onAction="#setOnActionFilterRangeDate" text="Filter" />
+   </children>
+</AnchorPane>

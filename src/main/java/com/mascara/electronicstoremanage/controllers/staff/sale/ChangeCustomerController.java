@@ -5,7 +5,8 @@ import com.mascara.electronicstoremanage.enums.general.SexEnum;
 import com.mascara.electronicstoremanage.services.customer.CustomerServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.SharedData;
+import com.mascara.electronicstoremanage.utils.Utilities;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerCreateRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerPagingRequest;
 import com.mascara.electronicstoremanage.view_model.customer.CustomerUpdateRequest;
@@ -161,7 +162,7 @@ public class ChangeCustomerController implements Initializable {
         });
 
 //        phonerNumber must be number input
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumber);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumber);
     }
 
     private void retrieveAllCustomer() {
@@ -290,8 +291,8 @@ public class ChangeCustomerController implements Initializable {
         if (customerTableView.getSelectionModel().getSelectedIndex() > -1) {
             int rowIndex = customerTableView.getSelectionModel().getSelectedIndex();
             CustomerViewModel customerViewModel = customerTableView.getItems().get(rowIndex);
-            SharedCustomer.getInstance().setCustomerId(customerViewModel.getId());
-            SharedCustomer.getInstance().setNameCustomer(customerViewModel.getFullName());
+            SharedData.getInstance().setCustomerId(customerViewModel.getId());
+            SharedData.getInstance().setNameCustomer(customerViewModel.getFullName());
             ((Stage) ((Button) actionEvent.getSource()).getScene().getWindow()).close();
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_SELECT_ROW);

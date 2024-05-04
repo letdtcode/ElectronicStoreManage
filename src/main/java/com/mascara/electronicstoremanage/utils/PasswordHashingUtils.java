@@ -25,4 +25,8 @@ public class PasswordHashingUtils {
     public String getHash(String password) {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
     }
+
+    public boolean verify(String password, String bcryptHashString) {
+        return BCrypt.verifyer().verify(password.toCharArray(), bcryptHashString).verified;
+    }
 }

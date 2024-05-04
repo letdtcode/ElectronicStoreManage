@@ -10,7 +10,10 @@ import com.mascara.electronicstoremanage.view_model.product.ProductUpdateRequest
 import com.mascara.electronicstoremanage.view_model.product.ProductViewModel;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSalePagingRequest;
 import com.mascara.electronicstoremanage.view_model.sale.ProductSaleViewModel;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticPagingRequest;
+import com.mascara.electronicstoremanage.view_model.statistic.ProductStatisticViewModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,4 +28,8 @@ public interface ProductRepository extends ModifyEntityRequest<ProductCreateRequ
     List<ProductSaleViewModel> retrieveAllProductSale(ProductSalePagingRequest request);
 
     List<ProductApplyViewModel> retrieveAllProductApply(ProductApplyPagingRequest request);
+
+    ProductSaleViewModel retrieveByCode(String code);
+
+    List<ProductStatisticViewModel> statisticProductList(ProductStatisticPagingRequest request);
 }

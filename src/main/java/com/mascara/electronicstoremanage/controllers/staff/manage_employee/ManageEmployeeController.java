@@ -6,7 +6,8 @@ import com.mascara.electronicstoremanage.services.role.RoleServiceImpl;
 import com.mascara.electronicstoremanage.services.staff.StaffServiceImpl;
 import com.mascara.electronicstoremanage.utils.AlertUtils;
 import com.mascara.electronicstoremanage.utils.MessageUtils;
-import com.mascara.electronicstoremanage.utils.Utillities;
+import com.mascara.electronicstoremanage.utils.TableViewExporterUtils;
+import com.mascara.electronicstoremanage.utils.Utilities;
 import com.mascara.electronicstoremanage.view_model.role.RolePagingRequest;
 import com.mascara.electronicstoremanage.view_model.role.RoleViewModel;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
@@ -114,6 +115,8 @@ public class ManageEmployeeController implements Initializable {
     private Pane staffPanel;
     @FXML
     private ComboBox cbbStatusFilter;
+    @FXML
+    private Button btnExportExcel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -244,7 +247,7 @@ public class ManageEmployeeController implements Initializable {
 
     private void setUpUI() {
         txtIdStaff.setEditable(false);
-        Utillities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumber);
+        Utilities.getInstance().setEventOnlyAcceptNumber(txtPhoneNumber);
 //       Assign cbb role name
         RolePagingRequest request = new RolePagingRequest();
         List<RoleViewModel> roleList = RoleServiceImpl.getInstance().retrieveAllRole(request);
@@ -340,13 +343,13 @@ public class ManageEmployeeController implements Initializable {
         } else {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_HAS_ERROR_OCCURRED);
         }
-        Utillities.getInstance().clearAllTextField(staffPanel);
+        Utilities.getInstance().clearAllTextField(staffPanel);
         retrieveAllStaff();
     }
 
     @FXML
     public void setOnActionReloadStaff(ActionEvent actionEvent) {
-        Utillities.getInstance().clearAllTextField(staffPanel);
+        Utilities.getInstance().clearAllTextField(staffPanel);
         retrieveAllStaff();
     }
 
@@ -358,10 +361,19 @@ public class ManageEmployeeController implements Initializable {
                 || userName.trim().isBlank()) {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_DATA_NOT_VALID);
             isValid = false;
-        } else if (!Utillities.getInstance().checkStrongPassword(password)) {
+        } else if (!Utilities.getInstance().checkStrongPassword(password)) {
             AlertUtils.showMessageWarning(MessageUtils.TITLE_FAILED, MessageUtils.WARNING_PASSWORD_NOT_ENOUGH_STRONG);
             isValid = false;
         }
         return isValid;
+    }
+
+    @FXML
+    public void setOnActionExportExcel(ActionEvent actionEvent) {
+        boolean exportExcel = TableViewExporterUtils.getInstance().exportExcel(staffTableView);
+        if (exportExcel)
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_SUCCESS, MessageUtils.EXPORT_EXCEL_SUCCESS);
+        else
+            AlertUtils.showMessageInfo(MessageUtils.TITLE_FAILED, MessageUtils.EXPORT_EXCEL_FAILED);
     }
 }

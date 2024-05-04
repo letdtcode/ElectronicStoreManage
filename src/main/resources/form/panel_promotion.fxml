@@ -105,6 +105,7 @@
                   <Font name="Segoe UI" size="24.0" />
                </font>
             </Button>
+            <Button fx:id="btnExportExcel" layoutX="385.0" layoutY="214.0" mnemonicParsing="false" onAction="#setOnActionExportExcel" text="Xuất Excel" />
          </children>
       </Pane>
       <Pane layoutX="12.0" layoutY="524.0" prefHeight="234.0" prefWidth="1122.0" style="-fx-border-color: #c5c5c5;">

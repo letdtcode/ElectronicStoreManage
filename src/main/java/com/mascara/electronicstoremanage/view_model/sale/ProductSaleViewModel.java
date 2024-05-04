@@ -37,4 +37,5 @@ public class ProductSaleViewModel {
     private List<String> colorNameList;
     private String colorNameListShow;
     private String discountValueShow;
+    private String code;
 }

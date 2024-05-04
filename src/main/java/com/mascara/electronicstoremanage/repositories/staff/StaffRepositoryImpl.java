@@ -3,6 +3,7 @@ package com.mascara.electronicstoremanage.repositories.staff;
 import com.mascara.electronicstoremanage.common.mapper.StaffMapper;
 import com.mascara.electronicstoremanage.entities.Role;
 import com.mascara.electronicstoremanage.entities.Staff;
+import com.mascara.electronicstoremanage.enums.staff.StaffStatusEnum;
 import com.mascara.electronicstoremanage.utils.HibernateUtils;
 import com.mascara.electronicstoremanage.utils.PasswordHashingUtils;
 import com.mascara.electronicstoremanage.view_model.staff.StaffCreateRequest;
@@ -40,8 +41,9 @@ public class StaffRepositoryImpl implements StaffRepository {
     public Optional<Staff> findByUserName(String userName) {
         Session session = HibernateUtils.getSession();
         Transaction tx = session.beginTransaction();
-        Query query = session.createQuery("select Staff from Staff where userName =: s1", Staff.class);
+        Query query = session.createQuery("select s from Staff s where s.email =: s1 and s.status =: status", Staff.class);
         query.setParameter("s1", userName);
+        query.setParameter("status", StaffStatusEnum.ACTIVE);
         Optional<Staff> staff = query.uniqueResultOptional();
         tx.commit();
         session.close();
@@ -165,5 +167,52 @@ public class StaffRepositoryImpl implements StaffRepository {
         }
         session.close();
         return list;
+    }
+
+    @Override
+    public Optional<Staff> getInfoByEmail(String email) {
+        Session session = HibernateUtils.getSession();
+        Transaction tx = null;
+        Optional<Staff> staff = Optional.empty();
+        try {
+            tx = session.beginTransaction();
+            staff = session.createQuery("select s from Staff s where s.email =:email and s.deleted is false", Staff.class)
+                    .setParameter("email", email)
+                    .uniqueResultOptional();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return staff;
+    }
+
+    @Override
+    public boolean updatePassword(Long idStaff, String newPassword) {
+        boolean result = false;
+        Session session = HibernateUtils.getSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Optional<Staff> staffOptional = session.createQuery("select s from Staff s where s.Id =: idStaff and s.deleted is false ", Staff.class)
+                    .setParameter("idStaff", idStaff)
+                    .uniqueResultOptional();
+            if (staffOptional.isPresent()) {
+                result = true;
+                Staff staff = staffOptional.get();
+                staff.setPassword(PasswordHashingUtils.getInstance().getHash(newPassword));
+                session.merge(staff);
+                tx.commit();
+            }
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
     }
 }

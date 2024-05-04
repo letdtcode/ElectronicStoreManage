@@ -1,4 +1,6 @@
-package com.mascara.electronicstoremanage.controllers.staff.sale;
+package com.mascara.electronicstoremanage.utils;
+
+import com.mascara.electronicstoremanage.entities.Staff;
 
 /**
  * Created by: IntelliJ IDEA
@@ -7,15 +9,16 @@ package com.mascara.electronicstoremanage.controllers.staff.sale;
  * Time      : 8:12 CH
  * Filename  : SharedCustomer
  */
-public class SharedCustomer {
+public class SharedData {
     private Long customerId = 1L;
     private String nameCustomer = "Khách bán lẻ";
+    private Staff staffCurrentLogin = null;
 
-    private static SharedCustomer instance = null;
+    private static SharedData instance = null;
 
-    public static SharedCustomer getInstance() {
+    public static SharedData getInstance() {
         if (instance == null)
-            instance = new SharedCustomer();
+            instance = new SharedData();
         return instance;
     }
 
@@ -35,7 +38,11 @@ public class SharedCustomer {
         this.nameCustomer = nameCustomer;
     }
 
-    public static void setInstance(SharedCustomer instance) {
-        SharedCustomer.instance = instance;
+    public Staff getStaffCurrentLogin() {
+        return staffCurrentLogin;
+    }
+
+    public void setStaffCurrentLogin(Staff staffCurrentLogin) {
+        this.staffCurrentLogin = staffCurrentLogin;
     }
 }

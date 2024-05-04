@@ -127,4 +127,23 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         session.close();
         return list;
     }
+
+    @Override
+    public Long countTotalCustomer() {
+        long result = 0;
+        Session session = HibernateUtils.getSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            result = session.createQuery("select count(c.id) from Customer c where c.deleted is false ", Long.class)
+                    .uniqueResult();
+        } catch (Exception e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return result;
+    }
 }
